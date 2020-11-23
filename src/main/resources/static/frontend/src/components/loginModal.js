@@ -26,30 +26,42 @@ const LoginModal = () => {
 
     return (
       <div>
-        <Button color="warning" onClick={toggle}>
+        <Button className="tradeHub-button" onClick={toggle}>
           Login
         </Button>
         <Modal isOpen={modal} toggle={toggle}>
-          <h2 className="text-center m-4 text-warning">Login</h2>
+          <h2 className="text-center mt-4 tradeHub-orange">Login</h2>
           <ModalBody>
             <Form>
               <FormGroup className="m-4">
                 <Label for="emailAddress">Email Address:</Label>
-                <Input type="email" placeholder="Email address..." />
+                <Input
+                  className="tradeHub-inputField"
+                  type="email"
+                  placeholder="Email address..."
+                />
               </FormGroup>
               <FormGroup className="m-4">
                 <Label for="password">Password</Label>
                 <Input
+                  className="tradeHub-inputField"
                   type="password"
-                  id="password"
-                  placeholder="password..."
+                  placeholder="Password..."
                 />
               </FormGroup>
             </Form>
             <div className="text-center m-4">
-              <Button color="warning" onClick={toggle}>
-                Do Something
+              <Button className="tradeHub-button  col-12" onClick={toggle}>
+                Login
               </Button>
+            </div>
+            <div className="text-right mt-4">
+              <i>
+                Can't login? Create new account{" "}
+                <span className="text-primary click-text inline">
+                  <span>here</span>
+                </span>
+              </i>
             </div>
           </ModalBody>
         </Modal>
