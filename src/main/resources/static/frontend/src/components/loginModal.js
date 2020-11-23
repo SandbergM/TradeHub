@@ -10,6 +10,12 @@ import {
   Label,
   Input,
   FormText,
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
 } from "reactstrap";
 
 const LoginModal = () => {
@@ -27,11 +33,11 @@ const LoginModal = () => {
           <h2 className="text-center m-4 text-warning">Login</h2>
           <ModalBody>
             <Form>
-              <FormGroup>
+              <FormGroup className="m-4">
                 <Label for="emailAddress">Email Address:</Label>
                 <Input type="email" placeholder="Email address..." />
               </FormGroup>
-              <FormGroup>
+              <FormGroup className="m-4">
                 <Label for="password">Password</Label>
                 <Input
                   type="password"
@@ -41,9 +47,9 @@ const LoginModal = () => {
               </FormGroup>
             </Form>
             <div className="text-center m-4">
-            <Button color="warning" onClick={toggle}>
-              Do Something
-            </Button>
+              <Button color="warning" onClick={toggle}>
+                Do Something
+              </Button>
             </div>
           </ModalBody>
         </Modal>
