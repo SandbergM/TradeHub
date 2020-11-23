@@ -6,7 +6,7 @@ const Home = () => {
     return(
 <div>
  <h1>TradeHub Inc</h1>
- <Row>
+ <Row xs="1" sm="2" md="4">
  <AuctionItem></AuctionItem>
  <AuctionItem></AuctionItem>
  <AuctionItem></AuctionItem>
