@@ -16,9 +16,9 @@ public class UserRepo {
     public UserRepo(MongoTemplate mongoTemplate){
         this.mongoTemplate = mongoTemplate;
     }
-    public Optional<List<User>> findByEmail(String email){
+    public Optional<User> findByEmail(String email){
         Query query = new Query().addCriteria(Criteria.where("email").is(email));
-        return Optional.of(mongoTemplate.find(query, User.class));
+        return Optional.ofNullable(mongoTemplate.findOne(query, User.class));
     }
     public Optional<User> save(User user){
         return Optional.of(mongoTemplate.save(user));

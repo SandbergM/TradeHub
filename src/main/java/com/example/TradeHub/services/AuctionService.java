@@ -1,7 +1,9 @@
 package com.example.TradeHub.services;
 
 import com.example.TradeHub.entities.Auction;
+import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
+import com.example.TradeHub.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,10 +20,10 @@ public class AuctionService {
     @Autowired
     AuctionRepo auctionRepo;
     @Autowired
-    UserRepo userRepo;
+    UserService userService;
 
     public Auction postNewAuction(Auction auction){
-        User seller = this.loggedInUser();
+        User seller = userService.getCurrentUser();
         auction.setSeller(seller);
         Auction newlyCreatedAuction = auctionRepo.save(auction).orElse(null);
         if(newlyCreatedAuction == null){
@@ -32,7 +34,7 @@ public class AuctionService {
 
     public Boolean updateCurrentBidOnLiveAuction(String id, int bid){
         Auction auctionToUpdate = this.findById(id);
-        User bidder = this.loggedInUser();
+        User bidder = userService.getCurrentUser();
         this.bidderAndSellerCheck(bidder.getId(), auctionToUpdate.getSeller().getId());
         this.bidCheck(auctionToUpdate.getHighestBid(), bid);
         this.timeCheck(auctionToUpdate.getTimestamp());
@@ -59,7 +61,7 @@ public class AuctionService {
     }
 
     public List<Auction> currentUsersPostedAuctions(){
-        String userId = this.loggedInUser().getId();
+        String userId = userService.getCurrentUser().getId();
         List<Auction> postedAuctions = auctionRepo.findBySellerId(userId).orElse( new ArrayList<>());
         if(postedAuctions.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No auctions were found");
@@ -68,9 +70,9 @@ public class AuctionService {
     }
 
     public List<Auction> currentUsersPostedBids(){
-        String userId = this.loggedInUser().getId();
+        String userId = userService.getCurrentUser().getId();
         List<Auction> postedBids = auctionRepo.findByBuyerId(userId).orElse( new ArrayList<>());
-        if(postedAuctions.isEmpty()){
+        if(postedBids.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No bids were found");
         }
         return postedBids;
@@ -82,15 +84,6 @@ public class AuctionService {
         auctionRepo.deleteById(auctionToBeDeleted.getId());
     }
 
-    private User loggedInUser(){
-        User user = SecurityContextHolder.getContext().getAuthentication().getCredentials();
-        String email = user.getEmail();
-        User currentUser = userRepo.findByEmail(email);
-        if(currentUser == null){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
-        }
-        return currentUser;
-    }
 
     private void bidderAndSellerCheck(String buyerId, String sellerId){
         if(buyerId.equals(sellerId)){

@@ -14,41 +14,54 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-   /* @Autowired
-    PasswordEncoder passwordEncoder;*/
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
 
-    public User postNewUser(User user){
+    @Autowired
+    private CompanyService companyService;
+
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    public User postNewUser(User user) {
         var userWithEmailExists = userRepo.findByEmail(user.getEmail()).orElse(null);
-        if(userWithEmailExists == null){
-            User newUser = new User();
+        if (userWithEmailExists == null) {
             System.out.println("Create new user");
-         //   var adressExists = addressService.checkIfAddressExists(user.getAddress());
+            //   var adressExists = addressService.checkIfAddressExists(user.getAddress());
             // if(addressExists = null){
             // var savedAddress = addressService.save(user.getAddress())
             //user.setAddress(addressService.getById(savedAddress.getId())) }
-           // user.setPassword(passwordEncoder.encode(user.getPassword()));
+            // user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepo.save(user);
             return user;
-        }
-        else{
+        } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An user with that email already exists");
         }
     }
 
-    public void updateUser(String id, User user){
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email).orElse(null);
+    }
+
+    public User getCurrentUser() {
+        return myUserDetailsService.getCurrentUser();
+    }
+
+
+    public void updateUser(String id, User user) {
         var foundUser = userRepo.findById(id).orElse(null);
-        if(foundUser == null){
+        if (foundUser == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with id " + id);
-        }
-        else{
+        } else {
             user.setId(id);
-            //if(user.company != null){
-            // var companyExists = companyService.checkIfCompanyExists(user.getCompany());
-            // if(companyExists = null){
-            // var savedCompany = companyService.save(user.getCompany)
-            // user.setCompany(companyService.getByName(user.getCompany.getName())}
-            //user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepo.save(user);
+            if (user.getCompany() != null) {
+                var companyExists = companyService.registerCompany(user.getCompany());
+                user.setCompany(companyExists);
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+                userRepo.save(user);
+
+            }
 
         }
     }

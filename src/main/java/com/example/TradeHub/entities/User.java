@@ -9,6 +9,8 @@ import org.apache.tomcat.jni.Address;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -45,4 +47,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
