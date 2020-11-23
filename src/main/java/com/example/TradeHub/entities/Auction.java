@@ -10,13 +10,13 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.awt.*;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Document( collection = "auctions" )
-@TypeAlias("auction")
+@TypeAlias( "auction" )
 public class Auction {
 
     @Id
@@ -27,7 +27,7 @@ public class Auction {
     private String description;
     private Integer highestBid;
     @DBRef
-    private List<Image> images;
+    private Set<Image> images;
     @DBRef
     private User bidder;
     @DBRef
@@ -36,7 +36,7 @@ public class Auction {
 
     public Auction(
             String title, Integer price, String description,
-            List<Image> images,  User seller, Long timestamp ) {
+            Set<Image> images,  User seller, Long timestamp ) {
 
         this.title = title;
         this.price = price;

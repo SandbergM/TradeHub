@@ -26,6 +26,4 @@ public class CompanyRepo  {
         return Optional.of(mongoTemplate.save(company));
     }
 
-
-
 }

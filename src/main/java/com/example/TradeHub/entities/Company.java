@@ -24,4 +24,5 @@ public class Company {
         this.name = name;
         this.organizationNumber = organizationNumber;
     }
+
 }
