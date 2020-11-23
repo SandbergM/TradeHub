@@ -29,7 +29,7 @@ public class AddressController {
             @RequestParam(value = "postalCode" , defaultValue = "") String postalCode,
             @RequestParam(value = "city" , defaultValue = "") String city
     ){
-        Address addresses = addressService.addressCriteriaSearch(streetName,postalCode,city);
+        Address addresses = addressService.thisAddressCriteriaSearch(streetName,postalCode,city);
         return ResponseEntity.ok(addresses);
     }
 

@@ -32,10 +32,8 @@ public class UserService {
         var userWithEmailExists = userRepo.findByEmail(user.getEmail()).orElse(null);
         if (userWithEmailExists == null) {
             System.out.println("Create new user");
-           /* var address = addressService.auctionCriteriaSearch();
-            if(addressExists = null){
-            var savedAddress = addressService.save(user.getAddress())
-            user.setAddress(addressService.getById(savedAddress.getId())) }*/
+            var address = addressService.postNewAddress(user.getAddress());
+            user.setAddress(address);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepo.save(user);
             return user;

@@ -25,13 +25,13 @@ public class AddressService {
     @Autowired
     AddressRepo addressRepo;
 
-    public Address addressCriteriaSearch( String streetName, String postalCode, String city){
+    public Address thisAddressCriteriaSearch( String streetName, String postalCode, String city){
         Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city).orElse(null);
         if(addresses == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
-        }
+            return addresses;
 
-        return addresses;
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
     }
 
     public Address findById(String id){
@@ -44,11 +44,12 @@ public class AddressService {
     }
 
     public Address postNewAddress(Address address){
+        System.out.println("in method");
+        System.out.println(address.getCity());
         Address dbAddresses = addressRepo.addressCriteriaSearch(address.getStreetName(),address.getPostalCode(),address.getCity()).orElse(null);
         if(dbAddresses != null){
             return dbAddresses;
         }
-
         Address newAddress = addressRepo.save(address).orElse(null);
 
         if(newAddress == null){
