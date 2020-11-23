@@ -25,9 +25,9 @@ public class AddressService {
     @Autowired
     AddressRepo addressRepo;
 
-    public List<Address> addressCriteriaSearch(String id, String streetName, String postalCode, String city){
-        List<Address> addresses = addressRepo.addressCriteriaSearch(id,streetName,postalCode,city).orElse(new ArrayList<>());
-        if(addresses.isEmpty()){
+    public Address addressCriteriaSearch( String streetName, String postalCode, String city){
+        Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city).orElse(null);
+        if(addresses == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
@@ -44,6 +44,11 @@ public class AddressService {
     }
 
     public Address postNewAddress(Address address){
+        Address dbAddresses = addressRepo.addressCriteriaSearch(address.getStreetName(),address.getPostalCode(),address.getCity()).orElse(null);
+        if(dbAddresses != null){
+            return dbAddresses;
+        }
+
         Address newAddress = addressRepo.save(address).orElse(null);
 
         if(newAddress == null){
