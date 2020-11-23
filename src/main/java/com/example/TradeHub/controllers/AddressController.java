@@ -25,10 +25,10 @@ public class AddressController {
 
     @GetMapping
     public ResponseEntity<List<Address>> getAddresses(
-            @RequestParam( value = "id") String id,
-            @RequestParam( value = "streetName") String streetName,
-            @RequestParam(value = "postalCode") String postalCode,
-            @RequestParam(value = "city") String city
+            @RequestParam( value = "id", defaultValue = "") String id,
+            @RequestParam( value = "streetName" , defaultValue = "") String streetName,
+            @RequestParam(value = "postalCode" , defaultValue = "") String postalCode,
+            @RequestParam(value = "city" , defaultValue = "") String city
     ){
         List<Address> addresses = addressService.auctionCriteriaSearch(id,streetName,postalCode,city);
         return ResponseEntity.ok(addresses);
