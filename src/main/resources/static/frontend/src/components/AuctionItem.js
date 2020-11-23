@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
 
-const AuctionItem = () => {
+const AuctionItem = (props) => {
   const goToDetails = () => {
     console.log("click");
   };
@@ -11,25 +11,24 @@ const AuctionItem = () => {
       <Card className="text-center mb-3" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h3" className="text-warning">
-            TITLE
+            {props.title}
           </CardTitle>
         </CardBody>
         <img
           width="100%"
-          src="https://balstaauktionshall.nu/images/custom/ProductTemplate/133359.jpg"
+          src={props.image}
           alt="auction-img"
         />
         <CardBody>
           <CardText>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            {props.description}
           </CardText>
           <CardText tag="h5" className="text-warning">
-            00:50 sec
+           {props.timer}
           </CardText>
         </CardBody>
       </Card>
-    </Col>
+      </Col>
   );
 };
 

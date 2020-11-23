@@ -1,19 +1,13 @@
 import React from 'react'
 import { Row } from 'reactstrap';
 import AuctionItem from '../components/AuctionItem'
+import AuctionList from '../components/AuctionList';
 const Home = () => {
 
     return(
 <div>
  <h1>TradeHub Inc</h1>
- <Row xs="1" sm="2" md="3">
- <AuctionItem></AuctionItem>
- <AuctionItem></AuctionItem>
- <AuctionItem></AuctionItem>
- <AuctionItem></AuctionItem>
- <AuctionItem></AuctionItem>
- </Row>
- 
+ <AuctionList></AuctionList>
  </div>
     ) 
 
