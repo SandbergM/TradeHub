@@ -9,7 +9,6 @@ import com.example.TradeHub.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,10 +24,11 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationEntryPoint entryPoint;
+    private MyUserDetailsService userDetailsService;
 
-   @Autowired
-   private MyUserDetailsService userDetailsService;
+    @Autowired
+   private AuthenticationEntryPoint entryPoint;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .formLogin().disable()
-                .authorizeRequests()
+                .authorizeRequests().anyRequest().permitAll()
                 .and()
                 .httpBasic().authenticationEntryPoint(entryPoint)
                 .and()
