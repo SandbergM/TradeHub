@@ -20,19 +20,23 @@ public class UserService {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private AddressService addressService;
+
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public User postNewUser(User user) {
+        System.out.println(user);
         var userWithEmailExists = userRepo.findByEmail(user.getEmail()).orElse(null);
         if (userWithEmailExists == null) {
             System.out.println("Create new user");
-            //   var adressExists = addressService.checkIfAddressExists(user.getAddress());
-            // if(addressExists = null){
-            // var savedAddress = addressService.save(user.getAddress())
-            //user.setAddress(addressService.getById(savedAddress.getId())) }
-            // user.setPassword(passwordEncoder.encode(user.getPassword()));
+           /* var address = addressService.auctionCriteriaSearch();
+            if(addressExists = null){
+            var savedAddress = addressService.save(user.getAddress())
+            user.setAddress(addressService.getById(savedAddress.getId())) }*/
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepo.save(user);
             return user;
         } else {
@@ -43,26 +47,22 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepo.findByEmail(email).orElse(null);
     }
+    public User findById(String id) {
+        return userRepo.findById(id).orElse(null);
+    }
 
     public User getCurrentUser() {
         return myUserDetailsService.getCurrentUser();
     }
 
 
-    public void updateUser(String id, User user) {
-        var foundUser = userRepo.findById(id).orElse(null);
-        if (foundUser == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with id " + id);
-        } else {
-            user.setId(id);
-            if (user.getCompany() != null) {
-                var companyExists = companyService.registerCompany(user.getCompany());
-                user.setCompany(companyExists);
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                userRepo.save(user);
-
-            }
-
-        }
+    public void updateUser(User user) {
+       if(this.getCurrentUser() != null) {
+           if (user.getCompany() != null) {
+               var company = companyService.registerCompany(user.getCompany());
+               user.setCompany(company);
+               userRepo.save(user);
+           }
+       }
     }
 }
