@@ -5,7 +5,7 @@ const Home = () => {
 
     return <div>
             <h1>TradeHub Inc</h1>
-            <LoginModal></LoginModal>
+            {/* <LoginModal></LoginModal> */}
         </div>
 
 }
