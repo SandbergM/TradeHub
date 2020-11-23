@@ -35,10 +35,10 @@ public class AddressRepo {
         return Optional.of(mongoTemplate.find(query, Address.class));
     }
 
-    public Optional<List<Address>> findById(String id){
+    public Optional<Address> findById(String id){
         Query query = new Query().addCriteria(Criteria.where(id).is(id));
 
-        return Optional.of(mongoTemplate.find(query, Address.class));
+        return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }
 
     public Optional<Address>save(Address address){ return Optional.of(mongoTemplate.save(address));}

@@ -25,7 +25,7 @@ public class AddressService {
     @Autowired
     AddressRepo addressRepo;
 
-    public List<Address> auctionCriteriaSearch(String id, String streetName, String postalCode, String city){
+    public List<Address> addressCriteriaSearch(String id, String streetName, String postalCode, String city){
         List<Address> addresses = addressRepo.addressCriteriaSearch(id,streetName,postalCode,city).orElse(new ArrayList<>());
         if(addresses.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
@@ -34,8 +34,8 @@ public class AddressService {
         return addresses;
     }
 
-    public List<Address>findById(String id){
-        List<Address> addresses = addressRepo.findById(id).orElse(null);
+    public Address findById(String id){
+        Address addresses = addressRepo.findById(id).orElse(null);
         if(addresses == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
