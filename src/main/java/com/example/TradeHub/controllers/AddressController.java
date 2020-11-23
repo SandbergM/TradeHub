@@ -24,18 +24,17 @@ public class AddressController {
     AddressService addressService;
 
     @GetMapping
-    public ResponseEntity<List<Address>> getAddresses(
-            @RequestParam( value = "id", defaultValue = "") String id,
+    public ResponseEntity<Address> getAddresses(
             @RequestParam( value = "streetName" , defaultValue = "") String streetName,
             @RequestParam(value = "postalCode" , defaultValue = "") String postalCode,
             @RequestParam(value = "city" , defaultValue = "") String city
     ){
-        List<Address> addresses = addressService.auctionCriteriaSearch(id,streetName,postalCode,city);
+        Address addresses = addressService.thisAddressCriteriaSearch(streetName,postalCode,city);
         return ResponseEntity.ok(addresses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<Address>> findById(@PathVariable String id){
+    public ResponseEntity<Address> findById(@PathVariable String id){
         return ResponseEntity.ok(addressService.findById(id));
     }
 

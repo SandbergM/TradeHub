@@ -24,15 +24,14 @@ public class AddressRepo {
 
     public AddressRepo(MongoTemplate mongoTemplate){ this.mongoTemplate = mongoTemplate;}
 
-    public Optional<List<Address>> addressCriteriaSearch(String id, String streetName, String postalCode, String city){
+    public Optional<Address> addressCriteriaSearch(String streetName, String postalCode, String city){
         Query query = new Query();
 
         if(!streetName.equals("")){query.addCriteria(Criteria.where("streetName").regex(streetName));}
         if(!postalCode.equals("")){query.addCriteria(Criteria.where("postalCode").is(postalCode));}
         if(!city.equals("")){query.addCriteria(Criteria.where("city").is(city));}
-        if(!id.equals("")){query.addCriteria(Criteria.where("id").is(id));}
 
-        return Optional.of(mongoTemplate.find(query, Address.class));
+        return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }
 
     public Optional<Address> findById(String id){

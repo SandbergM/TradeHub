@@ -21,7 +21,7 @@ public ResponseEntity<User> addUser(@RequestBody User user){
 
 @PutMapping
 public void updateUser(@RequestParam String id, @RequestBody User user){
-    userService.updateUser(id, user);
+    userService.updateUser(user);
 }
 }
 
