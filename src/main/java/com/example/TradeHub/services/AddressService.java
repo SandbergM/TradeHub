@@ -25,17 +25,17 @@ public class AddressService {
     @Autowired
     AddressRepo addressRepo;
 
-    public List<Address> auctionCriteriaSearch(String id, String streetName, String postalCode, String city){
-        List<Address> addresses = addressRepo.addressCriteriaSearch(id,streetName,postalCode,city).orElse(new ArrayList<>());
-        if(addresses.isEmpty()){
+    public Address addressCriteriaSearch( String streetName, String postalCode, String city){
+        Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city).orElse(null);
+        if(addresses == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         return addresses;
     }
 
-    public List<Address>findById(String id){
-        List<Address> addresses = addressRepo.findById(id).orElse(null);
+    public Address findById(String id){
+        Address addresses = addressRepo.findById(id).orElse(null);
         if(addresses == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
@@ -44,6 +44,11 @@ public class AddressService {
     }
 
     public Address postNewAddress(Address address){
+        Address dbAddresses = addressRepo.addressCriteriaSearch(address.getStreetName(),address.getPostalCode(),address.getCity()).orElse(null);
+        if(dbAddresses != null){
+            return dbAddresses;
+        }
+
         Address newAddress = addressRepo.save(address).orElse(null);
 
         if(newAddress == null){
