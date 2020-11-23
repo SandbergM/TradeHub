@@ -23,6 +23,7 @@ public class UserRepo {
     public Optional<User> save(User user){
         return Optional.of(mongoTemplate.save(user));
     }
-
-
+    public Optional<User> findById(String id){
+        return Optional.ofNullable(mongoTemplate.findById(id, User.class));
+    }
 }
