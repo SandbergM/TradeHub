@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.tomcat.jni.Address;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,16 +19,21 @@ public class User {
     private String email;
     private String password;
     private String fullName;
-     // Add when entities has been created
-    // private Address address;
-    //private List<Auction> auctions;
-    //private Company company;
+    @DBRef
+    private Address address;
+    @DBRef
+    private List<Auction> auctions;
+    @DBRef
+    private Company company;
 
 
-    public User(String email, String password, String fullName) {
+    public User(String email, String password, String fullName, Address address, List<Auction> auctions, Company company) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
+        this.address = address;
+        this.auctions = auctions;
+        this.company = company;
     }
 
     @JsonIgnore
