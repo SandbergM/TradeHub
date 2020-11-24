@@ -63,7 +63,7 @@ public class AuctionController {
         auctionService.updateCurrentBidOnLiveAuction(id, bid);
     }
 
-    @DeleteMapping("/{auctionId}")
+    @DeleteMapping("/{id}")
     public void deleteAuction(
             @PathVariable( value = "id" ) String id
     ){
