@@ -27,6 +27,14 @@ public class AuctionController {
         return ResponseEntity.ok(auctions);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Auction> getAuctionById(
+            @PathVariable( value = "id" ) String id
+    ){
+        Auction auction = auctionService.findById(id);
+        return ResponseEntity.ok(auction);
+    }
+
     @GetMapping("/myPostedAuctions")
     public ResponseEntity<List<Auction>> getLoggedInUsersPostedAuctions(){
         List<Auction> auctions = auctionService.currentUsersPostedAuctions();
