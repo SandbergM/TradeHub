@@ -17,9 +17,9 @@ public class AddressService {
     @Autowired
     AddressRepo addressRepo;
 
-    public Address thisAddressCriteriaSearch( String streetName, String postalCode, String city, String country){
-        Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city,country).orElse(null);
-        if(addresses == null){
+    public Address thisAddressCriteriaSearch( String streetName, String postalCode, String city){
+        Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city).orElse(null);
+        if(addresses != null){
             return addresses;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");

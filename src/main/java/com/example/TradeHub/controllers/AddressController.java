@@ -22,7 +22,11 @@ public class AddressController {
             @RequestParam( value = "city" , defaultValue = "") String city,
             @RequestParam( value = "country" , defaultValue = "") String country
     ){
-        Address addresses = addressService.thisAddressCriteriaSearch(streetName, postalCode, city, country);
+        Address addresses = addressService.thisAddressCriteriaSearch(streetName,postalCode,city);
+        if(addresses != null){
+            System.out.println(addresses.getStreetName());
+        }
+        assert addresses != null;
         return ResponseEntity.ok(addresses);
     }
 

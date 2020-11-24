@@ -28,8 +28,6 @@ public class AddressRepo {
 
     public Optional<Address> findById(String id){
         Query query = new Query().addCriteria(Criteria.where("id").is(id));
-        System.out.println(query);
-        System.out.println(mongoTemplate.findOne(query, Address.class));
         return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }
 
