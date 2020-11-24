@@ -4,7 +4,7 @@ import LoginModal from '../components/loginModal'
 const Home = () => {
 
     return <div>
-            <h1>TradeHub Inc</h1>
+            <h1>Home</h1>
             {/* <LoginModal></LoginModal> */}
         </div>
 
