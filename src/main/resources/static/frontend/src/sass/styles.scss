@@ -1,0 +1,41 @@
+:root {
+  --white: #ffffff;
+  --orange: #FFA31A;
+  --light-grey: #EEEEEE;
+  --grey: #8D8D8D;
+  --dark-grey: #707070;
+}
+
+.tradeHub-orange{
+  color: var(--orange)
+}
+
+.tradeHub-white{
+  color: var(--white)
+}
+
+.tradeHub-light-grey{
+  color: var(--light-grey)
+}
+
+.tradeHub-grey{
+  color: var(--grey)
+}
+
+.tradeHub-dark-grey{
+  color: var(--dark-grey)
+}
+
+.tradeHub-button{
+  border: none;
+  background-color: var(--orange);
+}
+
+.tradeHub-inputField{
+  background-color: var(--light-grey);
+}
+
+.click-text :hover{
+  cursor: pointer;
+  color: #FFA31A !important;
+}
