@@ -2,20 +2,12 @@ import React, { useState } from "react";
 import {
   Button,
   Modal,
-  ModalHeader,
   ModalBody,
-  ModalFooter,
   Form,
   FormGroup,
   Label,
   Input,
-  FormText,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
+  
 } from "reactstrap";
 
 const LoginModal = () => {
