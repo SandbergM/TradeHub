@@ -54,18 +54,16 @@ public class AuctionController {
         return ResponseEntity.created(uri).body(newAuction);
     }
 
-    @PostMapping("/placeBid/{auctionId}/{bid}")
+    @PostMapping("/{id}/{bid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void postNewBid(
-            @PathVariable( value = "auctionId" ) String id,
+            @PathVariable( value = "id" ) String id,
             @PathVariable( value = "bid" ) Integer bid
     ){
-        System.out.println("auctionId  " + id);
-        System.out.println("bid  " + bid);
         auctionService.updateCurrentBidOnLiveAuction(id, bid);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{auctionId}")
     public void deleteAuction(
             @PathVariable( value = "id" ) String id
     ){
