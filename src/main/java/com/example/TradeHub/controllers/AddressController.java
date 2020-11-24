@@ -8,14 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * <Description>
- *
- * @author Martin Hellström
- * @version 1.0
- * @since 11/23/2020
- */
-
 @RestController
 @RequestMapping("/api/v1/addresses")
 public class AddressController {
@@ -26,10 +18,15 @@ public class AddressController {
     @GetMapping
     public ResponseEntity<Address> getAddresses(
             @RequestParam( value = "streetName" , defaultValue = "") String streetName,
-            @RequestParam(value = "postalCode" , defaultValue = "") String postalCode,
-            @RequestParam(value = "city" , defaultValue = "") String city
+            @RequestParam( value = "postalCode" , defaultValue = "") String postalCode,
+            @RequestParam( value = "city" , defaultValue = "") String city,
+            @RequestParam( value = "country" , defaultValue = "") String country
     ){
         Address addresses = addressService.thisAddressCriteriaSearch(streetName,postalCode,city);
+        if(addresses != null){
+            System.out.println(addresses.getStreetName());
+        }
+        assert addresses != null;
         return ResponseEntity.ok(addresses);
     }
 

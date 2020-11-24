@@ -8,14 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-/**
- * <Description>
- *
- * @author Martin Hellström
- * @version 1.0
- * @since 11/23/2020
- */
-
 @Repository
 public class AddressRepo {
 
@@ -30,12 +22,12 @@ public class AddressRepo {
         if(!postalCode.equals("")){query.addCriteria(Criteria.where("postalCode").is(postalCode));}
         if(!city.equals("")){query.addCriteria(Criteria.where("city").is(city));}
 
+
         return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }
 
     public Optional<Address> findById(String id){
-        Query query = new Query().addCriteria(Criteria.where(id).is(id));
-
+        Query query = new Query().addCriteria(Criteria.where("id").is(id));
         return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }
 
@@ -43,7 +35,6 @@ public class AddressRepo {
 
     public void deleteById(String id){
         Query query = new Query().addCriteria(Criteria.where("id").is(id));
-
         mongoTemplate.findAndRemove(query, Address.class);
     }
 }
