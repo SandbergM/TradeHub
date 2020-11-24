@@ -15,7 +15,7 @@ public class AddressRepo {
 
     public AddressRepo(MongoTemplate mongoTemplate){ this.mongoTemplate = mongoTemplate;}
 
-    public Optional<Address> addressCriteriaSearch(String streetName, String postalCode, String city, String country){
+    public Optional<Address> addressCriteriaSearch(String streetName, String postalCode, String city){
         Query query = new Query();
 
         if(!streetName.equals("")){query.addCriteria(Criteria.where("streetName").regex(streetName));}
