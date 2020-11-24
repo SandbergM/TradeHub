@@ -7,14 +7,6 @@ import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * <Description>
- *
- * @author Martin Hellström
- * @version 1.0
- * @since 11/23/2020
- */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,10 +19,12 @@ public class Address {
     String streetName;
     String postalCode;
     String city;
+    String country;
 
-    public Address(String streetName, String postalCode, String city) {
+    public Address(String streetName, String postalCode, String city, String country) {
         this.streetName = streetName;
         this.postalCode = postalCode;
         this.city = city;
+        this.country = country;
     }
 }
