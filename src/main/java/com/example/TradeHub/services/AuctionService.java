@@ -47,7 +47,6 @@ public class AuctionService {
         if(auction == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
-        System.out.println(auction);
         return auction;
     }
 
@@ -76,8 +75,7 @@ public class AuctionService {
         }
         return postedBids;
     }
-
-
+    
     public void deleteAuction(String id){
         Auction auctionToBeDeleted = this.findById(id);
         auctionRepo.deleteById(auctionToBeDeleted.getId());
@@ -92,8 +90,6 @@ public class AuctionService {
     }
 
     private void bidCheck(int startingPrice, int currentHighestBid, int newBid){
-        System.out.println("newBid > startingPrice " + (newBid < startingPrice) );
-        System.out.println("newBid <= currentHighestBid : " + (newBid <= currentHighestBid));
         if( newBid < startingPrice || newBid <= currentHighestBid ){
             throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Bid was not accepted" );
         }
