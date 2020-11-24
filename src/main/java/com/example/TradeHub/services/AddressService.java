@@ -27,7 +27,7 @@ public class AddressService {
 
     public Address thisAddressCriteriaSearch( String streetName, String postalCode, String city){
         Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city).orElse(null);
-        if(addresses == null){
+        if(addresses != null){
             return addresses;
 
         }
