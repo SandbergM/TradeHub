@@ -31,6 +31,15 @@
   background-color: var(--orange);
 }
 
+.tradeHub-icon{
+  color: var(--dark-grey) !important;
+}
+
+.tradeHub-icon :hover{
+  color: var(--grey) !important;
+  cursor: pointer;
+}
+
 .light-grey-background{
   background-color: var(--light-grey);
 }
