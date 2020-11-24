@@ -3,10 +3,8 @@ package com.example.TradeHub.services;
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
-import com.example.TradeHub.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -32,15 +30,15 @@ public class AuctionService {
         return newlyCreatedAuction;
     }
 
-    public Boolean updateCurrentBidOnLiveAuction(String id, int bid){
+    public void updateCurrentBidOnLiveAuction(String id, int bid){
         Auction auctionToUpdate = this.findById(id);
         User bidder = userService.getCurrentUser();
         this.bidderAndSellerCheck(bidder.getId(), auctionToUpdate.getSeller().getId());
-        this.bidCheck(auctionToUpdate.getHighestBid(), bid);
+        this.bidCheck(auctionToUpdate.getPrice(), auctionToUpdate.getHighestBid(), bid);
         this.timeCheck(auctionToUpdate.getTimestamp());
         auctionToUpdate.setHighestBid(bid);
         auctionToUpdate.setBidder(bidder);
-        return true;
+        auctionRepo.save(auctionToUpdate);
     }
 
     public Auction findById(String id){
@@ -93,15 +91,16 @@ public class AuctionService {
         }
     }
 
-    private void bidCheck(int currentHighestBid, int newBid){
-        if(currentHighestBid >= newBid){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bid was not accepted");
+    private void bidCheck(int startingPrice, int currentHighestBid, int newBid){
+        if( startingPrice >= newBid || currentHighestBid >= newBid ){
+            throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Bid was not accepted" );
         }
     }
 
     private void timeCheck(long auctionEndTime){
-        if(auctionEndTime <= Instant.now().toEpochMilli()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bid was not accepted");
+        long currentTime = Instant.now().getEpochSecond();
+        if( auctionEndTime < currentTime ){
+            throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Bid was not accepted" );
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.TradeHub.controllers;
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.services.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,8 @@ public class AuctionController {
 
     @GetMapping()
     public ResponseEntity<List<Auction>> getAuctions(
-            @RequestParam( value="page", defaultValue = "1") Integer page,
-            @RequestParam( value="id", defaultValue = "") String id,
+            @RequestParam( value="page", defaultValue = "1" ) Integer page,
+            @RequestParam( value="id", defaultValue = "" ) String id,
             @RequestParam( value="title", defaultValue = "" ) String title
     ){
         List<Auction> auctions = auctionService.auctionCriteriaSearch(page, title, id);
@@ -38,15 +39,6 @@ public class AuctionController {
         return ResponseEntity.ok(auctions);
     }
 
-    @PutMapping("/{auctionId}/{bid}")
-    public ResponseEntity<Boolean> postNewBid(
-            @PathVariable( value = "auctionId") String id,
-            @PathVariable( value = "bid" ) Integer bid
-    ){
-        Boolean bidAccepted = auctionService.updateCurrentBidOnLiveAuction(id, bid);
-        return ResponseEntity.ok(bidAccepted);
-    }
-
     @PostMapping()
     public ResponseEntity<Auction> postNewAuction( @RequestBody Auction auction ){
         Auction newAuction = auctionService.postNewAuction(auction);
@@ -54,9 +46,20 @@ public class AuctionController {
         return ResponseEntity.created(uri).body(newAuction);
     }
 
+    @PostMapping("/placeBid/{auctionId}/{bid}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void postNewBid(
+            @PathVariable( value = "auctionId" ) String id,
+            @PathVariable( value = "bid" ) Integer bid
+    ){
+        System.out.println("auctionId  " + id);
+        System.out.println("bid  " + bid);
+        auctionService.updateCurrentBidOnLiveAuction(id, bid);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteAuction(
-            @PathVariable( value = "id") String id
+            @PathVariable( value = "id" ) String id
     ){
         auctionService.deleteAuction(id);
     }
