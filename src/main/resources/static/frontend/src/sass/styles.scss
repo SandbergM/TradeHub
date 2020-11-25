@@ -71,6 +71,22 @@
   top: 19px;
 }
 
+footer {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  background-color: var(--header);
+  color: var(--light-text);
+  font-family: "Segoe UI", Helvetica, sans-serif;
+  font-style: italic;
+  text-align: center;
+  font-size: 10px;
+}
+
+hr{
+  width: 90%;
+}
+
 // STYLING FOR IPAD & DESKTOP
 @media screen and (min-width: 770px) {
   #bubble-position {
@@ -82,8 +98,4 @@
   #hamburger-position {
     display: none !important;
   }
-}
-
-.navbar-toggler-icon {
-  color: var(--dark-grey) !important;
 }
