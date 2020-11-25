@@ -29,7 +29,11 @@ public class AddressService {
     }
 
     public Address postNewAddress(Address address){
-        Address dbAddresses = addressRepo.addressCriteriaSearch(address.getStreetName(),address.getPostalCode(),address.getCity()).orElse(null);
+        Address dbAddresses = addressRepo.addressCriteriaSearch(
+                address.getStreetName(),
+                address.getPostalCode(),
+                address.getCity()).orElse(null);
+
         if(dbAddresses != null){
             return dbAddresses;
         }

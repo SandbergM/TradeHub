@@ -1,5 +1,6 @@
 package com.example.TradeHub.controllers;
 
+import com.example.TradeHub.entities.Company;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-@Autowired
+    @Autowired
     private UserService userService;
 
-@PostMapping
-public ResponseEntity<User> addUser(@RequestBody User user){
-    return ResponseEntity.ok(userService.postNewUser(user));
-}
+    @PostMapping
+    public ResponseEntity<User> addUser(@RequestBody User user){
+        return ResponseEntity.ok(userService.postNewUser(user));
+    }
 
-@PutMapping
-public void updateUser(@RequestBody User user){
-    userService.updateUser(user);
-}
+    @PutMapping
+    public void updateUserWithCompany(@RequestBody Company company){
+        userService.updateUser(company);
+    }
 }
 
 

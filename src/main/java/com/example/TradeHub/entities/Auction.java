@@ -32,8 +32,7 @@ public class Auction {
     private Set<Image> images;
     @DBRef
     private User bidder;
-    @DBRef
-    @JsonBackReference
+    @DBRef(lazy = true)
     private User seller;
     private Long timestamp;
 

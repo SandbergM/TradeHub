@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-
+@Document( collection = "user" )
 public class User {
 
     @Id
@@ -23,7 +24,7 @@ public class User {
     @DBRef
     private Address address;
     @DBRef
-    @JsonManagedReference
+    @JsonBackReference
     private ArrayList<Auction> auctions;
     @DBRef
     private Company company;
