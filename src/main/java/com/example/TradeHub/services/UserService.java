@@ -1,5 +1,6 @@
 package com.example.TradeHub.services;
 
+import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -53,14 +57,24 @@ public class UserService {
         return myUserDetailsService.getCurrentUser();
     }
 
+    public void addAuctionsToUser(Auction auction, User user){
+    ArrayList<Auction> auctionList = new ArrayList<>();
+    if(user.getAuctions() != null){
+        auctionList = user.getAuctions();
+    }
+        auctionList.add(auction);
+        user.setAuctions(auctionList);
+        userRepo.save(user);
+    }
+
 
     public void updateUser(User user) {
-       if(this.getCurrentUser() != null) {
            if (user.getCompany() != null) {
+               user.setId(this.getCurrentUser().getId());
                var company = companyService.registerCompany(user.getCompany());
                user.setCompany(company);
-               userRepo.save(user);
+
            }
-       }
+        userRepo.save(user);
     }
 }
