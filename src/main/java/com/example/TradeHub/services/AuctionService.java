@@ -23,6 +23,7 @@ public class AuctionService {
     public Auction postNewAuction(Auction auction){
         User seller = userService.getCurrentUser();
         auction.setSeller(seller);
+        auction.setHighestBid(auction.getPrice() - 1);
         Auction newlyCreatedAuction = auctionRepo.save(auction).orElse(null);
         if(newlyCreatedAuction == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
@@ -31,7 +32,7 @@ public class AuctionService {
         return newlyCreatedAuction;
     }
 
-    public Boolean updateCurrentBidOnLiveAuction(String id, int bid){
+    public void updateCurrentBidOnLiveAuction(String id, int bid){
         Auction auctionToUpdate = this.findById(id);
         User bidder = userService.getCurrentUser();
 
@@ -40,12 +41,15 @@ public class AuctionService {
         }
 
         this.bidderAndSellerCheck(bidder.getId(), auctionToUpdate.getSeller().getId());
-        this.bidCheck(auctionToUpdate.getHighestBid(), bid);
+        if(auctionToUpdate.getHighestBid() == null){
+            auctionToUpdate.setHighestBid(auctionToUpdate.getPrice() - 1);
+        }
+
+        this.bidCheck(auctionToUpdate.getPrice(), auctionToUpdate.getHighestBid(), bid);
         this.timeCheck(auctionToUpdate.getTimestamp());
         auctionToUpdate.setHighestBid(bid);
         auctionToUpdate.setBidder(bidder);
-
-        return true;
+        auctionRepo.save(auctionToUpdate);
     }
 
     public Auction findById(String id){
@@ -53,7 +57,6 @@ public class AuctionService {
         if(auction == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
-        System.out.println(auction);
         return auction;
     }
 
@@ -82,13 +85,11 @@ public class AuctionService {
         }
         return postedBids;
     }
-
-
+    
     public void deleteAuction(String id){
         Auction auctionToBeDeleted = this.findById(id);
         auctionRepo.deleteById(auctionToBeDeleted.getId());
     }
-
 
     private void bidderAndSellerCheck(String buyerId, String sellerId){
         if(buyerId.equals(sellerId)){
@@ -98,15 +99,16 @@ public class AuctionService {
         }
     }
 
-    private void bidCheck(int currentHighestBid, int newBid){
-        if(currentHighestBid >= newBid){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bid was not accepted");
+    private void bidCheck(int startingPrice, int currentHighestBid, int newBid){
+        if( newBid < startingPrice || newBid <= currentHighestBid ){
+            throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Bid was not accepted" );
         }
     }
 
     private void timeCheck(long auctionEndTime){
-        if(auctionEndTime <= Instant.now().toEpochMilli()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bid was not accepted");
+        long currentTime = Instant.now().getEpochSecond();
+        if( auctionEndTime < currentTime ){
+            throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Bid was not accepted" );
         }
     }
 

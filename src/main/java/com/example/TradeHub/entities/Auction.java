@@ -12,7 +12,6 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.awt.*;
 import java.util.Set;
 
 @Data
@@ -33,8 +32,7 @@ public class Auction {
     private Set<Image> images;
     @DBRef
     private User bidder;
-    @DBRef
-    @JsonBackReference
+    @DBRef(lazy = true)
     private User seller;
     private Long timestamp;
 

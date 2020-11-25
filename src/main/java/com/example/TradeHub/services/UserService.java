@@ -1,6 +1,7 @@
 package com.example.TradeHub.services;
 
 import com.example.TradeHub.entities.Auction;
+import com.example.TradeHub.entities.Company;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -27,15 +27,15 @@ public class UserService {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private AuctionService auctionService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public User postNewUser(User user) {
-        System.out.println(user);
         var userWithEmailExists = userRepo.findByEmail(user.getEmail()).orElse(null);
         if (userWithEmailExists == null) {
-            System.out.println("Create new user");
             var address = addressService.postNewAddress(user.getAddress());
             user.setAddress(address);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -68,13 +68,26 @@ public class UserService {
     }
 
 
-    public void updateUser(User user) {
-           if (user.getCompany() != null) {
-               user.setId(this.getCurrentUser().getId());
-               var company = companyService.registerCompany(user.getCompany());
-               user.setCompany(company);
-
+    public void updateUser(Company companyToAdd) {
+        var user = this.getCurrentUser();
+           if (companyToAdd.getName() != null && companyToAdd.getOrganizationNumber() != null) {
+               if (!companyToAdd.getName().equals("") && !companyToAdd.getOrganizationNumber().equals("")) {
+                   var company = companyService.registerCompany(companyToAdd);
+                   user.setCompany(company);
+                   userRepo.save(user);
+               } else {
+                   var newUser = new User();
+                   newUser.setId(user.getId());
+                   newUser.setEmail(user.getEmail());
+                   newUser.setPassword(user.getPassword());
+                   newUser.setFullName(user.getFullName());
+                   newUser.setAddress(user.getAddress());
+                   newUser.setAuctions(user.getAuctions());
+                   userRepo.save(newUser);
+               }
            }
-        userRepo.save(user);
+           else{
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Couldnt process the information");
+           }
     }
 }

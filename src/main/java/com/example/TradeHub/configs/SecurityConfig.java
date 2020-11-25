@@ -1,9 +1,4 @@
 package com.example.TradeHub.configs;
-/*
-        <description>
-        @author Marcus Sandberg
-        @since 2020-11-20
-*/
 
 import com.example.TradeHub.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeRequests()
+                .antMatchers("/").authenticated()
+                .antMatchers(HttpMethod.GET,"/api/v1/auctions**").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/static/uploads/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/static/upload").permitAll() // Testing purpose
                 .and()
