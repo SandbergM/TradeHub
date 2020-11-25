@@ -69,13 +69,12 @@ public class UserService {
 
 
     public void updateUser(User user) {
-       if(this.getCurrentUser() != null) {
            if (user.getCompany() != null) {
+               user.setId(this.getCurrentUser().getId());
                var company = companyService.registerCompany(user.getCompany());
                user.setCompany(company);
 
            }
-       }
         userRepo.save(user);
     }
 }
