@@ -45,8 +45,9 @@
 }
 
 .orange-background {
-  background-color: var(--orange);
+  background-color: var(--orange) !important;
   border-radius: 10px;
+  border-color: var(--orange) !important;
   padding: 0 7px;
 }
 
@@ -69,6 +70,14 @@
   position: absolute;
   right: 20px;
   top: 19px;
+}
+
+.login-button{
+  cursor: pointer;
+}
+
+.register-text{
+  font-size: 12px;
 }
 
 // STYLING FOR IPAD & DESKTOP

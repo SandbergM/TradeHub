@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import {
   Collapse,
   Navbar,
-  NavbarToggler,
   NavbarBrand,
   NavItem,
   NavLink,
   Nav,
 } from "reactstrap";
+import LoginModal from "./loginModal";
 
 const TradeHubHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,8 +29,8 @@ const TradeHubHeader = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="tradeHub-grey" href="/login">
-                Logga in
+              <NavLink className="tradeHub-grey">
+                <LoginModal />
               </NavLink>
             </NavItem>
           </Nav>
