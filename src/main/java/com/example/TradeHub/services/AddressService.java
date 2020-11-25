@@ -22,8 +22,6 @@ public class AddressService {
     }
 
     public Address findById(String id){
-        System.out.println("inne");
-        System.out.println(id);
         Address addresses = addressRepo.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                         String.format("Could not find the user by id %s.", id)));
