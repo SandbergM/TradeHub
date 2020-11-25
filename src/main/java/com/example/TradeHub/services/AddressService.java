@@ -44,9 +44,11 @@ public class AddressService {
     }
 
     public Address postNewAddress(Address address){
-        System.out.println("in method");
-        System.out.println(address.getCity());
-        Address dbAddresses = addressRepo.addressCriteriaSearch(address.getStreetName(),address.getPostalCode(),address.getCity()).orElse(null);
+        Address dbAddresses = addressRepo.addressCriteriaSearch(
+                address.getStreetName(),
+                address.getPostalCode(),
+                address.getCity()).orElse(null);
+
         if(dbAddresses != null){
             return dbAddresses;
         }
