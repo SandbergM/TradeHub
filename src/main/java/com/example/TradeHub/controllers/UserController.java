@@ -1,5 +1,6 @@
 package com.example.TradeHub.controllers;
 
+import com.example.TradeHub.entities.Company;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public ResponseEntity<User> addUser(@RequestBody User user){
 }
 
 @PutMapping
-public void updateUser(@RequestBody User user){
-    userService.updateUser(user);
+public void updateUserWithCompany(@RequestBody Company company){
+    userService.updateUser(company);
 }
 }
 
