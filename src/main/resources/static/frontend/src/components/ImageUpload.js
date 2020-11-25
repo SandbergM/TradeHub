@@ -12,7 +12,7 @@ const ImageUpload = () => {
             console.log(x);
         });
     
-        let response = await fetch("/static/upload", {
+        let response = await fetch("/static/uploads", {
             method: "POST",
             body: formData,
         }).catch(console.warn);
@@ -57,7 +57,6 @@ const ImageUpload = () => {
             </FormGroup>
             <ul>
                 { images.map((val, index) => {
-                    console.log('test');
                     return <li key={index} onClick={() => { pickPrimary(val) }}> {val.name} </li>
                 }) }
             </ul>

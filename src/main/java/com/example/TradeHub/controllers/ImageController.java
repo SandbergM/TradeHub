@@ -16,7 +16,7 @@ public class ImageController {
     @Autowired
     ImageService imageService;
 
-    @PostMapping("/static/upload")
+    @PostMapping("/static/uploads")
     public List<Image> handleFileUpload(@RequestParam List<MultipartFile> files) {
         return imageService.save(files);
     }
