@@ -35,7 +35,12 @@ public class AuctionService {
     public void updateCurrentBidOnLiveAuction(String id, int bid){
         Auction auctionToUpdate = this.findById(id);
         User bidder = userService.getCurrentUser();
+
         this.bidderAndSellerCheck(bidder.getId(), auctionToUpdate.getSeller().getId());
+        if(auctionToUpdate.getHighestBid() == null){
+            auctionToUpdate.setHighestBid(auctionToUpdate.getPrice() - 1);
+        }
+
         this.bidCheck(auctionToUpdate.getPrice(), auctionToUpdate.getHighestBid(), bid);
         this.timeCheck(auctionToUpdate.getTimestamp());
         auctionToUpdate.setHighestBid(bid);
