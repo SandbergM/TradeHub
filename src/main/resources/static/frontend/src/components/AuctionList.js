@@ -19,6 +19,8 @@ const AuctionList = () => {
       console.error("could not fetch auctions");
     }
   }
+
+
   return (
     <Row xs="1" sm="2" md="3">
         {auctions.map((auction, i) => {
@@ -28,7 +30,7 @@ const AuctionList = () => {
             title = {auction.title}
             description = {auction.description}
             image = "https://balstaauktionshall.nu/images/custom/ProductTemplate/133359.jpg"
-            timer = "00:00 sec"
+            timer = {auction.timestamp}
             ></AuctionItem>
             ) 
         })}
