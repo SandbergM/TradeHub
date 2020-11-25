@@ -4,14 +4,6 @@ import {
   Navbar,
   NavbarToggler,
   NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from "reactstrap";
 
 const TradeHubHeader = () => {
@@ -23,7 +15,7 @@ const TradeHubHeader = () => {
 
   return (
     <div>
-      <Navbar className="light-grey-background" expand="md">
+      <Navbar className="light-grey-background mb-3" expand="md">
         <NavbarBrand className="text-dark " href="/">
           <h2 className="my-auto">
             Trade<span className="orange-background tradeHub-white">Hub</span>
@@ -34,10 +26,10 @@ const TradeHubHeader = () => {
           {/* <NavbarText>Simple Text</NavbarText> */}
         </Collapse>
         <div className="text-right mr-4 tradeHub-icon">
-          <span class="material-icons">chat</span>
+          <span className="material-icons">chat</span>
         </div>
         <div className="text-right tradeHub-icon">
-          <span class="material-icons">menu</span>
+          <span className="material-icons">menu</span>
         </div>
       </Navbar>
     </div>

@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
+import "../css/AuctionItem.css";
 
 const AuctionItem = (props) => {
   const [time, setTime] = useState(0);
 
   const goToDetails = () => {
-    console.log("click");
-    console.log(props.timer)
+    console.log(props.title);
   };
 
   const timer = () => {
-    let endDate = props.timer*1000;
-    //const endDate = new Date(milliseconds);
-    const currentDate = new Date().getTime();
+    let endDate = props.timer * 1000;
+    let currentDate = new Date().getTime();
     let difference = endDate - currentDate;
-    console.log(difference)
 
     if (difference <= 0 || endDate == null) {
-      setTime("Tiden är slut");
+      setTime("Tiden har gått ut");
     } else {
       let seconds = Math.floor(difference / 1000);
       let minutes = Math.floor(seconds / 60);
@@ -45,7 +43,7 @@ const AuctionItem = (props) => {
 
   return (
     <Col>
-      <Card className="text-center mb-3" onClick={goToDetails}>
+      <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h5" className="text-warning">
             {props.title}
@@ -53,7 +51,11 @@ const AuctionItem = (props) => {
         </CardBody>
         <img width="100%" src={props.image} alt="auction-img" />
         <CardBody>
-           <CardText></CardText> 
+          {!props.highestBid == null ? (
+            <CardText>{props.highestBid} kr</CardText>
+          ) : (
+            <CardText>{props.price} kr</CardText>
+          )}
           <CardText tag="h5" className="text-warning">
             {time}
           </CardText>

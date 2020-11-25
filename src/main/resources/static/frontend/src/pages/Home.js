@@ -6,8 +6,8 @@ import AuctionList from '../components/AuctionList';
 const Home = () => {
 return(
     <div>
-        <h1>TRADE HUB</h1>
-<AuctionList></AuctionList>
+        <h1 className="text-warning text-center">Auktioner</h1>
+     <AuctionList></AuctionList>
     </div>
 
 )

@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect }  from "react";
-import { Col, Row } from "reactstrap";
+import React, { useState, useEffect }  from "react";
+import { Row } from "reactstrap";
 import AuctionItem from "../components/AuctionItem";
+import tuttiPrutti from "../images/346095.png"
 
 const AuctionList = () => {
   const [auctions, setAuctions] = useState([])
@@ -29,8 +30,10 @@ const AuctionList = () => {
             key = {i}
             title = {auction.title}
             description = {auction.description}
-            image = "https://balstaauktionshall.nu/images/custom/ProductTemplate/133359.jpg"
+            image = {tuttiPrutti}
             timer = {auction.timestamp}
+            highestBid = {auction.highestBid}
+            price = {auction.price}
             ></AuctionItem>
             ) 
         })}
