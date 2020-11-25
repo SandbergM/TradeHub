@@ -3,10 +3,8 @@ package com.example.TradeHub.services;
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
-import com.example.TradeHub.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -36,11 +34,17 @@ public class AuctionService {
     public Boolean updateCurrentBidOnLiveAuction(String id, int bid){
         Auction auctionToUpdate = this.findById(id);
         User bidder = userService.getCurrentUser();
+
+        if(auctionToUpdate.getHighestBid() == null){
+            auctionToUpdate.setHighestBid(auctionToUpdate.getPrice() - 1);
+        }
+
         this.bidderAndSellerCheck(bidder.getId(), auctionToUpdate.getSeller().getId());
         this.bidCheck(auctionToUpdate.getHighestBid(), bid);
         this.timeCheck(auctionToUpdate.getTimestamp());
         auctionToUpdate.setHighestBid(bid);
         auctionToUpdate.setBidder(bidder);
+
         return true;
     }
 
