@@ -14,7 +14,6 @@ const AuctionList = () => {
     let res = await fetch("/api/v1/auctions");
     try {
       res = await res.json();
-      console.log(res);
       setAuctions(res);
     } catch {
       console.error("could not fetch auctions");

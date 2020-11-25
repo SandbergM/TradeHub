@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
-import "../css/AuctionItem.css";
+import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
   const [time, setTime] = useState(0);
 
   const goToDetails = () => {
-    console.log(props.title);
+  
   };
 
   const timer = () => {
