@@ -1,6 +1,7 @@
 package com.example.TradeHub.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class Auction {
     @DBRef
     private User bidder;
     @DBRef
+    @JsonBackReference
     private User seller;
     private Long timestamp;
 

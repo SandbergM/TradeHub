@@ -58,15 +58,14 @@ public class UserService {
     }
 
     public void addAuctionsToUser(Auction auction, User user){
-    var auctionList = new ArrayList<>();
+    ArrayList<Auction> auctionList = new ArrayList<>();
     if(user.getAuctions() != null){
-    auctionList.add(user.getAuctions());
+        auctionList = user.getAuctions();
     }
-    auctionList.add(auction);
-    user.setAuctions(List.of(auction));
-            System.out.println(user.getAuctions());
-    //userRepo.save(user);
-
+        auctionList.add(auction);
+        user.setAuctions(auctionList);
+        // System.out.println(user.getAuctions());
+        userRepo.save(user);
     }
 
 
