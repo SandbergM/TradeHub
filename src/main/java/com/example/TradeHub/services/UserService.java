@@ -64,7 +64,6 @@ public class UserService {
     }
         auctionList.add(auction);
         user.setAuctions(auctionList);
-        // System.out.println(user.getAuctions());
         userRepo.save(user);
     }
 
@@ -74,8 +73,9 @@ public class UserService {
            if (user.getCompany() != null) {
                var company = companyService.registerCompany(user.getCompany());
                user.setCompany(company);
-               userRepo.save(user);
+
            }
        }
+        userRepo.save(user);
     }
 }

@@ -29,7 +29,6 @@ public class AuctionService {
         if(newlyCreatedAuction == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
         }
-        System.out.println(newlyCreatedAuction.getDescription());
         userService.addAuctionsToUser(newlyCreatedAuction, seller);
         return newlyCreatedAuction;
     }
