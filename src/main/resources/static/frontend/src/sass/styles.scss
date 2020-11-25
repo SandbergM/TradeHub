@@ -31,9 +31,25 @@
   background-color: var(--orange);
 }
 
-.tradeHub-inputField{
+.tradeHub-icon{
+  color: var(--dark-grey) !important;
+}
+
+.tradeHub-icon :hover{
+  color: var(--grey) !important;
+  cursor: pointer;
+}
+
+.light-grey-background{
   background-color: var(--light-grey);
 }
+
+.orange-background{
+  background-color: var(--orange);
+  border-radius: 10px;
+  padding: 0 7px;
+}
+
 
 .click-text :hover{
   cursor: pointer;

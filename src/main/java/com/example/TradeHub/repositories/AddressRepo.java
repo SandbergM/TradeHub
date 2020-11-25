@@ -35,7 +35,7 @@ public class AddressRepo {
     }
 
     public Optional<Address> findById(String id){
-        Query query = new Query().addCriteria(Criteria.where(id).is(id));
+        Query query = new Query().addCriteria(Criteria.where("id").is(id));
 
         return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }

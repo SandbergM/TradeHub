@@ -28,7 +28,7 @@ const LoginModal = () => {
               <FormGroup className="m-4">
                 <Label for="emailAddress">Email Address:</Label>
                 <Input
-                  className="tradeHub-inputField"
+                  className="light-grey-background"
                   type="email"
                   placeholder="Email address..."
                 />
@@ -36,7 +36,7 @@ const LoginModal = () => {
               <FormGroup className="m-4">
                 <Label for="password">Password</Label>
                 <Input
-                  className="tradeHub-inputField"
+                  className="light-grey-background"
                   type="password"
                   placeholder="Password..."
                 />
