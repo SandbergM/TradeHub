@@ -51,7 +51,7 @@ const AuctionItem = (props) => {
         </CardBody>
         <img width="100%" src={props.image} alt="auction-img" />
         <CardBody>
-          {!props.highestBid == null ? (
+          {props.highestBid ? (
             <CardText>{props.highestBid} kr</CardText>
           ) : (
             <CardText>{props.price} kr</CardText>
