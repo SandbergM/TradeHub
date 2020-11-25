@@ -4,14 +4,14 @@ import {
   Navbar,
   NavbarToggler,
   NavbarBrand,
+  NavItem,
+  NavLink,
+  Nav,
 } from "reactstrap";
 
 const TradeHubHeader = () => {
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => setIsOpen(!isOpen);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   return (
     <div>
@@ -21,19 +21,34 @@ const TradeHubHeader = () => {
             Trade<span className="orange-background tradeHub-white">Hub</span>
           </h2>
         </NavbarBrand>
-        <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          {/* <NavbarText>Simple Text</NavbarText> */}
+          <Nav navbar>
+            <NavItem>
+              <NavLink className="tradeHub-grey" href="/">
+                Hem
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="tradeHub-grey" href="/login">
+                Logga in
+              </NavLink>
+            </NavItem>
+          </Nav>
         </Collapse>
-        <div className="text-right mr-4 tradeHub-icon">
-          <span className="material-icons">chat</span>
-        </div>
-        <div className="text-right tradeHub-icon">
+
+        <div
+          className="text-right tradeHub-icon"
+          onClick={toggle}
+          id="hamburger-position"
+        >
           <span className="material-icons">menu</span>
         </div>
       </Navbar>
+      <div className="text-right mr-4 tradeHub-icon" id="bubble-position">
+        <span className="material-icons">chat</span>
+      </div>
     </div>
   );
-}
+};
 
-export default TradeHubHeader
+export default TradeHubHeader;

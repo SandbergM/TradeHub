@@ -1,61 +1,89 @@
 :root {
   --white: #ffffff;
-  --orange: #FFA31A;
-  --light-grey: #EEEEEE;
-  --grey: #8D8D8D;
+  --orange: #ffa31a;
+  --light-grey: #eeeeee;
+  --grey: #8d8d8d;
   --dark-grey: #707070;
 }
 
-.tradeHub-orange{
-  color: var(--orange)
+.tradeHub-orange {
+  color: var(--orange);
 }
 
-.tradeHub-white{
-  color: var(--white)
+.tradeHub-white {
+  color: var(--white);
 }
 
-.tradeHub-light-grey{
-  color: var(--light-grey)
+.tradeHub-light-grey {
+  color: var(--light-grey);
 }
 
-.tradeHub-grey{
-  color: var(--grey)
+.tradeHub-grey {
+  color: var(--grey);
 }
 
-.tradeHub-dark-grey{
-  color: var(--dark-grey)
+.tradeHub-dark-grey {
+  color: var(--dark-grey);
 }
 
-.tradeHub-button{
+.tradeHub-button {
   border: none;
   background-color: var(--orange);
 }
 
-.tradeHub-icon{
+.tradeHub-icon {
   color: var(--dark-grey) !important;
 }
 
-.tradeHub-icon :hover{
+.tradeHub-icon :hover {
   color: var(--grey) !important;
   cursor: pointer;
 }
 
-.light-grey-background{
+.light-grey-background {
   background-color: var(--light-grey);
 }
 
-.orange-background{
+.orange-background {
   background-color: var(--orange);
   border-radius: 10px;
   padding: 0 7px;
 }
 
-
-.click-text :hover{
+.click-text :hover {
   cursor: pointer;
-  color: #FFA31A !important;
+  color: #ffa31a !important;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
+}
+
+#bubble-position {
+  position: absolute;
+  right: 30px;
+  top: 20px;
+}
+
+#hamburger-position {
+  position: absolute;
+  right: 20px;
+  top: 19px;
+}
+
+// STYLING FOR IPAD & DESKTOP
+@media screen and (min-width: 770px) {
+  #bubble-position {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+  }
+
+  #hamburger-position {
+    display: none !important;
+  }
+}
+
+.navbar-toggler-icon {
+  color: var(--dark-grey) !important;
 }
