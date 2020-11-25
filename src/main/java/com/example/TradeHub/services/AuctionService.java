@@ -3,10 +3,8 @@ package com.example.TradeHub.services;
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
-import com.example.TradeHub.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
