@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthenticationModal from './AuthenticationModal'
 import {
   Collapse,
   Navbar,
@@ -11,7 +12,14 @@ import {
 
 const TradeHubHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const toggle = () => setIsOpen(!isOpen);
+
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen);
+  }
+
 
   return (
     <div>
@@ -29,9 +37,12 @@ const TradeHubHeader = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="tradeHub-grey" href="/login">
+              <a className="tradeHub-grey navLink" onClick={toggleModal}>
                 Logga in
-              </NavLink>
+              </a>
+              <AuthenticationModal
+                modalIsOpen={modalIsOpen}
+                toggleModal={toggleModal}/>
             </NavItem>
           </Nav>
         </Collapse>

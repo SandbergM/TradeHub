@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Modal,
@@ -10,18 +10,13 @@ import {
   
 } from "reactstrap";
 
-const LoginModal = () => {
+const LoginModal = (props) => {
 
-      const [modal, setModal] = useState(false);
-
-      const toggle = () => setModal(!modal);
+  const [modal, setModal] = useState(false);
+  
 
     return (
       <div>
-        <Button className="tradeHub-button" onClick={toggle}>
-          Login
-        </Button>
-        <Modal isOpen={modal} toggle={toggle}>
           <h2 className="text-center mt-4 tradeHub-orange">Login</h2>
           <ModalBody>
             <Form>
@@ -43,7 +38,7 @@ const LoginModal = () => {
               </FormGroup>
             </Form>
             <div className="text-center m-4">
-              <Button className="tradeHub-button  col-12" onClick={toggle}>
+              <Button className="tradeHub-button  col-12" onClick={() => console.log("Clicked")}>
                 Login
               </Button>
             </div>
@@ -56,7 +51,6 @@ const LoginModal = () => {
               </i>
             </div>
           </ModalBody>
-        </Modal>
       </div>
     );
 }

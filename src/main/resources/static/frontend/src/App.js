@@ -8,8 +8,6 @@ function App() {
       <main className="container">
       <Home />
       </main>
-      
-      
     </div>
   );
 }
