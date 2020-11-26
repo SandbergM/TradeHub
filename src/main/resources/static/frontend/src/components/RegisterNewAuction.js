@@ -67,6 +67,8 @@ const RegisterNewAuction = () => {
             auction.timestamp = timestampConverter(3);
         }
 
+        if(!auction.title || !auction.description || !auction.price || !images.length){ return }
+
         let response = await fetch('/api/v1/auctions',{
             method: "POST",
             headers: { "Content-Type": "application/json" },
