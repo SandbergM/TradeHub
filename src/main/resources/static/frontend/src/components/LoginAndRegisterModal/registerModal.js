@@ -96,7 +96,7 @@ const RegisterModal = (props) => {
             </FormGroup>
             <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
               <Label for="password" className="tradeHub-white font-weight-bold">----</Label>
-                 <Button className="tradeHub-button col-12 font-weight-bold register-button" onClick={() => console.log('Clicked register')}>
+                 <Button className="tradeHub-button col-12 font-weight-bold register-button">
                 Registrera
               </Button>
               </FormGroup>

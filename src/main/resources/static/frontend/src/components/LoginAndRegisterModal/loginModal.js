@@ -39,7 +39,7 @@ const LoginModal = (props) => {
                 />
             </FormGroup>
              <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
-              <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold" onClick={() => console.log("Clicked")}>
+              <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold">
                 Logga in
               </Button>
            
