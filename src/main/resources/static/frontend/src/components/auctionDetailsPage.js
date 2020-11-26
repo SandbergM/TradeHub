@@ -7,7 +7,6 @@ const AuctionDetailsPage = () => {
   const { activeAuction, setActiveAuction } = useContext(AuctionContext)
   const [bid, setBid] = useState(0);
 
-  console.log(activeAuction);
   let { id } = useParams();
     const getAuction = async () => {
         if(activeAuction.id == null){
@@ -23,7 +22,6 @@ const AuctionDetailsPage = () => {
 
     const postBid = async () => {
       // /api/v1/auctions/{id}/{bid}
-      console.log(activeAuction.id);
       await fetch(`/api/v1/auctions/${activeAuction.id}/${bid}`)
     }
 
