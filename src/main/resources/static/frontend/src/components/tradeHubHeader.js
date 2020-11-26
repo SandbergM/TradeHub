@@ -36,10 +36,10 @@ const TradeHubHeader = () => {
                 Hem
               </NavLink>
             </NavItem>
-            <NavItem>
-              <a className="tradeHub-grey navLink" onClick={toggleModal}>
+            <NavItem className="tradeHub-grey" onClick={toggleModal}>
+              <NavLink className="tradeHub-grey pointer" onClick={toggleModal}>
                 Logga in
-              </a>
+              </NavLink>
               <AuthenticationModal
                 modalIsOpen={modalIsOpen}
                 toggleModal={toggleModal}/>

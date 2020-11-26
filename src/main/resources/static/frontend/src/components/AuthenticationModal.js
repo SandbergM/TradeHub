@@ -12,10 +12,10 @@ const AuthenticationModal = (props) => {
 
     return (
       <div>
-        <Modal isOpen={props.modalIsOpen} toggle={props.setModalIsOpen}>
+        <Modal isOpen={props.modalIsOpen} toggle={props.toggleModal} size="lg">
           {isRegistered ?
-            <LoginModal setIsRegistered={setIsRegistered} isRegistered={isRegistered}></LoginModal>
-            : <RegisterModal setIsRegistered={setIsRegistered} isRegistered={isRegistered}></RegisterModal>}
+            <LoginModal setIsRegistered={setIsRegistered} isRegistered={isRegistered} toggle={props.toggleModal}></LoginModal>
+            : <RegisterModal setIsRegistered={setIsRegistered} isRegistered={isRegistered} toggle={props.toggleModal}></RegisterModal>}
         </Modal>
       </div>
     );

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
-  Modal,
+  ModalHeader,
   ModalBody,
   Form,
   FormGroup,
@@ -11,14 +11,9 @@ import {
 } from "reactstrap";
 
 const RegisterModal = (props) => {
-
-      const [modal, setModal] = useState(false);
-
-      const toggle = () => setModal(!modal);
-
     return (
       <div>
-          <h2 className="text-center mt-4 tradeHub-orange">Register</h2>
+        <ModalHeader toggle={props.toggleModal}> <h2 className="text-center mt-4 tradeHub-orange" onClick={() => console.log(props)}>Registrera</h2></ModalHeader>
           <ModalBody>
             <Form>
               <FormGroup className="m-4">
@@ -45,7 +40,7 @@ const RegisterModal = (props) => {
             </div>
             <div className="text-right mt-4">
               <i>
-                Already have an account? Log in{" "}
+                Already registered? Log in{" "}
                 <span className="text-primary click-text inline">
                   <span onClick={() => props.setIsRegistered(!props.isRegistered)}> here</span>
                 </span>
