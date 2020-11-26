@@ -30,11 +30,17 @@ const RegisterNewAuction = () => {
         document.getElementById("register-auction-files").click()
     }
     
-    const pickPrimary = (index) => {
+    const pickPrimary = (val) => {
         let tempArr = images;
+        let index = 0;
+        for(let i = 0 ; i < tempArr.length ; i++ ){
+            if(val === tempArr[i]["name"]){
+                index = i;
+                break;
+            }
+        }
         tempArr.splice( 0, 0, tempArr.splice(index, 1)[0])
         setImages(tempArr)
-        console.log(tempArr);
     }
 
     const uploadImages = async () => {
@@ -159,7 +165,7 @@ const RegisterNewAuction = () => {
                     >
                         <option defaultValue> Välj thumbnail </option>
                         { images.map( (value, index) => {
-                            return (<option key={index} value={index}> { value.name } </option>)
+                            return (<option key={index} value={value.name}> { value.name } </option>)
                         }) }
                     </Input>
 
