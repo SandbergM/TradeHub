@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Button,
   ModalBody,
@@ -11,42 +11,48 @@ import {
 } from "reactstrap";
 
 const LoginModal = (props) => {
+   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
     return (
-      <div>
-        <ModalHeader toggle={props.toggleModal}>
-          <h2 className="text-center mt-4 tradeHub-orange">Logga in</h2>
-          </ModalHeader>
-          <ModalBody>
-            <Form>
-              <FormGroup className="m-4">
-                <Label for="emailAddress">Email:</Label>
+      <div className="row mx-auto">
+          <h2 className="text-center mt-4 tradeHub-orange font-weight-bold col-sm-12">Logga in</h2>
+          <ModalBody className="">
+            <Form className="">
+              <FormGroup className="col-sm-8 col-lg-12 m-0">
+                <Label for="emailAddress" className="tradeHub-dark-grey font-weight-bold">Email</Label>
                 <Input
-                  className="light-grey-background"
+                  className="light-grey-background tradeHub-input"
                   type="email"
-                  placeholder="Email"
+                placeholder="Email"
+                    value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup className="m-4">
-                <Label for="password">Lösenord</Label>
+              <FormGroup className="col-sm-8 col-lg-12 mt-2">
+                <Label for="password" className="tradeHub-dark-grey font-weight-bold">Lösenord</Label>
                 <Input
-                  className="light-grey-background"
+                  className="light-grey-background tradeHub-input"
                   type="password"
-                  placeholder="Lösenord"
+                placeholder="Lösenord"
+                   value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 />
               </FormGroup>
             </Form>
             <div className="text-center m-4">
-              <Button className="tradeHub-button col-12" onClick={() => console.log("Clicked")}>
-                Login
+              <Button className="tradeHub-button col-sm-8 col-lg-8" onClick={() => console.log("Clicked")}>
+                Logga in
               </Button>
             </div>
-            <div className="text-right mt-4">
-              <i>
-                Can't login? Create new account{" "}
+            <div className="text-center">
+              <p className="font-italic mb-0">
+              Har du inte ett konto?
+                </p>
+                <p className="font-italic"> Skapa konto{" "}
                 <span className="text-primary click-text inline">
-                  <span onClick={() => props.setIsRegistered(!props.isRegistered)}>here</span>
+                  <span onClick={() => props.setIsRegistered(!props.isRegistered)}>här</span>
                 </span>
-              </i>
+              </p>
             </div>
           </ModalBody>
       </div>
