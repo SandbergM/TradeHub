@@ -1,9 +1,7 @@
-import React from 'react'
-import LoginModal from '../components/loginModal'
-import { Row } from 'reactstrap';
-import AuctionItem from '../components/AuctionItem'
-import AuctionList from '../components/AuctionList';
-import RegisterNewAuction from '../components/RegisterNewAuction';
+import React from "react";
+import AuctionList from "../components/AuctionList";
+import RegisterNewAuction from "../components/RegisterNewAuction";
+
 const Home = () => {
 return(
     <div className="row">
