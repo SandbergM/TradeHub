@@ -14,8 +14,8 @@ const AuthenticationModal = (props) => {
       <div>
         <Modal isOpen={props.modalIsOpen} toggle={props.setModalIsOpen}>
           {isRegistered ?
-            <LoginModal setIsRegistered={setIsRegistered}></LoginModal>
-            : <RegisterModal setIsRegistered={setIsRegistered}></RegisterModal>}
+            <LoginModal setIsRegistered={setIsRegistered} isRegistered={isRegistered}></LoginModal>
+            : <RegisterModal setIsRegistered={setIsRegistered} isRegistered={isRegistered}></RegisterModal>}
         </Modal>
       </div>
     );

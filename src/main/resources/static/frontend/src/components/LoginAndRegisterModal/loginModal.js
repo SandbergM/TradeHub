@@ -46,7 +46,7 @@ const LoginModal = (props) => {
               <i>
                 Can't login? Create new account{" "}
                 <span className="text-primary click-text inline">
-                  <span>here</span>
+                  <span onClick={() => props.setIsRegistered(!props.isRegistered)}>here</span>
                 </span>
               </i>
             </div>

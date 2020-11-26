@@ -39,15 +39,15 @@ const RegisterModal = (props) => {
               </FormGroup>
             </Form>
             <div className="text-center m-4">
-              <Button className="tradeHub-button  col-12" onClick={}>
+              <Button className="tradeHub-button  col-12" onClick={() => console.log('Clicked register')}>
                 Login
               </Button>
             </div>
             <div className="text-right mt-4">
               <i>
-                Can't login? Create new account{" "}
+                Already have an account? Log in{" "}
                 <span className="text-primary click-text inline">
-                  <span>here</span>
+                  <span onClick={() => props.setIsRegistered(!props.isRegistered)}> here</span>
                 </span>
               </i>
             </div>
