@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
+import { AuctionContext } from "../context/AuctionContextProvider";
 import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
+  const { activeAuction, setActiveAuction } = useContext(AuctionContext);
   const [time, setTime] = useState(0);
 
+  let history = useHistory()
+
   const goToDetails = () => {
-  
+    setActiveAuction(props)
+    history.push("/auction/" + props.title + "/" + props.id);
   };
 
   const timer = () => {
