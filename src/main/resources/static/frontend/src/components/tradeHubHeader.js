@@ -3,7 +3,6 @@ import AuthenticationModal from './AuthenticationModal'
 import {
   Collapse,
   Navbar,
-  NavbarToggler,
   NavbarBrand,
   NavItem,
   NavLink,
