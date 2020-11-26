@@ -6,18 +6,12 @@ import {
   CarouselControl,
   CarouselIndicators,
   CarouselCaption,
-  Input,
   Button,
-  Row,
-  Jumbotron,
-  Container,
 } from "reactstrap";
 import { AuctionContext } from "../context/AuctionContextProvider";
 
 const AuctionDetailsPage = () => {
   const { activeAuction, setActiveAuction } = useContext(AuctionContext)
-  console.log(activeAuction);
-
 
   const items = [
     {
@@ -85,7 +79,7 @@ const AuctionDetailsPage = () => {
           Högsta bud:{" "}
           {activeAuction.highestBid ? activeAuction.highestBid : "Inga bud"}
         </h6>
-        <h6>Kvarstående tid: {new Date(activeAuction.timestamp).getHours()}</h6>
+        <h6>Kvarstående tid: {new Date(activeAuction.timestamp).toString()}</h6>
       </div>
 
       <Carousel
