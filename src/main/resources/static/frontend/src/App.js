@@ -1,4 +1,5 @@
 import Home from './pages/Home'
+import MyPage from './pages/MyPage'
 import TradeHubHeader from "./components/tradeHubHeader";
 import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
@@ -6,7 +7,7 @@ function App() {
     <div className="App">
       <TradeHubHeader/>
       <main className="container">
-      <Home />
+      <MyPage></MyPage>
       </main>
       
       
