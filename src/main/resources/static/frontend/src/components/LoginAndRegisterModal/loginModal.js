@@ -14,7 +14,7 @@ const LoginModal = (props) => {
    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
     return (
-      <div className="row mx-auto">
+      <div className="row mx-auto authentication-modals">
           <h2 className="text-center mt-4 tradeHub-orange font-weight-bold col-sm-12">Logga in</h2>
           <ModalBody className="">
             <Form className="">
@@ -37,14 +37,15 @@ const LoginModal = (props) => {
                    value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 />
+            </FormGroup>
+             <FormGroup className="col-sm-8 col-lg-12 mt-2">
+              <Button className="tradeHub-button col-sm-8 col-lg-12 font-weight-bold" onClick={() => console.log("Clicked")}>
+                Logga in
+              </Button>
+           
               </FormGroup>
             </Form>
             <div className="text-center m-4">
-              <Button className="tradeHub-button col-sm-8 col-lg-8" onClick={() => console.log("Clicked")}>
-                Logga in
-              </Button>
-            </div>
-            <div className="text-center">
               <p className="font-italic mb-0">
               Har du inte ett konto?
                 </p>
