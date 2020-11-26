@@ -8,7 +8,7 @@ function App() {
       <TradeHubHeader/>
       <main className="container">
       <Home />
-      </main>      
+      </main>
     </div>
   );
 }
