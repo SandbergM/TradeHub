@@ -24,7 +24,7 @@ const RegisterModal = (props) => {
         <h2 className="mt-2 text-center tradeHub-orange font-weight-bold col-sm-12 col-lg-12">Registrera</h2>
           <ModalBody className="m-4">
             <Form className="row">
-              <FormGroup className="col-sm-12 col-lg-6">
+              <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <Label for="fullName" className="tradeHub-orange font-weight-bold">För- och efternamn</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -34,7 +34,7 @@ const RegisterModal = (props) => {
                 onChange={(e) => setFullName(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-sm-12 col-lg-6">
+             <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <Label for="streetName" className="tradeHub-dark-grey font-weight-bold">Gatunamn</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -44,7 +44,7 @@ const RegisterModal = (props) => {
                 onChange={(e) => setStreetName(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-sm-12 col-lg-6">
+             <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <Label for="postalCode" className="tradeHub-dark-grey font-weight-bold">Postkod</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -54,7 +54,7 @@ const RegisterModal = (props) => {
                 onChange={(e) => setPostalCode(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup className="col-sm-12 col-lg-6">
+              <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <Label for="city" className="tradeHub-dark-grey font-weight-bold">Stad</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -64,7 +64,7 @@ const RegisterModal = (props) => {
                 onChange={(e) => setCity(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-sm-12 col-lg-6">
+             <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <Label for="country" className="tradeHub-dark-grey font-weight-bold">Land</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -74,7 +74,7 @@ const RegisterModal = (props) => {
                 onChange={(e) => setCountry(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-sm-12 col-lg-6">
+             <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <Label for="email" className="tradeHub-orange font-weight-bold">Email</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -84,7 +84,7 @@ const RegisterModal = (props) => {
                 onChange={(e) => setEmail(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-sm-12 col-lg-6">
+             <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <Label for="password" className="tradeHub-orange font-weight-bold">Lösenord</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -94,7 +94,7 @@ const RegisterModal = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
                 />
             </FormGroup>
-            <FormGroup className="col-sm-12 col-lg-6">
+            <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
               <Label for="password" className="tradeHub-white font-weight-bold">----</Label>
                  <Button className="tradeHub-button col-12 font-weight-bold register-button" onClick={() => console.log('Clicked register')}>
                 Registrera

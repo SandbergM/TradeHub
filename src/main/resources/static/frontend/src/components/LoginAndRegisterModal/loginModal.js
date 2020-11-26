@@ -15,10 +15,10 @@ const LoginModal = (props) => {
   const [password, setPassword] = useState('');
     return (
       <div className="row mx-auto authentication-modals">
-          <h2 className="text-center mt-4 tradeHub-orange font-weight-bold col-sm-12">Logga in</h2>
+          <h2 className="text-center mt-4 tradeHub-orange font-weight-bold col-12">Logga in</h2>
           <ModalBody className="">
             <Form className="">
-              <FormGroup className="col-sm-8 col-lg-12 m-0">
+              <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 m-0">
                 <Label for="emailAddress" className="tradeHub-dark-grey font-weight-bold">Email</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -28,7 +28,7 @@ const LoginModal = (props) => {
                 onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup className="col-sm-8 col-lg-12 mt-2">
+              <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
                 <Label for="password" className="tradeHub-dark-grey font-weight-bold">Lösenord</Label>
                 <Input
                   className="light-grey-background tradeHub-input"
@@ -38,8 +38,8 @@ const LoginModal = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-sm-8 col-lg-12 mt-2">
-              <Button className="tradeHub-button col-sm-8 col-lg-12 font-weight-bold" onClick={() => console.log("Clicked")}>
+             <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
+              <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold" onClick={() => console.log("Clicked")}>
                 Logga in
               </Button>
            
