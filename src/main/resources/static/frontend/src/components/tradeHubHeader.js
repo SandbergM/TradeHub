@@ -41,7 +41,9 @@ const TradeHubHeader = () => {
               </NavLink>
               <AuthenticationModal
                 modalIsOpen={modalIsOpen}
-                toggleModal={toggleModal}/>
+                toggleModal={toggleModal}
+                setModalIsOpen={setModalIsOpen}
+                />
             </NavItem>
           </Nav>
         </Collapse>

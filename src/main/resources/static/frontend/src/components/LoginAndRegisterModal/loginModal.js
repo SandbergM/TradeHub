@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {
   Button,
   ModalBody,
-  ModalHeader,
   Form,
   FormGroup,
   Label,
@@ -13,11 +12,30 @@ import {
 const LoginModal = (props) => {
    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const performLogin = async (e) => {
+    e.preventDefault()
+    const credentials = 'username=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
+
+    let response = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: credentials
+    });
+
+    if (response.url.includes('error')) {
+      console.log('Wrong username or password')
+    }
+    else {
+      props.setModalIsOpen(!props.modalIsOpen)
+      console.log('Success')
+    }
+  }
     return (
       <div className="row mx-auto authentication-modals">
           <h2 className="text-center mt-4 tradeHub-orange font-weight-bold col-12">Logga in</h2>
           <ModalBody className="">
-            <Form className="">
+            <Form onSubmit={performLogin}>
               <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 m-0">
                 <Label for="emailAddress" className="tradeHub-dark-grey font-weight-bold">Email</Label>
                 <Input
@@ -39,7 +57,8 @@ const LoginModal = (props) => {
                 />
             </FormGroup>
              <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
-              <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold">
+              <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold"
+              >
                 Logga in
               </Button>
            
