@@ -28,8 +28,8 @@
 }
 
 .tradeHub-button {
-  border: none;
-  background-color: var(--orange);
+  border: none !important;
+  background-color: var(--orange) !important;
 }
 
 .tradeHub-icon {
@@ -42,11 +42,11 @@
 }
 
 .light-grey-background {
-  background-color: var(--light-grey);
+  background-color: var(--light-grey) !important;
 }
 
 .orange-background {
-  background-color: var(--orange);
+  background-color: var(--orange) !important;
   border-radius: 10px;
   padding: 0 7px;
 }
@@ -61,7 +61,7 @@
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 #bubble-position {

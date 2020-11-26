@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Input, Label, Form, Button, FormGroup } from "reactstrap";
 
 const RegisterNewAuction = () => {
 
     const [auction, setAuction] = useState({});
     const [images, setImages] = useState([]);
-    const auctionDurationInterval = [2, 4, 6, 7];
+    const auctionDurationInterval = [2, 4, 6, 7]; // Days
 
     const addImages = (files) => {
         if( images.length > 5 ) return;
@@ -20,14 +20,21 @@ const RegisterNewAuction = () => {
         setImages([...images, ...tempArr])
     }
 
+    const removeImage = (file) => {
+        setImages( images.filter( (el) => {
+            return el !== file
+        }))
+    }
+
     const customImageUploadTrigger = () => {
         document.getElementById("register-auction-files").click()
     }
     
-    const pickPrimary = (file) => {
+    const pickPrimary = (index) => {
         let tempArr = images;
-        tempArr.splice( 0, 0, tempArr.splice(images.indexOf(file), 1)[0])
+        tempArr.splice( 0, 0, tempArr.splice(index, 1)[0])
         setImages(tempArr)
+        console.log(tempArr);
     }
 
     const uploadImages = async () => {
@@ -36,7 +43,6 @@ const RegisterNewAuction = () => {
         if (!images.length) return;
         Object.entries(images).map((x) => {
             formData.append("files", x[1]);
-            console.log(x);
         });
     
         let response = await fetch("/static/uploads", {
@@ -51,19 +57,12 @@ const RegisterNewAuction = () => {
             auction.timestamp = new Date().setDate(new Date().getDate() + 2);
         }
 
-        let x = await uploadImages();
-
-        console.log(x);
-
         let response = await fetch('/api/v1/auctions',{
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({...auction, images : x}),
+            body: JSON.stringify({...auction, images : await uploadImages()}),
         }).catch(console.warn);
-
         response = await response.json();
-        console.log(response);
-
         //document.getElementById("register-auction-form").reset()
         //setAuction({})
     }
@@ -118,7 +117,6 @@ const RegisterNewAuction = () => {
                         className="register-auction-label mt-4 pl-2" 
                         for="register-auction-duration">Annonslängd</Label>
                     <Input
-                        rows="10" 
                         type="select"
                         id="register-auction-duration"
                         className="col-12 register-auction-input pl-2" 
@@ -129,6 +127,9 @@ const RegisterNewAuction = () => {
                             return (<option key={index} value={value}> { displayDay(value) } </option>)
                         }) }
                     </Input>
+
+                    <Button className="col-12 mt-4 mb-4" onClick={() => { customImageUploadTrigger() }}> Ladda upp bilder ( {images.length} av 5 ) </Button>
+
                     <Input
                         type="file"
                         name="file"
@@ -137,14 +138,33 @@ const RegisterNewAuction = () => {
                         multiple="multiple"
                         accept=".png,.jpg,.jpeg,.gif,.bmp,.jfif"    
                         onChange={(e) => addImages(e.target.files)}
-                        />
+                    />
+
                     <ul className="register-auction-image-list">
                         { images.map((val, index) => {
-                                return <li className="register-auction-image-item" key={index} onClick={() => { pickPrimary(val) }}> {val.name} </li>
+                             return <li className="row register-auction-image-item mt-2" key={index} > 
+                                        <p className="col-9"> {val.name} </p> 
+                                        <div className="col-3 text-right" onClick={ () => { removeImage(val) } }>
+                                            <span className="material-icons">delete</span>
+                                        </div>
+                                    </li>
                         }) }
                     </ul>
-                <Button className="col-12" onClick={() => { customImageUploadTrigger() }}> Ladda upp bilder ( {images.length} av 5 ) </Button>
-                <Button className="col-12" onClick={() => { submitAuction() }}> Lägg upp auktion </Button>
+
+                    <Input
+                        type="select"
+                        id="register-auction-primary-image"
+                        className="col-12 register-auction-input mt-3 mb-3" 
+                        onChange={(e) => { pickPrimary(e.target.value) }} 
+                    >
+                        <option defaultValue> Välj thumbnail </option>
+                        { images.map( (value, index) => {
+                            return (<option key={index} value={index}> { value.name } </option>)
+                        }) }
+                    </Input>
+
+                <Button className="col-12 mt-4" onClick={() => { submitAuction() }}> Lägg upp auktion </Button>
+
             </div>
         </Form>
     )

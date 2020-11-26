@@ -6,10 +6,8 @@ function App() {
     <div className="App">
       <TradeHubHeader/>
       <main className="container">
-      <Home />
+        <Home />
       </main>
-      
-      
     </div>
   );
 }
