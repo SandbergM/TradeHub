@@ -9,7 +9,7 @@ import {
   Button,
 } from "reactstrap";
 
-const AuctionDetailsPageData = ({ activeAuction, bid, setBid }) => {
+const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
   const items = [
     {
       src:
@@ -92,8 +92,17 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid }) => {
       </Carousel>
 
       <div className="mx-auto mt-4">
-        <input type="number" placeholder="Lägg bud..."></input>
-        <Button type="submit" className="ml-2 orange-background">
+        <input
+          type="number"
+          placeholder="Lägg bud..."
+          value={bid}
+          onChange={(e) => setBid(e.target.value)}
+        ></input>
+        <Button
+          type="submit"
+          className="ml-2 orange-background"
+          onClick={() => postBid()}
+        >
           Lägg bud
         </Button>
       </div>

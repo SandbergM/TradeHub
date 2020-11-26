@@ -8,15 +8,17 @@ const AuctionItem = (props) => {
   const { setActiveAuction } = useContext(AuctionContext);
   const [time, setTime] = useState(0);
 
+  console.log(props);
   let history = useHistory()
 
+  console.log(props);
   const goToDetails = () => {
     setActiveAuction(props)
     history.push("/auction/" + props.title + "/" + props.id);
   };
 
   const timer = () => {
-    let endDate = props.timer * 1000;
+    let endDate = props.timestamp * 1000;
     let currentDate = new Date().getTime();
     let difference = endDate - currentDate;
 

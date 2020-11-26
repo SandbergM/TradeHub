@@ -30,9 +30,10 @@ const AuctionList = () => {
                 title = {auction.title}
                 description = {auction.description}
                 image = {tuttiPrutti}
-                timer = {auction.timestamp}
+                timestamp = {auction.timestamp}
                 highestBid = {auction.highestBid}
                 price = {auction.price}
+                seller= {auction.seller}
                 >
                 </AuctionItem>
             ) 
