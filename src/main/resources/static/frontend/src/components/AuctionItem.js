@@ -5,7 +5,7 @@ import { AuctionContext } from "../context/AuctionContextProvider";
 import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
-  const { activeAuction, setActiveAuction } = useContext(AuctionContext);
+  const { setActiveAuction } = useContext(AuctionContext);
   const [time, setTime] = useState(0);
 
   let history = useHistory()
