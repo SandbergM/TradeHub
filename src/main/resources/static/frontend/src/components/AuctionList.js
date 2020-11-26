@@ -20,20 +20,21 @@ const AuctionList = () => {
     }
   }
 
-
   return (
     <Row xs="1" sm="2" md="3">
         {auctions.map((auction, i) => {
             return (
-            <AuctionItem
-            key = {i}
-            title = {auction.title}
-            description = {auction.description}
-            image = {tuttiPrutti}
-            timer = {auction.timestamp}
-            highestBid = {auction.highestBid}
-            price = {auction.price}
-            ></AuctionItem>
+                <AuctionItem
+                key = {i}
+                id = {auction.id}
+                title = {auction.title}
+                description = {auction.description}
+                image = {tuttiPrutti}
+                timer = {auction.timestamp}
+                highestBid = {auction.highestBid}
+                price = {auction.price}
+                >
+                </AuctionItem>
             ) 
         })}
     </Row>
