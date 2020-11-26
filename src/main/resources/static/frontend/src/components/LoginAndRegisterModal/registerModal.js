@@ -21,7 +21,7 @@ const RegisterModal = (props) => {
 
     return (
       <div className="mx-auto authentication-modals">
-        <h2 className="mt-2 text-center tradeHub-orange font-weight-bold col-sm-12 col-lg-12">Registrera</h2>
+        <h2 className="mt-4 text-center tradeHub-orange font-weight-bold col-sm-12 col-lg-12">Registrera</h2>
           <ModalBody className="m-4">
             <Form className="row">
               <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
