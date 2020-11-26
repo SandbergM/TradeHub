@@ -23,7 +23,6 @@ public class AuctionService {
     public Auction postNewAuction(Auction auction){
         User seller = userService.getCurrentUser();
         auction.setSeller(seller);
-        auction.setHighestBid(auction.getPrice() - 1);
         Auction newlyCreatedAuction = auctionRepo.save(auction).orElse(null);
         if(newlyCreatedAuction == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
@@ -41,11 +40,7 @@ public class AuctionService {
         }
 
         this.bidderAndSellerCheck(bidder.getId(), auctionToUpdate.getSeller().getId());
-        if(auctionToUpdate.getHighestBid() == null){
-            auctionToUpdate.setHighestBid(auctionToUpdate.getPrice() - 1);
-        }
-
-        this.bidCheck(auctionToUpdate.getPrice(), auctionToUpdate.getHighestBid(), bid);
+        this.bidCheck(auctionToUpdate.getHighestBid(), bid);
         this.timeCheck(auctionToUpdate.getTimestamp());
         auctionToUpdate.setHighestBid(bid);
         auctionToUpdate.setBidder(bidder);
@@ -99,8 +94,8 @@ public class AuctionService {
         }
     }
 
-    private void bidCheck(int startingPrice, int currentHighestBid, int newBid){
-        if( newBid < startingPrice || newBid <= currentHighestBid ){
+    private void bidCheck( int currentHighestBid, int newBid ){
+        if( newBid <= currentHighestBid ){
             throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Bid was not accepted" );
         }
     }

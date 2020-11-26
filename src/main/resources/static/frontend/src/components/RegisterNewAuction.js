@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import { Input, Label, Form, Button, FormGroup } from "reactstrap";
+import React, { useState } from 'react'
+import { Input, Label, Form, Button } from "reactstrap";
+import { 
+    timestampToMonth, 
+    timestampToDay, 
+    timestampConverter, 
+    timestampToHourAndMinutes 
+} from '../utils/timestampConversion'
 
 const RegisterNewAuction = () => {
 
     const [auction, setAuction] = useState({});
     const [images, setImages] = useState([]);
-    const auctionDurationInterval = [2, 4, 6, 7]; // Days
+    const auctionDurationInterval = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; // Days
 
     const addImages = (files) => {
         if( images.length > 5 ) return;
-        let remainingUploads = 5 - images.length;
         let tempArr = [];
 
         for(let el of Object.entries(files)){
-            if(remainingUploads === 0)break;
             tempArr.push(el[1])
-            remainingUploads--;
+            if( ( images.length + tempArr.length ) === 5 ) break;
         }
         setImages([...images, ...tempArr])
     }
@@ -58,13 +62,9 @@ const RegisterNewAuction = () => {
         return  await response.json();
     }
 
-    const timestampConverter = (days) => {
-        return Math.floor((new Date()).getTime() / 1000) + days * 24 * 60 * 60
-    }
-
     const submitAuction = async () => {
         if(!auction.timestamp){
-            auction.timestamp = timestampConverter(2);
+            auction.timestamp = timestampConverter(3);
         }
 
         let response = await fetch('/api/v1/auctions',{
@@ -75,14 +75,13 @@ const RegisterNewAuction = () => {
         response = await response.json();
         document.getElementById("register-auction-form").reset()
         setAuction({})
+        setImages([])
     }
 
     const displayDay = (days) => {
         let date = new Date();
         date.setDate(date.getDate() + days)
-        let weekDays = ["Sön","Mån", "Tis", "Ons", "Tor", "Fre", "Lör"];
-        let months = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"]
-        return `${days} Dagar ( Avslutas ${weekDays[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} )`
+        return `${days} Dagar - ${timestampToDay(date)} ${date.getDate()} ${timestampToMonth(date)} kl ${timestampToHourAndMinutes(date)}`
     }
 
     return(
