@@ -58,9 +58,13 @@ const RegisterNewAuction = () => {
         return  await response.json();
     }
 
+    const timestampConverter = (days) => {
+        return Math.floor((new Date()).getTime() / 1000) + days * 24 * 60 * 60
+    }
+
     const submitAuction = async () => {
         if(!auction.timestamp){
-            auction.timestamp = new Date().setDate(new Date().getDate() + 2);
+            auction.timestamp = timestampConverter(2);
         }
 
         let response = await fetch('/api/v1/auctions',{
@@ -69,8 +73,8 @@ const RegisterNewAuction = () => {
             body: JSON.stringify({...auction, images : await uploadImages()}),
         }).catch(console.warn);
         response = await response.json();
-        //document.getElementById("register-auction-form").reset()
-        //setAuction({})
+        document.getElementById("register-auction-form").reset()
+        setAuction({})
     }
 
     const displayDay = (days) => {
@@ -130,7 +134,7 @@ const RegisterNewAuction = () => {
                     >
                         
                         { auctionDurationInterval.map( (value, index) => {
-                            return (<option key={index} value={value}> { displayDay(value) } </option>)
+                            return (<option key={index} value={ timestampConverter(value) }> { displayDay(value) } </option>)
                         }) }
                     </Input>
 
