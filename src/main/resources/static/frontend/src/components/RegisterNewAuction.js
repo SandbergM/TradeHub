@@ -62,7 +62,9 @@ const RegisterNewAuction = () => {
         return  await response.json();
     }
 
-    const submitAuction = async () => {
+    const submitAuction = async (e) => {
+        e.preventDefault()
+
         if(!auction.timestamp){
             auction.timestamp = timestampConverter(3);
         }
@@ -87,7 +89,7 @@ const RegisterNewAuction = () => {
     }
 
     return(
-        <Form id="register-auction-form">
+        <Form id="register-auction-form" onSubmit={submitAuction}>
             <div className="col-12 light-grey-background pt-4 pb-4 pl-3 pr-3 bold tradeHub-dark-grey">
                     <Label 
                         type="text"
@@ -117,6 +119,7 @@ const RegisterNewAuction = () => {
                     <Input
                         required
                         type="number" 
+                        min="0"
                         id="register-auction-price"
                         className="col-12 register-auction-input pl-2" 
                         onChange={(e) => { setAuction({...auction, price : e.target.value}) }} 
@@ -172,7 +175,7 @@ const RegisterNewAuction = () => {
                         }) }
                     </Input>
 
-                <Button className="col-12 mt-4" onClick={() => { submitAuction() }}> Lägg upp auktion </Button>
+                <Button className="col-12 mt-4"> Lägg upp auktion </Button>
 
             </div>
         </Form>
