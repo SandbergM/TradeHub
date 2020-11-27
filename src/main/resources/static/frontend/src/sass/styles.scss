@@ -4,6 +4,7 @@
   --light-grey: #eeeeee;
   --grey: #8d8d8d;
   --dark-grey: #707070;
+  --red: #FF131A;
 }
 
 .tradeHub-orange {
@@ -79,6 +80,12 @@
   cursor: pointer;
 }
 
+.error-text{
+padding: 1.1em !important;
+background-color: var(--red) !important;
+color: var(--white);
+}
+
 #bubble-position {
   position: absolute;
   right: 30px;
@@ -89,10 +96,6 @@
   position: absolute;
   right: 20px;
   top: 19px;
-}
-
-.login-button{
-  cursor: pointer;
 }
 
 .register-text{

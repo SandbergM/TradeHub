@@ -35,13 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .formLogin().disable()
                 .authorizeRequests()
                 .antMatchers("/").authenticated()
                 .antMatchers(HttpMethod.GET,"/api/v1/auctions**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
                 .and()
                 .httpBasic().authenticationEntryPoint(entryPoint)
+                .and()
+                .formLogin().loginPage("/login")
                 .and()
                 .logout(l -> l.logoutSuccessUrl("/"));
     }

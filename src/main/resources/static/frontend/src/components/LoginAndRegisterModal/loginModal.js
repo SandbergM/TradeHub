@@ -12,6 +12,8 @@ import {
 const LoginModal = (props) => {
    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessageShown, setErrorMessageShown] = useState(false);
+
 
   const performLogin = async (e) => {
     e.preventDefault()
@@ -22,13 +24,14 @@ const LoginModal = (props) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: credentials
     });
+    console.log(response)
 
     if (response.url.includes('error')) {
-      console.log('Wrong username or password')
+      setErrorMessageShown(true);
     }
     else {
+      setErrorMessageShown(false);
       props.setModalIsOpen(!props.modalIsOpen)
-      console.log('Success')
     }
   }
     return (
@@ -56,7 +59,8 @@ const LoginModal = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
+            <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
+              {errorMessageShown ? <div className="error-text mb-2 text-center font-weight-bold">Felaktigt användarnamn eller lösenord </div> : ""}
               <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold"
               >
                 Logga in
