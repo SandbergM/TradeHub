@@ -1,7 +1,6 @@
 import React, { useState, useEffect }  from "react";
 import { Row } from "reactstrap";
 import AuctionItem from "../components/AuctionItem";
-import tuttiPrutti from "../images/346095.png"
 
 const AuctionList = () => {
   const [auctions, setAuctions] = useState([])
@@ -26,13 +25,8 @@ const AuctionList = () => {
         {auctions.map((auction, i) => {
             return (
             <AuctionItem
-            key = {i}
-            title = {auction.title}
-            description = {auction.description}
-            image = {tuttiPrutti}
-            timer = {auction.timestamp}
-            highestBid = {auction.highestBid}
-            price = {auction.price}
+              key = {i}
+              auction = {auction}
             ></AuctionItem>
             ) 
         })}

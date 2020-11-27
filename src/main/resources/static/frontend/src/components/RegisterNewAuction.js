@@ -117,8 +117,6 @@ const RegisterNewAuction = () => {
                     <Input
                         required
                         type="number" 
-                        min="0"
-                        rows="10" 
                         id="register-auction-price"
                         className="col-12 register-auction-input pl-2" 
                         onChange={(e) => { setAuction({...auction, price : e.target.value}) }} 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
+import { getThumbNail } from '../utils/imageHandler'
 import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
@@ -10,7 +11,7 @@ const AuctionItem = (props) => {
   };
 
   const timer = () => {
-    let endDate = props.timer * 1000;
+    let endDate = props.auction.timestamp * 1000;
     let currentDate = new Date().getTime();
     let difference = endDate - currentDate;
 
@@ -46,15 +47,15 @@ const AuctionItem = (props) => {
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h5" className="text-warning">
-            {props.title}
+            {props.auction.title}
           </CardTitle>
         </CardBody>
-        <img width="100%" src={props.image} alt="auction-img" />
+        <img width="100%" src={getThumbNail(props.auction.images)} alt="auction-img" />
         <CardBody>
-          {props.highestBid ? (
-            <CardText>{props.highestBid} kr</CardText>
+          {props.auction.highestBid ? (
+            <CardText>{props.auction.highestBid} kr</CardText>
           ) : (
-            <CardText>{props.price} kr</CardText>
+            <CardText>{props.auction.price} kr</CardText>
           )}
           <CardText tag="h5" className="text-warning">
             {time}
