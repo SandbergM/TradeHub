@@ -8,6 +8,7 @@ return(
         <h1 className="text-warning text-center col-12">Auktioner</h1>
         <div  className="col-12">
         </div>
+        <RegisterNewAuction />
         <AuctionList className="col-12"></AuctionList>
     </div>
 

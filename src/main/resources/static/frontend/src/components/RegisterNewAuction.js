@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Input, Label, Form, Button } from "reactstrap";
+import ImagePreview from './ImagePreview'
 import { 
     timestampToMonth, 
     timestampToDay, 
@@ -11,6 +12,7 @@ const RegisterNewAuction = () => {
 
     const [auction, setAuction] = useState({});
     const [images, setImages] = useState([]);
+    const [primaryPickIndex, setPrimaryPickIndex] = useState( 0 )
     const auctionDurationInterval = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; // Days
 
     const addImages = (files) => {
@@ -24,34 +26,32 @@ const RegisterNewAuction = () => {
         setImages([...images, ...tempArr])
     }
 
-    const removeImage = (file) => {
+    const removeImage = (file, index) => {
+
+        if( index === primaryPickIndex ){ setPrimaryPickIndex( 0 ) }
+        if( index < primaryPickIndex ){ setPrimaryPickIndex(primaryPickIndex - 1) }
+
         setImages( images.filter( (el) => {
             return el !== file
         }))
+        
     }
 
     const customImageUploadTrigger = () => {
         document.getElementById("register-auction-files").click()
     }
-    
-    const pickPrimary = (val) => {
-        let tempArr = images;
-        let index = 0;
-        for(let i = 0 ; i < tempArr.length ; i++ ){
-            if(val === tempArr[i]["name"]){
-                index = i;
-                break;
-            }
-        }
-        tempArr.splice( 0, 0, tempArr.splice(index, 1)[0])
-        setImages(tempArr)
-    }
 
     const uploadImages = async () => {
 
+        let tempArr = images;
+
+        let placeholderObj = tempArr[primaryPickIndex];
+        tempArr[primaryPickIndex] = tempArr[0];
+        tempArr[0] = placeholderObj;
+
         let formData = new FormData();
         if (!images.length) return;
-        Object.entries(images).map((x) => {
+        Object.entries(tempArr).map((x) => {
             formData.append("files", x[1]);
         });
     
@@ -90,7 +90,9 @@ const RegisterNewAuction = () => {
 
     return(
         <Form id="register-auction-form" onSubmit={submitAuction}>
+
             <div className="col-12 light-grey-background pt-4 pb-4 pl-3 pr-3 bold tradeHub-dark-grey">
+
                     <Label 
                         type="text"
                         className="register-auction-label mt-4 pl-2" 
@@ -138,9 +140,15 @@ const RegisterNewAuction = () => {
                         { auctionDurationInterval.map( (value, index) => {
                             return (<option key={index} value={ timestampConverter(value) }> { displayDay(value) } </option>)
                         }) }
+
                     </Input>
 
-                    <Button className="col-12 mt-4 mb-4" onClick={() => { customImageUploadTrigger() }}> Ladda upp bilder ( {images.length} av 5 ) </Button>
+                    <Button 
+                        className="col-12 mt-4 mb-4" 
+                        disabled={ images.length >= 5 }
+                        onClick={() => { customImageUploadTrigger() }}
+                    > Lägg till bilder ( {images.length} av 5 ) 
+                    </Button>
 
                     <Input
                         type="file"
@@ -152,28 +160,26 @@ const RegisterNewAuction = () => {
                         onChange={(e) => addImages(e.target.files)}
                     />
 
-                    <ul className="register-auction-image-list">
-                        { images.map((val, index) => {
-                             return <li className="row register-auction-image-item mt-2" key={index} > 
-                                        <p className="col-9"> {val.name} </p> 
-                                        <div className="col-3 text-right" onClick={ () => { removeImage(val) } }>
-                                            <span className="material-icons">delete</span>
-                                        </div>
-                                    </li>
-                        }) }
-                    </ul>
+                    { images.length !== 0 && 
+                    <div className="row justify-content-lg-center">
+                        <div className="col-12 tradeHub-dark-grey text-center"> 
+                            <p> Tryck på den bild du vill ha som framsida för annonsen </p>
+                        </div>
 
-                    <Input
-                        type="select"
-                        id="register-auction-primary-image"
-                        className="col-12 register-auction-input mt-3 mb-3" 
-                        onChange={(e) => { pickPrimary(e.target.value) }} 
-                    >
-                        <option defaultValue> Välj thumbnail </option>
-                        { images.map( (value, index) => {
-                            return (<option key={index} value={value.name}> { value.name } </option>)
-                        }) }
-                    </Input>
+                        { images.map((val, index) => {
+                                return <div className="col-4 col-md-3 col-lg-2 register-auction-image-item mt-2 justify-content-center" key={index} > 
+                                            <ImagePreview 
+                                                image={ val } 
+                                                removeImage={ removeImage } 
+                                                index={ index }
+                                                setPrimaryPickIndex={ setPrimaryPickIndex }
+                                                isPrimary={ primaryPickIndex === index }
+                                            />
+                                        </div>
+                            }) }
+                            
+                    </div>
+                    }
 
                 <Button className="col-12 mt-4"> Lägg upp auktion </Button>
 

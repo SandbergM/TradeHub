@@ -32,19 +32,18 @@
   background-color: var(--orange) !important;
 }
 
- .btn{
-    border-radius: 0 !important;
-  }
+.btn {
+  border-radius: 0 !important;
+}
 
-  .authentication-modals{
-    .form-control{
-      height: calc(1.5em + 2rem + 2px);
-    
+.authentication-modals {
+  .form-control {
+    height: calc(1.5em + 2rem + 2px);
   }
-   .btn{
-      padding: 1.1em !important;
-    }
+  .btn {
+    padding: 1.1em !important;
   }
+}
 
 .tradeHub-icon {
   color: var(--dark-grey) !important;
@@ -55,9 +54,9 @@
   cursor: pointer;
 }
 
-.tradeHub-input{
+.tradeHub-input {
   border-radius: 0 !important;
-  border-color:var(--light-grey);
+  border-color: var(--light-grey);
 }
 
 .light-grey-background {
@@ -96,11 +95,11 @@
   top: 19px;
 }
 
-.login-button{
+.login-button {
   cursor: pointer;
 }
 
-.register-text{
+.register-text {
   font-size: 12px;
 }
 
