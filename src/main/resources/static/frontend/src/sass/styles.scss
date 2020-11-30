@@ -5,7 +5,7 @@
   --light-grey: #eeeeee;
   --grey: #8d8d8d;
   --dark-grey: #707070;
-  --red: #FF131A;
+  --red: #ff131a;
 }
 
 .main-content {
@@ -84,15 +84,16 @@
   cursor: pointer;
 }
 
-.error-text{
-padding: 1.1em !important;
-background-color: var(--red) !important;
-color: var(--white);
+.error-text {
+  padding: 1.1em !important;
+  background-color: var(--red) !important;
+  color: var(--white);
 }
 
 .bold {
   font-weight: bold !important;
 }
+
 
 #bubble-position {
   position: absolute;
@@ -106,6 +107,25 @@ color: var(--white);
   top: 19px;
 }
 
+.login-button {
+  cursor: pointer;
+}
+
+.register-text {
+  font-size: 12px;
+}
+
+.searchbar {
+  padding: 12px;
+  font-style: italic !important;
+  color: var(--orange);
+}
+
+.form-control:focus {
+  border-color: var(--orange) !important;
+  box-shadow: none !important;
+}
+
 footer {
   display: flex;
   height: 70px;
@@ -117,30 +137,31 @@ footer {
   text-align: center;
   font-size: 10px;
 }
-  .register-text{
-    font-size: 12px;
 
 hr {
   width: 90%;
-  .login-button {
-    cursor: pointer;
+}
+
+
+
+// STYLING FOR IPAD & DESKTOP
+@media screen and (min-width: 770px) {
+  #bubble-position {
+    position: absolute;
+    right: 15px;
+    top: 20px;
   }
 
-  .register-text {
-    font-size: 12px;
-  }
-
-  // STYLING FOR IPAD & DESKTOP
-  @media screen and (min-width: 770px) {
-    #bubble-position {
-      position: absolute;
-      right: 15px;
-      top: 20px;
-    }
-
-    #hamburger-position {
-      display: none !important;
-    }
+  #hamburger-position {
+    display: none !important;
   }
 }
-  }
+@media screen and(max-width: 450px){
+   .modal-dialog{
+      width: 90% !important;
+    } 
+}
+
+.navbar-toggler-icon {
+  color: var(--dark-grey) !important;
+}
