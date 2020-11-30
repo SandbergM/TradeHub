@@ -1,4 +1,4 @@
-import React, { createContext, useState  } from "react";
+import React, { createContext, useEffect, useState  } from "react";
 
 export const UserContext = createContext();
 
@@ -16,6 +16,11 @@ const UserContextProvider = (props) => {
   
         }
       };
+
+      useEffect(() =>{
+        console.log("user changed");
+        console.log(user);
+      }, [user])
 
   const values = {
     user,

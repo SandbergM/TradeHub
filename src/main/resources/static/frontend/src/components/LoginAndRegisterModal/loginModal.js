@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import {UserContext} from '../../context/UserContext'
 import {
   Button,
   ModalBody,
@@ -13,6 +14,7 @@ const LoginModal = (props) => {
    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessageShown, setErrorMessageShown] = useState(false);
+  const {setUser} = useContext(UserContext);
 
 
   const performLogin = async (e) => {
@@ -24,12 +26,12 @@ const LoginModal = (props) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: credentials
     });
-    console.log(response)
 
     if (response.url.includes('error')) {
       setErrorMessageShown(true);
     }
     else {
+      setUser(response);
       setErrorMessageShown(false);
       props.setModalIsOpen(!props.modalIsOpen)
     }

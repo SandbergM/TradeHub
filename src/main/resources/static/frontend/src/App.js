@@ -6,11 +6,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <div className="App">
-      <UserContexProvider/>
-      <TradeHubHeader/>
-      <main className="container">
-        <Home />
-      </main>
+      <UserContexProvider>
+        <TradeHubHeader />
+        <main className="container">
+          <Home />
+        </main>
+      </UserContexProvider>
     </div>
   );
 }
