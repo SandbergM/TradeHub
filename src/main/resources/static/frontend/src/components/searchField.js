@@ -1,13 +1,21 @@
-import React from 'react';
-import { Input } from "reactstrap";
+import React from "react";
+import { Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 
 const SearchField = () => {
-
-  return(
+  return (
     <div className="mt-4 mb-5">
-      <Input placeholder="Sök" className="col-12 searchbar"></Input>
+      <InputGroup>
+        <Input className="searchbar" placeholder="Sök" />
+        <InputGroupAddon addonType="append">
+          <InputGroupText>
+            <span className="material-icons" role="button">
+              search
+            </span>
+          </InputGroupText>
+        </InputGroupAddon>
+      </InputGroup>
     </div>
-  )
-}
+  );
+};
 
 export default SearchField;
