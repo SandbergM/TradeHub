@@ -1,3 +1,4 @@
+@import "./registerAuction.scss";
 :root {
   --white: #ffffff;
   --orange: #ffa31a;
@@ -19,7 +20,7 @@
 }
 
 .tradeHub-grey {
-  color: var(--grey);
+  color: var(--grey) !important;
 }
 
 .tradeHub-dark-grey {
@@ -27,8 +28,21 @@
 }
 
 .tradeHub-button {
-  border: none;
-  background-color: var(--orange);
+  border: none !important;
+  background-color: var(--orange) !important;
+}
+
+.btn {
+  border-radius: 0 !important;
+}
+
+.authentication-modals {
+  .form-control {
+    height: calc(1.5em + 2rem + 2px);
+  }
+  .btn {
+    padding: 1.1em !important;
+  }
 }
 
 .tradeHub-icon {
@@ -40,13 +54,19 @@
   cursor: pointer;
 }
 
+.tradeHub-input {
+  border-radius: 0 !important;
+  border-color: var(--light-grey);
+}
+
 .light-grey-background {
-  background-color: var(--light-grey);
+  background-color: var(--light-grey) !important;
 }
 
 .orange-background {
-  background-color: var(--orange);
+  background-color: var(--orange) !important;
   border-radius: 10px;
+  border-color: var(--orange) !important;
   padding: 0 7px;
 }
 
@@ -57,6 +77,10 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.bold {
+  font-weight: bold !important;
 }
 
 #bubble-position {
@@ -83,19 +107,26 @@ footer {
   font-size: 10px;
 }
 
-hr{
+hr {
   width: 90%;
-}
-
-// STYLING FOR IPAD & DESKTOP
-@media screen and (min-width: 770px) {
-  #bubble-position {
-    position: absolute;
-    right: 15px;
-    top: 20px;
+  .login-button {
+    cursor: pointer;
   }
 
-  #hamburger-position {
-    display: none !important;
+  .register-text {
+    font-size: 12px;
+  }
+
+  // STYLING FOR IPAD & DESKTOP
+  @media screen and (min-width: 770px) {
+    #bubble-position {
+      position: absolute;
+      right: 15px;
+      top: 20px;
+    }
+
+    #hamburger-position {
+      display: none !important;
+    }
   }
 }
