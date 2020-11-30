@@ -7,6 +7,10 @@
   --dark-grey: #707070;
 }
 
+.main-content {
+  min-height: calc(100vh - 180px);
+}
+
 .tradeHub-orange {
   color: var(--orange);
 }
@@ -32,19 +36,18 @@
   background-color: var(--orange) !important;
 }
 
- .btn{
-    border-radius: 0 !important;
-  }
+.btn {
+  border-radius: 0 !important;
+}
 
-  .authentication-modals{
-    .form-control{
-      height: calc(1.5em + 2rem + 2px);
-    
+.authentication-modals {
+  .form-control {
+    height: calc(1.5em + 2rem + 2px);
   }
-   .btn{
-      padding: 1.1em !important;
-    }
+  .btn {
+    padding: 1.1em !important;
   }
+}
 
 .tradeHub-icon {
   color: var(--dark-grey) !important;
@@ -55,9 +58,9 @@
   cursor: pointer;
 }
 
-.tradeHub-input{
+.tradeHub-input {
   border-radius: 0 !important;
-  border-color:var(--light-grey);
+  border-color: var(--light-grey);
 }
 
 .light-grey-background {
@@ -96,27 +99,38 @@
   top: 19px;
 }
 
-.login-button{
-  cursor: pointer;
+footer {
+  display: flex;
+  height: 70px;
+  width: 100%;
+  background-color: var(--header);
+  color: var(--light-text);
+  font-family: "Segoe UI", Helvetica, sans-serif;
+  font-style: italic;
+  text-align: center;
+  font-size: 10px;
 }
 
-.register-text{
-  font-size: 12px;
-}
-
-// STYLING FOR IPAD & DESKTOP
-@media screen and (min-width: 770px) {
-  #bubble-position {
-    position: absolute;
-    right: 15px;
-    top: 20px;
+hr {
+  width: 90%;
+  .login-button {
+    cursor: pointer;
   }
 
-  #hamburger-position {
-    display: none !important;
+  .register-text {
+    font-size: 12px;
   }
-}
 
-.navbar-toggler-icon {
-  color: var(--dark-grey) !important;
+  // STYLING FOR IPAD & DESKTOP
+  @media screen and (min-width: 770px) {
+    #bubble-position {
+      position: absolute;
+      right: 15px;
+      top: 20px;
+    }
+
+    #hamburger-position {
+      display: none !important;
+    }
+  }
 }
