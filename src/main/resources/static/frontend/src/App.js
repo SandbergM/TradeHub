@@ -3,7 +3,7 @@ import TradeHubHeader from "./components/tradeHubHeader";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link, BrowserRouter } from "react-router-dom";
-import AuctionDetailsPage from './components/AuctionDetailsPage';
+import AuctionDetailsPage from './components/auctionDetailsPage';
 import  AuctionContextProvider from './context/AuctionContextProvider';
 
 
