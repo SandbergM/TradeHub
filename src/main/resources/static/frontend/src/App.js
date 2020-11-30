@@ -7,12 +7,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <div className="App">
-      <UserContexProvider/>
+      <UserContexProvider>
       <TradeHubHeader /> 
       <main className="container main-content">
         <Home />
       </main>
       <TradeHubFooter />
+      </UserContexProvider>
     </div>
   );
 }

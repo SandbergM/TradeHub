@@ -94,6 +94,7 @@
   font-weight: bold !important;
 }
 
+
 #bubble-position {
   position: absolute;
   right: 30px;
@@ -154,4 +155,13 @@ hr {
   #hamburger-position {
     display: none !important;
   }
+}
+@media screen and(max-width: 450px){
+   .modal-dialog{
+      width: 90% !important;
+    } 
+}
+
+.navbar-toggler-icon {
+  color: var(--dark-grey) !important;
 }
