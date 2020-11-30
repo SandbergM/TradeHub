@@ -12,6 +12,9 @@ const UserContextProvider = (props) => {
           if(res.status === 200){
             setUser(res);
           }
+          else{
+            setUser(null);
+          }
         } catch {
   
         }

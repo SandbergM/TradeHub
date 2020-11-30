@@ -13,16 +13,20 @@ import {
 const TradeHubHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const {user} = useContext(UserContext)
+  const {user, setUser} = useContext(UserContext)
 
   const toggle = () => setIsOpen(!isOpen);
 
   const goToHomePage = (e) =>{
   e.preventDefault()
-  
+  //route to home
   }
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
+  }
+  const logout = () =>{
+    fetch('/logout');
+    setUser(null);
   }
 
 
@@ -43,7 +47,7 @@ const TradeHubHeader = () => {
             </NavItem>
             {user === null ? (
               <>
-                <NavItem className="tradeHub-grey" onClick={toggleModal}>
+                <NavItem className="tradeHub-grey" onClick={() => toggleModal}>
                   <NavLink
                     className="tradeHub-grey pointer"
                     onClick={toggleModal}
@@ -63,7 +67,7 @@ const TradeHubHeader = () => {
                   <NavLink className="tradeHub-grey pointer">Min sida</NavLink>
                 </NavItem>
                 <NavItem className="tradeHub-grey">
-                  <NavLink className="tradeHub-grey pointer">
+                  <NavLink className="tradeHub-grey pointer" onClick={logout}>
                     Logga ut
                   </NavLink>
                 </NavItem>
