@@ -33,7 +33,7 @@ const TradeHubFooter = () => {
         <p className="m-0">Happy Road 21, 234 67 Los Angeles, USA</p>
         <p>067 - 345 456 56 | tradehub@hublife.com</p>
       </footer>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={modal} toggle={toggle} backdrop={false}>
         <ModalHeader toggle={toggle} className="text-center mx-auto">
           Påsk ägg
         </ModalHeader>
