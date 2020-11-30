@@ -1,12 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { Input } from "reactstrap";
 
 const SearchField = () => {
 
   return(
-    <div className="m-4">
-      <input placeholder="Sök auction..." className="mx-auto col-12"></input>
+    <div className="mt-4 mb-5">
+      <Input placeholder="Sök" className="col-12 searchbar"></Input>
     </div>
   )
 }
 
-export default SearchField
+export default SearchField;
