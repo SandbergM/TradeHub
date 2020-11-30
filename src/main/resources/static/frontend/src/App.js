@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <TradeHubHeader />
       
-      <main className="container">
+      <main className="container main-content">
         <Home />
       </main>
 

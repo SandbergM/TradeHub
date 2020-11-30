@@ -7,6 +7,10 @@
   --dark-grey: #707070;
 }
 
+.main-content {
+  min-height: calc(100vh - 180px);
+}
+
 .tradeHub-orange {
   color: var(--orange);
 }
@@ -97,7 +101,7 @@
 
 footer {
   display: flex;
-  height: 40px;
+  height: 70px;
   width: 100%;
   background-color: var(--header);
   color: var(--light-text);
