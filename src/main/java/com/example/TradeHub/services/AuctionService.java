@@ -3,11 +3,14 @@ package com.example.TradeHub.services;
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,8 @@ public class AuctionService {
     AuctionRepo auctionRepo;
     @Autowired
     UserService userService;
+    @Autowired
+    MailService mailService;
 
     public Auction postNewAuction(Auction auction){
         User seller = userService.getCurrentUser();
@@ -31,8 +36,10 @@ public class AuctionService {
         return newlyCreatedAuction;
     }
 
-    public void updateCurrentBidOnLiveAuction(String id, int bid){
+    public void updateCurrentBidOnLiveAuction(String id, int bid) {
         Auction auctionToUpdate = this.findById(id);
+        User previousHighestBidder = auctionToUpdate.getBidder();
+
         User bidder = userService.getCurrentUser();
 
         if(auctionToUpdate.getHighestBid() == null){
@@ -45,6 +52,15 @@ public class AuctionService {
         auctionToUpdate.setHighestBid(bid);
         auctionToUpdate.setBidder(bidder);
         auctionRepo.save(auctionToUpdate);
+
+        if(previousHighestBidder != null){
+            try{
+                this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public Auction findById(String id){
@@ -55,7 +71,7 @@ public class AuctionService {
         return auction;
     }
 
-    public List<Auction> auctionCriteriaSearch(int page, String title, String id) {
+    public List<Auction> auctionCriteriaSearch(int page, String title, String id){
         List<Auction> auctions = auctionRepo.auctionCriteriaSearch(page, title, id).orElse( new ArrayList<>());
         if(auctions.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
@@ -104,6 +120,16 @@ public class AuctionService {
         long currentTime = Instant.now().getEpochSecond();
         if( auctionEndTime < currentTime ){
             throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Bid was not accepted" );
+        }
+    }
+
+    private void notifyPreviousHighestBidderWithMail(Auction auction, User user) {
+        if(auction.getBidder() != null){
+            try{
+                mailService.notifyPreviousHighestBidderWithEmail(auction, user);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
