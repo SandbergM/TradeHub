@@ -1,3 +1,4 @@
+@import "./registerAuction.scss";
 :root {
   --white: #ffffff;
   --orange: #ffa31a;
@@ -84,6 +85,10 @@
 padding: 1.1em !important;
 background-color: var(--red) !important;
 color: var(--white);
+}
+
+.bold {
+  font-weight: bold !important;
 }
 
 #bubble-position {

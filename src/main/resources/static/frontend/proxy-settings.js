@@ -25,7 +25,8 @@ module.exports = {
   handleWithAPI(url) {
     return (
       url.indexOf('/api/') === 0 ||
-      url.indexOf('/login') === 0
+      url.indexOf('/login') === 0 ||
+      url.indexOf('/static/uploads') === 0
     );
   }
 };

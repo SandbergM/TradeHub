@@ -1,13 +1,18 @@
 import React from "react";
 import AuctionList from "../components/AuctionList";
+import RegisterNewAuction from "../components/RegisterNewAuction";
 
 const Home = () => {
-  return (
-    <div>
-      <h1 className="text-warning text-center">Auktioner</h1>
-      <AuctionList></AuctionList>
+return(
+    <div className="row">
+        <h1 className="text-warning text-center col-12">Auktioner</h1>
+        <div  className="col-12">
+        </div>
+        <AuctionList className="col-12"></AuctionList>
     </div>
-  );
-};
+
+)
+ 
+}
 
 export default Home;
