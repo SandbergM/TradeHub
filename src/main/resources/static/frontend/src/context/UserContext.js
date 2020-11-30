@@ -1,26 +1,21 @@
-import React, { createContext, useState, useEffect  } from "react";
+import React, { createContext, useState  } from "react";
 
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
     const [user, setUser] = useState(null);
 
-  
-
     const fetchUser = async () => {
         let res = await fetch("/api/v1/users/whoami");
         try {
           res = await res.json();
-          console.log(res);
-          setUser(res);
+          if(res.status === 200){
+            setUser(res);
+          }
         } catch {
-           console.log('Not logged in');
+  
         }
       };
-
-      useEffect(() => {
-        fetchUser()
-       },[])
 
   const values = {
     user,
