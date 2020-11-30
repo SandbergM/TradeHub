@@ -11,7 +11,7 @@ function App() {
       <UserContexProvider/>
       <TradeHubHeader /> 
       <main className="container main-content">
-        <Home />
+       <MyPage/>
       </main>
       <TradeHubFooter />
     </div>

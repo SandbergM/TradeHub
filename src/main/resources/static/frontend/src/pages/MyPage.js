@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useState,useContext,useEffect } from "react";
 import { Row, Col, CardText } from "reactstrap";
 import { Collapse, Button, CardBody, Card, CardFooter } from "reactstrap";
 import plusImg from '../images/plus.svg'
+import { UserContext } from '../context/UserContext'
 
-const MyPage = () => {
+const MyPage = (props) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMyAuctionsOpen, setIsMyAuctionsOpen] = useState(false);
   const [isMyBidsOpen, setIsMyBidsOpen] = useState(false);
   const [isCreateAuctionOpen, setIsCreateAuctionOpen] = useState(false);
+  const userContext = useContext(UserContext);
 
   const toggleProfile = () => setIsProfileOpen((prevState) => !prevState);
   const toggleAuctions = () => setIsMyAuctionsOpen((prevState) => !prevState);
   const toggleBids = () => setIsMyBidsOpen((prevState) => !prevState);
   const toggleCreateAuction = () => setIsCreateAuctionOpen((prevState) => !prevState);
+
+  const getCurrentUser = async () =>{
+    let user2;
+   userContext.fetchUser()
+    //setTimeout(function(){user2 = user }, 6000);
+    
+    //console.log( user2)
+  }
+useEffect(() => {
+ // getCurrentUser()
+}, [])
+ 
   return (
     <Row >
       <Col xs="12" sm="2" md="12"className="mb-3"> 
