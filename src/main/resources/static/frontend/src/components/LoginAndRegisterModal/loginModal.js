@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {
   Button,
   ModalBody,
-  ModalHeader,
   Form,
   FormGroup,
   Label,
@@ -13,11 +12,33 @@ import {
 const LoginModal = (props) => {
    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessageShown, setErrorMessageShown] = useState(false);
+
+
+  const performLogin = async (e) => {
+    e.preventDefault()
+    const credentials = 'username=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
+
+    let response = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: credentials
+    });
+    console.log(response)
+
+    if (response.url.includes('error')) {
+      setErrorMessageShown(true);
+    }
+    else {
+      setErrorMessageShown(false);
+      props.setModalIsOpen(!props.modalIsOpen)
+    }
+  }
     return (
       <div className="row mx-auto authentication-modals">
           <h2 className="text-center mt-4 tradeHub-orange font-weight-bold col-12">Logga in</h2>
           <ModalBody className="">
-            <Form className="">
+            <Form onSubmit={performLogin}>
               <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 m-0">
                 <Label for="emailAddress" className="tradeHub-dark-grey font-weight-bold">Email</Label>
                 <Input
@@ -38,8 +59,10 @@ const LoginModal = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
                 />
             </FormGroup>
-             <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
-              <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold">
+            <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
+              {errorMessageShown ? <div className="error-text mb-2 text-center font-weight-bold">Felaktigt användarnamn eller lösenord </div> : ""}
+              <Button className="tradeHub-button col-xs-8 col-sm-12 col-md-12 col-lg-12 font-weight-bold"
+              >
                 Logga in
               </Button>
            

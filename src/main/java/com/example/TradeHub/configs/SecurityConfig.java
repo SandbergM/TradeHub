@@ -35,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .formLogin().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/api/v1/auctions**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
@@ -43,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/static/upload").permitAll() // Testing purpose
                 .and()
                 .httpBasic().authenticationEntryPoint(entryPoint)
+                .and()
+                .formLogin().loginPage("/login")
                 .and()
                 .logout(l -> l.logoutSuccessUrl("/"));
     }

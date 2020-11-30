@@ -5,6 +5,7 @@
   --light-grey: #eeeeee;
   --grey: #8d8d8d;
   --dark-grey: #707070;
+  --red: #FF131A;
 }
 
 .main-content {
@@ -83,6 +84,12 @@
   cursor: pointer;
 }
 
+.error-text{
+padding: 1.1em !important;
+background-color: var(--red) !important;
+color: var(--white);
+}
+
 .bold {
   font-weight: bold !important;
 }
@@ -110,6 +117,8 @@ footer {
   text-align: center;
   font-size: 10px;
 }
+  .register-text{
+    font-size: 12px;
 
 hr {
   width: 90%;
@@ -134,3 +143,4 @@ hr {
     }
   }
 }
+  }
