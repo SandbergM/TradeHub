@@ -23,6 +23,8 @@ const TradeHubFooter = () => {
           debounceHelper()
         }
       },[modal])
+
+      
   return (
     <div className="pt-2">
       <footer onClick={toggle}>
