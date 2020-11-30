@@ -5,7 +5,11 @@
   --light-grey: #eeeeee;
   --grey: #8d8d8d;
   --dark-grey: #707070;
-  --red: #FF131A;
+  --red: #ff131a;
+}
+
+.main-content {
+  min-height: calc(100vh - 180px);
 }
 
 .tradeHub-orange {
@@ -33,23 +37,18 @@
   background-color: var(--orange) !important;
 }
 
- .btn{
-    border-radius: 0 !important;
+.btn {
+  border-radius: 0 !important;
+}
+
+.authentication-modals {
+  .form-control {
+    height: calc(1.5em + 2rem + 2px);
   }
-
-
-  .authentication-modals{
-
-
-    .form-control{
-      height: calc(1.5em + 2rem + 2px);
-    
+  .btn {
+    padding: 1.1em !important;
   }
-   .btn{
-      padding: 1.1em !important;
-    }
-
-  }
+}
 
 .tradeHub-icon {
   color: var(--dark-grey) !important;
@@ -60,9 +59,9 @@
   cursor: pointer;
 }
 
-.tradeHub-input{
+.tradeHub-input {
   border-radius: 0 !important;
-  border-color:var(--light-grey);
+  border-color: var(--light-grey);
 }
 
 .light-grey-background {
@@ -85,10 +84,10 @@
   cursor: pointer;
 }
 
-.error-text{
-padding: 1.1em !important;
-background-color: var(--red) !important;
-color: var(--white);
+.error-text {
+  padding: 1.1em !important;
+  background-color: var(--red) !important;
+  color: var(--white);
 }
 
 .bold {
@@ -108,9 +107,42 @@ color: var(--white);
   top: 19px;
 }
 
-.register-text{
+.login-button {
+  cursor: pointer;
+}
+
+.register-text {
   font-size: 12px;
 }
+
+.searchbar {
+  padding: 12px;
+  font-style: italic !important;
+  color: var(--orange);
+}
+
+.form-control:focus {
+  border-color: var(--orange) !important;
+  box-shadow: none !important;
+}
+
+footer {
+  display: flex;
+  height: 70px;
+  width: 100%;
+  background-color: var(--header);
+  color: var(--light-text);
+  font-family: "Segoe UI", Helvetica, sans-serif;
+  font-style: italic;
+  text-align: center;
+  font-size: 10px;
+}
+
+hr {
+  width: 90%;
+}
+
+
 
 // STYLING FOR IPAD & DESKTOP
 @media screen and (min-width: 770px) {
