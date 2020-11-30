@@ -33,5 +33,4 @@ const AuctionDetailsPage = () => {
   />;
 }
 
-
 export default AuctionDetailsPage
