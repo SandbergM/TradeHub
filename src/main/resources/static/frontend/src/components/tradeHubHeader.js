@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthenticationModal from "./AuthenticationModal";
 import {
   Collapse,
   Navbar,
@@ -7,11 +8,16 @@ import {
   NavLink,
   Nav,
 } from "reactstrap";
-import LoginModal from "./loginModal";
 
 const TradeHubHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const toggle = () => setIsOpen(!isOpen);
+
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen);
+  };
 
   return (
     <div>
@@ -28,10 +34,15 @@ const TradeHubHeader = () => {
                 Hem
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink className="tradeHub-grey">
-                <LoginModal />
+            <NavItem className="tradeHub-grey" onClick={toggleModal}>
+              <NavLink className="tradeHub-grey pointer" onClick={toggleModal}>
+                Logga in
               </NavLink>
+              <AuthenticationModal
+                modalIsOpen={modalIsOpen}
+                toggleModal={toggleModal}
+                setModalIsOpen={setModalIsOpen}
+                />
             </NavItem>
           </Nav>
         </Collapse>
