@@ -34,6 +34,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User postNewUser(User user) {
+        System.out.println(user);
         var userWithEmailExists = userRepo.findByEmail(user.getEmail()).orElse(null);
         if (userWithEmailExists == null) {
             var address = addressService.postNewAddress(user.getAddress());
