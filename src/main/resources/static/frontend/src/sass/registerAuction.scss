@@ -34,8 +34,10 @@
   top: 0px;
   color: red;
   background-color: white;
-  border-radius: 100%;
+  border-radius: 50%;
+  display: inline-block;
   font-size: 30px;
+  z-index: 999 !important;
 }
 
 .image-preview-primary {
@@ -55,6 +57,17 @@
 }
 
 .image-preview-img {
-  width: 90%;
-  max-height: 90px;
+  width: 95%;
+  max-height: 95px;
+}
+
+// STYLING FOR IPAD & DESKTOP
+@media screen and (min-width: 770px) {
+  .image-preview-main-container {
+    height: 130px;
+  }
+
+  .image-preview-img {
+    max-height: 125px;
+  }
 }
