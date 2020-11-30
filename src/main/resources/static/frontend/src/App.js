@@ -9,8 +9,8 @@ function App() {
       <UserContexProvider/>
       <TradeHubHeader/>
       <main className="container">
-      <Home />
-      </main>      
+        <Home />
+      </main>
     </div>
   );
 }
