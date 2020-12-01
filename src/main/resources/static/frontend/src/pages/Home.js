@@ -9,6 +9,6 @@ const Home = () => {
         <AuctionList className="col-12"></AuctionList>
     </div>
   );
-};
+};  
 
 export default Home;
