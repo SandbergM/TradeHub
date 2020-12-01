@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
-import AuthenticationModal from "./AuthenticationModal";
+import { withRouter } from "react-router-dom";
+import AuthenticationModal from './AuthenticationModal'
+import {UserContext} from '../context/UserContext'
+import {useHistory, Link} from 'react-router-dom'
 import {
   Collapse,
   Navbar,
@@ -9,41 +12,72 @@ import {
   Nav,
 } from "reactstrap";
 
-const TradeHubHeader = () => {
+const TradeHubHeader = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const {user, setUser} = useContext(UserContext)
+  let history = useHistory()
 
   const toggle = () => setIsOpen(!isOpen);
 
+  const goToHomePage = () =>{
+    history.push("/")
+  }
+  const goToMyPage = () =>{
+    history.push("/mypage")
+    }
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
-  };
+  }
+  const logout = () =>{
+    fetch('/logout');
+    setUser(null);
+  }
+
 
   return (
     <div>
       <Navbar className="light-grey-background mb-3" expand="md">
-        <NavbarBrand className="text-dark " href="/">
-          <h2 className="my-auto">
-            Trade<span className="orange-background tradeHub-white">Hub</span>
-          </h2>
+        <NavbarBrand className="text-dark pointer" onClick={goToHomePage}>
+          <h3 className="my-auto ml-1 p-2">
+            Trade<span className="orange-background tradeHub-white borderRadius ml-1">Hub</span>
+          </h3>
         </NavbarBrand>
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>
             <NavItem>
-              <NavLink className="tradeHub-grey" href="/">
+              <NavLink className="tradeHub-grey pointer" onClick={goToHomePage}>
                 Hem
               </NavLink>
             </NavItem>
-            <NavItem className="tradeHub-grey" onClick={toggleModal}>
-              <NavLink className="tradeHub-grey pointer" onClick={toggleModal}>
-                Logga in
-              </NavLink>
-              <AuthenticationModal
-                modalIsOpen={modalIsOpen}
-                toggleModal={toggleModal}
-                setModalIsOpen={setModalIsOpen}
-                />
-            </NavItem>
+            {user === null ? (
+              <>
+                <NavItem className="tradeHub-grey" onClick={() => toggleModal}>
+                  <NavLink
+                    className="tradeHub-grey pointer"
+                    onClick={toggleModal}
+                  >
+                    Logga in
+                  </NavLink>
+                  <AuthenticationModal
+                    modalIsOpen={modalIsOpen}
+                    toggleModal={toggleModal}
+                    setModalIsOpen={setModalIsOpen}
+                  />
+                </NavItem>
+              </>
+            ) : (
+              <>
+                <NavItem className="tradeHub-grey">
+                  <NavLink className="tradeHub-grey pointer" onClick={goToMyPage}>Min sida</NavLink>
+                </NavItem>
+                <NavItem className="tradeHub-grey">
+                  <NavLink className="tradeHub-grey pointer" onClick={logout}>
+                    Logga ut
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
           </Nav>
         </Collapse>
 
@@ -62,4 +96,4 @@ const TradeHubHeader = () => {
   );
 };
 
-export default TradeHubHeader;
+export default withRouter(TradeHubHeader);

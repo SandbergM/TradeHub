@@ -1,16 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
+import { getThumbNail } from '../utils/imageHandler'
+import { AuctionContext } from '../context/AuctionContextProvider'
 import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
+  const { setActiveAuction } = useContext(AuctionContext);
   const [time, setTime] = useState(0);
 
+  let history = useHistory()
+
   const goToDetails = () => {
-  
+    setActiveAuction(props)
+    history.push("/auction/" + props.auction.title + "/" + props.auction.id);
   };
 
   const timer = () => {
-    let endDate = props.timer * 1000;
+    let endDate = props.auction.timestamp * 1000;
     let currentDate = new Date().getTime();
     let difference = endDate - currentDate;
 
@@ -25,12 +32,15 @@ const AuctionItem = (props) => {
       minutes %= 60;
       seconds %= 60;
 
-      if (days <= 0 && hours <= 0) {
-        setInterval();
+      if (days <= 0 && hours <= 0 && minutes >=1) {
         setTime(minutes + " min ");
-      } else if (days <= 0) {
+      } else if (days <= 0 && hours >=1) {
         setTime(hours + " tim " + minutes + " min ");
-      } else {
+      }
+        else if(minutes <=0){
+          setTime(seconds + ' s')
+        }
+       else {
         endDate = new Date(endDate).toLocaleDateString();
         setTime(endDate);
       }
@@ -42,19 +52,19 @@ const AuctionItem = (props) => {
   }, []);
 
   return (
-    <Col>
+    <Col className="p-0 pr-3 pl-3">
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h5" className="text-warning">
-            {props.title}
+            {props.auction.title}
           </CardTitle>
         </CardBody>
-        <img width="100%" src={props.image} alt="auction-img" />
+        <img width="100%" src={getThumbNail(props.auction.images)} alt="auction-img" />
         <CardBody>
-          {props.highestBid ? (
-            <CardText>{props.highestBid} kr</CardText>
+          {props.auction.highestBid ? (
+            <CardText>{props.auction.highestBid} kr</CardText>
           ) : (
-            <CardText>{props.price} kr</CardText>
+            <CardText>{props.auction.price} kr</CardText>
           )}
           <CardText tag="h5" className="text-warning">
             {time}

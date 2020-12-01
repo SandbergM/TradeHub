@@ -3,7 +3,7 @@ import { Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 
 const SearchField = () => {
   return (
-    <div className="mt-4 mb-5">
+    <div className="mt-4 mb-5 col-12">
       <InputGroup>
         <Input className="searchbar" placeholder="Sök" />
         <InputGroupAddon addonType="append">
