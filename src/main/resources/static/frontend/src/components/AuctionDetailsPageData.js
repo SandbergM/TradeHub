@@ -7,6 +7,7 @@ import {
   CarouselCaption,
   Button,
 } from "reactstrap";
+import SellerChatModal from "./SellerChatModal";
 
 const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
   console.log(activeAuction);
@@ -91,7 +92,9 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
           <p className="m-0 highest-bid">
-            {activeAuction.highestBid ? activeAuction.highestBid : activeAuction.price}
+            {activeAuction.highestBid
+              ? activeAuction.highestBid
+              : activeAuction.price}
           </p>
         </div>
         <div className="text-center orange-border font-weight-bold time-left-block">
@@ -158,9 +161,7 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           <span className="seller ml-4">Seller:</span>{" "}
           {activeAuction.seller ? activeAuction.seller.fullName : null}
         </p>
-        <Button type="submit" className="grey-background chat-with-seller">
-          CHATTA MED SÄLJARE
-        </Button>
+        <SellerChatModal activeAuction={activeAuction} />
       </div>
     </div>
   );
