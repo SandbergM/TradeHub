@@ -31,11 +31,15 @@ const AuctionItem = (props) => {
       minutes %= 60;
       seconds %= 60;
 
-      if (days <= 0 && hours <= 0) {
+      if (days <= 0 && hours <= 0 && minutes >=1) {
         setTime(minutes + " min ");
-      } else if (days <= 0) {
+      } else if (days <= 0 && hours >=1) {
         setTime(hours + " tim " + minutes + " min ");
-      } else {
+      }
+        else if(minutes <=0){
+          setTime(seconds + ' sek')
+        }
+       else {
         endDate = new Date(endDate).toLocaleDateString();
         setTime(endDate);
       }

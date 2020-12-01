@@ -52,7 +52,7 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
       let difference = endDate - currentDate;
 
       if (difference <= 0 || endDate == null) {
-        setTime("0:00");
+        setTime("Avslutad");
       } else {
         let seconds = Math.floor(difference / 1000);
         let minutes = Math.floor(seconds / 60);
@@ -68,18 +68,18 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
             setTime(seconds + ' sek')
           }
           else{
-            setTime(minutes + " min");
+            setTime((minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds));
           }
         } else {
           if(days <=0){
-            setTime(hours + ":" + minutes);
+            setTime(hours + ":" + (minutes < 10 ? '0' + minutes : minutes));
           }
           else{
-            if(days === 1){
-              setTime('Imorgon ' + hours + ':' + minutes)
+            if(hours <=0){
+          setTime(days + 'd');
             }
-            else{
-              setTime(days +' dagar ' + hours + " tim")
+            else if(hours >=1){
+              setTime(days +'d ' + hours + "h")
             }
           }
         } 
