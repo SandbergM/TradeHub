@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
 import { getThumbNail } from '../utils/imageHandler'
+import { AuctionContext } from '../context/AuctionContextProvider'
 import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
+  const { setActiveAuction } = useContext(AuctionContext);
   const [time, setTime] = useState(0);
 
+  let history = useHistory()
+
   const goToDetails = () => {
-  
+    setActiveAuction(props)
+    history.push("/auction/" + props.title + "/" + props.id);
   };
 
   const timer = () => {
@@ -47,7 +53,6 @@ const AuctionItem = (props) => {
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h5" className="text-warning">
-            {props.auction.title}
           </CardTitle>
         </CardBody>
         <img width="100%" src={getThumbNail(props.auction.images)} alt="auction-img" />

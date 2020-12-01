@@ -1,6 +1,7 @@
 import React, { useState, useEffect }  from "react";
 import { Row } from "reactstrap";
 import AuctionItem from "../components/AuctionItem";
+import SearchField from "./searchField";
 
 const AuctionList = () => {
   const [auctions, setAuctions] = useState([])
@@ -19,18 +20,21 @@ const AuctionList = () => {
     }
   }
 
-
   return (
+    <div>
+      <SearchField/>
     <Row xs="1" sm="2" md="3">
         {auctions.map((auction, i) => {
             return (
-            <AuctionItem
-              key = {i}
+              <AuctionItem
               auction = {auction}
-            ></AuctionItem>
+              key={i}
+              />
+
             ) 
         })}
     </Row>
+    </div>
   );
 };
 export default AuctionList;

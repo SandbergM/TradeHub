@@ -1,10 +1,17 @@
 @import "./registerAuction.scss";
+@import "./auctionDetailsPage";
+
 :root {
   --white: #ffffff;
-  --orange: #ffa31a;
+  --orange: orange;
   --light-grey: #eeeeee;
   --grey: #8d8d8d;
   --dark-grey: #707070;
+  --red: #ff131a;
+}
+
+.main-content {
+  min-height: calc(100vh - 180px);
 }
 
 .tradeHub-orange {
@@ -36,6 +43,10 @@
   border-radius: 0 !important;
 }
 
+.borderRadius {
+  border-radius: 8px;
+}
+
 .authentication-modals {
   .form-control {
     height: calc(1.5em + 2rem + 2px);
@@ -65,18 +76,27 @@
 
 .orange-background {
   background-color: var(--orange) !important;
-  border-radius: 10px;
   border-color: var(--orange) !important;
   padding: 0 7px;
 }
 
+.orange-border {
+  border: 1px solid var(--orange);
+}
+
 .click-text :hover {
   cursor: pointer;
-  color: #ffa31a !important;
+  color: var(--orange) !important;
 }
 
 .pointer {
   cursor: pointer;
+}
+
+.error-text {
+  padding: 1.1em !important;
+  background-color: var(--red) !important;
+  color: var(--white);
 }
 
 .bold {
@@ -107,6 +127,39 @@
   font-size: 12px;
 }
 
+.carousel {
+  max-width: 100%;
+  height: 400px;
+  background: var(--grey);
+}
+
+.searchbar {
+  padding: 12px;
+  font-style: italic !important;
+  color: var(--orange);
+}
+
+.form-control:focus {
+  border-color: var(--orange) !important;
+  box-shadow: none !important;
+}
+
+footer {
+  display: flex;
+  height: 70px;
+  width: 100%;
+  background-color: var(--header);
+  color: var(--light-text);
+  font-family: "Segoe UI", Helvetica, sans-serif;
+  font-style: italic;
+  text-align: center;
+  font-size: 10px;
+}
+
+hr {
+  width: 90%;
+}
+
 // STYLING FOR IPAD & DESKTOP
 @media screen and (min-width: 770px) {
   #bubble-position {
@@ -117,6 +170,18 @@
 
   #hamburger-position {
     display: none !important;
+  }
+
+  .carousel {
+    max-width: 100%;
+    height: 500px;
+    background: var(--grey);
+  }
+}
+
+@media screen and(max-width: 450px) {
+  .modal-dialog {
+    width: 90% !important;
   }
 }
 
