@@ -10,7 +10,7 @@ import {
   Route,
   BrowserRouter,
 } from "react-router-dom";
-import AuctionDetailsPage from "./components/AuctionDetailsPage";
+import AuctionDetailsPage from "./pages/AuctionDetailsPage";
 import AuctionContextProvider from "./context/AuctionContextProvider";
 
 function App() {
