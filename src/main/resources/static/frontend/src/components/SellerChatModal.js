@@ -10,7 +10,6 @@ const SellerChatModal = ({ activeAuction }) => {
 
   const toggle = () => {
     setModal(!modal)
-    console.log(user);
   };
 
   return (
