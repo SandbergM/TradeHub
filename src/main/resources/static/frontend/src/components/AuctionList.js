@@ -24,7 +24,6 @@ const AuctionList = (props) => {
 
   return (
     <div>
-      <SearchField />
       <div id="loader"></div>
       <Row xs={props.xs} sm={props.sm} md={props.md}>
         {auctions.map((auction, i) => {
