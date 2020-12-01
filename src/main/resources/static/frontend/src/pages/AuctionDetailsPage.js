@@ -13,7 +13,7 @@ const AuctionDetailsPage = () => {
         let auction = await fetch("/api/v1/auctions/" + id)
         auction = await auction.json()
         console.log(auction);
-        setActiveAuction(auction)
+        setActiveAuction(auction[0])
       }
     }
     useEffect(() => {

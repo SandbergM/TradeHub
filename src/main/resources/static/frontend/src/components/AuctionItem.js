@@ -12,7 +12,8 @@ const AuctionItem = (props) => {
   let history = useHistory()
 
   const goToDetails = () => {
-    setActiveAuction(props)
+    console.log(props.auction);
+    setActiveAuction(props.auction)
     history.push("/auction/" + props.auction.title + "/" + props.auction.id);
   };
 
