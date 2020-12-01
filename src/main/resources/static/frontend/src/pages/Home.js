@@ -13,6 +13,6 @@ const Home = () => {
       <AuctionList className="col-12" fetch={""} xs={1} sm={2} md={3} ></AuctionList>
     </div>
   );
-};
+};  
 
 export default withRouter(Home);

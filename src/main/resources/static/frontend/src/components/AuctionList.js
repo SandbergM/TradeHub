@@ -1,7 +1,6 @@
 import React, { useState, useEffect }  from "react";
 import { Row } from "reactstrap";
 import AuctionItem from "../components/AuctionItem";
-import tuttiPrutti from "../images/346095.png"
 import SearchField from "./searchField";
 
 const AuctionList = (props) => {
@@ -27,18 +26,11 @@ const AuctionList = (props) => {
     <Row xs={props.xs} sm={props.sm} md={props.md}>
         {auctions.map((auction, i) => {
             return (
-                <AuctionItem
-                key = {i}
-                id = {auction.id}
-                title = {auction.title}
-                description = {auction.description}
-                image = {tuttiPrutti}
-                timestamp = {auction.timestamp}
-                highestBid = {auction.highestBid}
-                price = {auction.price}
-                seller= {auction.seller}
-                >
-                </AuctionItem>
+              <AuctionItem
+              auction = {auction}
+              key={i}
+              />
+
             ) 
         })}
     </Row>

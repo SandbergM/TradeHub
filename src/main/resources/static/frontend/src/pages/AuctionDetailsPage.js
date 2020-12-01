@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AuctionContext } from "../context/AuctionContextProvider";
-import AuctionDetailsPageData from "./AuctionDetailsPageData";
+import AuctionDetailsPageData from "../components/AuctionDetailsPageData";
 
 const AuctionDetailsPage = () => {
   const { activeAuction, setActiveAuction } = useContext(AuctionContext)

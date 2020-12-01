@@ -33,12 +33,13 @@ public class ImageService {
     public List<Image> save (List<MultipartFile> files){
         final List<String> supportedFileExtensions = List.of(".png,.jpg,.jpeg,.gif,.bmp,.jfif".split(","));
         List<Image> images = new ArrayList<>();
-
+        final UUID uuid = UUID.randomUUID();
+        int index = 0;
         for (MultipartFile file : files) {
-            final UUID uuid = UUID.randomUUID();
+
             String fileExt = file.getOriginalFilename().toLowerCase();
             fileExt = fileExt.substring(fileExt.lastIndexOf("."));
-            final String filename = uuid + fileExt;
+            final String filename = uuid + ("-" + index++) + fileExt;
 
             if (!supportedFileExtensions.contains(fileExt)) { continue; }
 
