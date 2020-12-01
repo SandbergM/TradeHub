@@ -8,7 +8,7 @@ import {
   Button,
 } from "reactstrap";
 
-const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
+const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showErrorMessage, acceptedBid }) => {
   
   const items = [];
   items.push({ src: activeAuction.image, altText: "", caption: "" });
@@ -128,7 +128,11 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
           <p className="m-0 highest-bid">
-            {activeAuction.highestBid ? activeAuction.highestBid : activeAuction.price}
+            {acceptedBid > activeAuction.highestBid
+              ? acceptedBid
+              : activeAuction.highestBid
+              ? activeAuction.highestBid
+              : activeAuction.price}
           </p>
         </div>
         <div className="text-center orange-border font-weight-bold time-left-block">
@@ -179,6 +183,13 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           value={bid}
           onChange={(e) => setBid(e.target.value)}
         ></input>
+        <p>
+          {showErrorMessage === 0
+            ? "ok bid"
+            : showErrorMessage === 1
+            ? "too low "
+            : "no bid"}
+        </p>
         <Button
           type="submit"
           className="orange-background font-weight-bold place-bid-button"
