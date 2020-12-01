@@ -13,7 +13,7 @@ const AuctionItem = (props) => {
 
   const goToDetails = () => {
     setActiveAuction(props)
-    history.push("/auction/" + props.title + "/" + props.id);
+    history.push("/auction/" + props.auction.title + "/" + props.auction.id);
   };
 
   const timer = () => {
