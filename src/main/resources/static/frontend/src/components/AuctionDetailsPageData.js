@@ -46,8 +46,6 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
   };
 
     const timer = () => {
-      console.log("hej hej");
-      console.log(timeoutId);
       let endDate = activeAuction.auction.timestamp * 1000;
       let currentDate = new Date().getTime();
       let difference = endDate - currentDate;
@@ -85,7 +83,6 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           }
         } 
       }
-      console.log("time: ",time)
       if(time!=="Avslutad"||time!==0){
         debounceTimeout();
       }else{

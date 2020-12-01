@@ -21,8 +21,13 @@ const AuctionDetailsPage = () => {
     },[])
 
     const postBid = async () => {
+      console.log(bid);
+      console.log(activeAuction.id);
       // /api/v1/auctions/{id}/{bid}
-      await fetch(`/api/v1/auctions/${activeAuction.id}/${bid}`)
+     let response= await fetch(`/api/v1/auctions/${activeAuction.id}/${bid}`,{
+        method: "POST"
+      }      )
+      console.log(response);
     }
 
   return <AuctionDetailsPageData 
