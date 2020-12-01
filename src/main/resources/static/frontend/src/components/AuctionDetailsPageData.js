@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from '../context/UserContext'
 import {
   Carousel,
   CarouselItem,
@@ -8,14 +9,16 @@ import {
   Button,
 } from "reactstrap";
 import imageMissing from "../images/bild_saknas.png";
+import SellerChatModal from "./SellerChatModal";
 
-const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
+const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showErrorMessage, acceptedBid }) => {
   const serverAddress = "http://localhost:8080";
-
-  if (activeAuction.images == null) {
+  const { user } = useContext(UserContext);
+  
+    if (activeAuction.images == null) {
     activeAuction.images = [{ url: "empty" }];
   }
-
+  
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [time, setTime] = useState(0);
@@ -39,43 +42,28 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     setActiveIndex(newIndex);
   };
 
-  let timeoutId = null;
-  const debounceTimeout = () => {
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
+  let IntervalId = null;
+
+  const debounceInterval = () => {
+    console.log(time);
+    if (IntervalId !== null) {
+      clearInterval(IntervalId);
+      IntervalId = null;
     }
-    timeoutId = setTimeout(() => {
-      timer();
+    IntervalId = setInterval(() => {
+      timer()
     }, 500);
   };
 
-  const timer = () => {
-    let endDate = activeAuction.timestamp * 1000;
-    let currentDate = new Date().getTime();
-    let difference = endDate - currentDate;
+    const timer = () => {
+      let current = time
+      console.log("Timer count in AuctionDetailsPageData.js, codeline: 52", current);
+      let endDate = activeAuction.auction.timestamp * 1000;
+      let currentDate = new Date().getTime();
+      let difference = endDate - currentDate;
 
-    if (difference <= 0 || endDate == null) {
-      setTime("Avslutad");
-    } else {
-      let seconds = Math.floor(difference / 1000);
-      let minutes = Math.floor(seconds / 60);
-      let hours = Math.floor(minutes / 60);
-      let days = Math.floor(hours / 24);
-      hours %= 24;
-      minutes %= 60;
-      seconds %= 60;
-
-      if (days <= 0 && hours <= 0) {
-        if (minutes <= 0) {
-          setTime(seconds + " s");
-        } else {
-          setTime(
-            (minutes < 10 ? "0" + minutes : minutes) +
-              ":" +
-              (seconds < 10 ? "0" + seconds : seconds)
-          );
-        }
+      if (difference <= 0 || endDate == null) {
+        setTime("Avslutad");
       } else {
         if (days <= 0) {
           setTime(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
@@ -85,30 +73,26 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           } else if (hours >= 1) {
             setTime(days + "d " + hours + "h");
           }
-        }
+        } 
       }
-    }
-    console.log("time: ", time);
-    if (time !== "Avslutad" || time !== 0) {
-      debounceTimeout();
-    } else {
-      clearInterval(timeoutId);
-    }
-  };
-
-  useEffect(() => {
-    debounceTimeout();
-    return () => {
-      clearInterval(timeoutId);
     };
-  }, []);
 
-  useEffect(() => {
-    console.log("timeTest :", time);
-  }, [time]);
+    useEffect(() => {
+      let endDate = activeAuction.auction.timestamp * 1000;
+      let currentDate = new Date().getTime();
+      let auctionTime = endDate - currentDate;
+      if(!(auctionTime <= 0)){
+        debounceInterval();
+      }
+      else{
+        setTime("Avslutad")
+      }
+      return(()=>{
+        clearInterval(IntervalId);
+      })
+    }, []);
 
-  const slides = activeAuction.images.map((item) => {
-    console.log(item.url);
+  const slides = items.map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
@@ -188,15 +172,33 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           value={bid}
           onChange={(e) => setBid(e.target.value)}
         ></input>
-        <Button
-          type="submit"
-          className="orange-background font-weight-bold place-bid-button"
-          onClick={() => postBid()}
-        >
-          LÄGG BUD
-        </Button>
+        {user !== null ? (
+          <Button
+            type="submit"
+            className="orange-background font-weight-bold place-bid-button"
+            onClick={() => postBid()}
+          >
+            LÄGG BUD
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            className="grey-background font-weight-bold place-bid-button"
+            disabled
+          >
+            Logga in för att lägga bud
+          </Button>
+        )}
       </div>
-
+      {showErrorMessage === 0 ? (
+        ""
+      ) : showErrorMessage === 1 ? (
+        <div className="error-text">
+          Budet måste vara högre än nuvarande bud
+        </div>
+      ) : (
+        <div className="error-text">Du måste skriva in ett bud</div>
+      )}
       <div className="mt-4"></div>
       <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
@@ -204,9 +206,7 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           <span className="seller ml-4">Seller:</span>{" "}
           {activeAuction.seller ? activeAuction.seller.fullName : null}
         </p>
-        <Button type="submit" className="grey-background chat-with-seller">
-          CHATTA MED SÄLJARE
-        </Button>
+        <SellerChatModal activeAuction={activeAuction} />
       </div>
     </div>
   );

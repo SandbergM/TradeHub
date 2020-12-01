@@ -57,6 +57,7 @@ const AuctionItem = (props) => {
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h5" className="text-warning">
+            {props.auction.title}
           </CardTitle>
         </CardBody>
         <img width="100%" src={getThumbNail(props.auction.images)} alt="auction-img" />

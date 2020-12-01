@@ -13,10 +13,17 @@ const AuctionList = (props) => {
   const fetchAuctions = async () => {
     const loader = document.getElementById("loader");
     let res = await fetch("/api/v1/auctions" + props.fetch);
+    
     try {
-      res = await res.json();
-      setAuctions(res);
-      loader.classList.add("hidden");
+      if(res.status==200){
+        res = await res.json();
+        setAuctions(res);
+        loader.classList.add("hidden");
+      }
+      else{
+        
+      }
+     
     } catch {
       console.error("could not fetch auctions");
     }
