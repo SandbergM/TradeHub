@@ -32,7 +32,6 @@ const AuctionItem = (props) => {
       seconds %= 60;
 
       if (days <= 0 && hours <= 0) {
-        setInterval();
         setTime(minutes + " min ");
       } else if (days <= 0) {
         setTime(hours + " tim " + minutes + " min ");

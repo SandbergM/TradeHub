@@ -35,6 +35,17 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     setActiveIndex(newIndex);
   };
 
+  let timeoutId = null;
+  const debounceTimeout = () => {
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+    timeoutId = setTimeout(() => {
+      timer()
+    }, 500);
+  };
+
     const timer = () => {
       let endDate = activeAuction.timestamp * 1000;
       let currentDate = new Date().getTime();
@@ -50,18 +61,34 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         hours %= 24;
         minutes %= 60;
         seconds %= 60;
+    
 
         if (days <= 0 && hours <= 0) {
-          setInterval();
-          setTime(minutes + " min ");
+          if(minutes <= 0){
+            setTime(seconds + ' sek')
+          }
+          else{
+            setTime(minutes + " min");
+          }
         } else {
-          setTime(hours + ":" + minutes);
+          if(days <=0){
+            setTime(hours + ":" + minutes);
+          }
+          else{
+            if(days === 1){
+              setTime('Imorgon ' + hours + ':' + minutes)
+            }
+            else{
+              setTime(days +' dagar ' + hours + " tim")
+            }
+          }
         } 
       }
+      debounceTimeout();
     };
 
     useEffect(() => {
-      timer();
+      debounceTimeout();
     }, []);
 
   const slides = items.map((item) => {
