@@ -9,7 +9,6 @@ import {
 } from "reactstrap";
 
 const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
-  console.log(activeAuction);
   
   const items = [];
   items.push({ src: activeAuction.image, altText: "", caption: "" });
@@ -47,7 +46,9 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
   };
 
     const timer = () => {
-      let endDate = activeAuction.timestamp * 1000;
+      console.log("hej hej");
+      console.log(timeoutId);
+      let endDate = activeAuction.auction.timestamp * 1000;
       let currentDate = new Date().getTime();
       let difference = endDate - currentDate;
 
@@ -84,12 +85,24 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           }
         } 
       }
-      debounceTimeout();
+      console.log("time: ",time)
+      if(time!=="Avslutad"||time!==0){
+        debounceTimeout();
+      }else{
+        clearInterval(timeoutId);
+      }
     };
 
     useEffect(() => {
       debounceTimeout();
+      return(()=>{
+        clearInterval(timeoutId);
+      })
     }, []);
+
+    useEffect(() => {
+    console.log("timeTest :", time)
+    }, [time])
 
   const slides = items.map((item) => {
     return (

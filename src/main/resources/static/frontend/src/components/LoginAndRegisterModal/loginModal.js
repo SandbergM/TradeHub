@@ -6,7 +6,7 @@ const LoginModal = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessageShown, setErrorMessageShown] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { setUser,fetchUser } = useContext(UserContext);
 
   const performLogin = async (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const LoginModal = (props) => {
     if (response.url.includes("error")) {
       setErrorMessageShown(true);
     } else {
-      setUser(response);
+      fetchUser()
       setErrorMessageShown(false);
       props.setModalIsOpen(!props.modalIsOpen);
     }
