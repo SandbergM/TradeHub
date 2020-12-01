@@ -24,9 +24,11 @@ public class AuctionController {
     public ResponseEntity<List<Auction>> getAuctions(
             @RequestParam( value="page", defaultValue = "1" ) Integer page,
             @RequestParam( value="id", defaultValue = "" ) String id,
-            @RequestParam( value="title", defaultValue = "" ) String title
-    ) throws MessagingException, IOException, TemplateException {
-        List<Auction> auctions = auctionService.auctionCriteriaSearch(page, title, id);
+            @RequestParam( value="title", defaultValue = "" ) String title,
+            @RequestParam( value="sortBy", defaultValue = "") String sortBy,
+            @RequestParam( value="active", defaultValue = "true") Boolean active
+    ){
+        List<Auction> auctions = auctionService.auctionCriteriaSearch(page, title, id, sortBy, active);
         return ResponseEntity.ok(auctions);
     }
 

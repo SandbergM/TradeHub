@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import AuctionList from "../components/AuctionList";
-import RegisterNewAuction from "../components/RegisterNewAuction";
 import SearchField from '../components/searchField'
 
 const Home = () => {
+
+  const [ query, setQuery ] = useState("");
+
   return (
     <div >
-        <SearchField className="col-12"/>
+      <SearchField className="col-12" setQuery={ setQuery } />
       <h1 className="tradeHub-orange text-center col-12 mb-4 p-0">Auktioner</h1>
       <div className="col-12"></div>
-      <AuctionList className="col-12" fetch={""} xs={1} sm={2} md={3} ></AuctionList>
+      <AuctionList className="col-12" fetch={ query } xs={1} sm={2} md={3} ></AuctionList>
     </div>
   );
 };  
