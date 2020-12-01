@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from '../context/UserContext'
 import {
   Carousel,
   CarouselItem,
@@ -9,7 +10,8 @@ import {
 } from "reactstrap";
 import SellerChatModal from "./SellerChatModal";
 
-const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
+const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showErrorMessage, acceptedBid }) => {
+  const {user} = useContext(UserContext);
   
   const items = [];
   items.push({ src: activeAuction.image, altText: "", caption: "" });
@@ -91,7 +93,6 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     };
 
     useEffect(() => {
-<<<<<<< HEAD
       let endDate = activeAuction.auction.timestamp * 1000;
       let currentDate = new Date().getTime();
       let auctionTime = endDate - currentDate;
@@ -104,9 +105,6 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
       return(()=>{
         clearInterval(IntervalId);
       })
-=======
-     timer();
->>>>>>> feature/chatWithSellerModal
     }, []);
 
   const slides = items.map((item) => {
@@ -189,15 +187,33 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           value={bid}
           onChange={(e) => setBid(e.target.value)}
         ></input>
-        <Button
-          type="submit"
-          className="orange-background font-weight-bold place-bid-button"
-          onClick={() => postBid()}
-        >
-          LÄGG BUD
-        </Button>
+        {user !== null ? (
+          <Button
+            type="submit"
+            className="orange-background font-weight-bold place-bid-button"
+            onClick={() => postBid()}
+          >
+            LÄGG BUD
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            className="grey-background font-weight-bold place-bid-button"
+            disabled
+          >
+            Logga in för att lägga bud
+          </Button>
+        )}
       </div>
-
+      {showErrorMessage === 0 ? (
+        ""
+      ) : showErrorMessage === 1 ? (
+        <div className="error-text">
+          Budet måste vara högre än nuvarande bud
+        </div>
+      ) : (
+        <div className="error-text">Du måste skriva in ett bud</div>
+      )}
       <div className="mt-4"></div>
       <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
