@@ -30,6 +30,7 @@ const TradeHubHeader = (props) => {
     setModalIsOpen(!modalIsOpen);
   }
   const logout = () =>{
+    history.push("/")
     fetch('/logout');
     setUser(null);
   }

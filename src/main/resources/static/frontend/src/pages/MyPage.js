@@ -43,7 +43,13 @@ const MyPage = (props) => {
             </Card>
           </Collapse>
         </Col>
-        <Col xs="12" sm="2" md="4"className="mb-3"> 
+
+
+
+
+        <Col xs="12" sm="2" md="4"className="mb-3">
+          <Row>
+          <Col xs="12" sm="12" md="12"className="mb-3"> 
           <Button className="light-grey-background tradeHub-grey bold noBorder" onClick={toggleAuctions} block>
             MINA AUKTIONER
           </Button>
@@ -55,7 +61,7 @@ const MyPage = (props) => {
             </Card>
           </Collapse>
         </Col>
-        <Col xs="12" sm="2" md="4"className="mb-3"> 
+        <Col xs="12" sm="12" md="12"className="mb-3"> 
           <Button className="light-grey-background tradeHub-grey bold noBorder" onClick={toggleBids} block>
             MINA BUD
           </Button>
@@ -67,7 +73,13 @@ const MyPage = (props) => {
             </Card>
           </Collapse>
         </Col>
-        <Col xs="12" sm="2" md={{ size: 4, offset: 4 }}className="mb-3">
+          </Row>
+        </Col>
+
+
+
+        
+        <Col xs="12" sm="2" md={{ size: 4, offset: 0 }}className="mb-3">
           <Button className="tradeHub-button bold" onClick={toggleCreateAuction} block>
            <span className="bold addIcon">+ </span>
             SKAPA EN AUKTION

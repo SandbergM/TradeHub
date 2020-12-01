@@ -35,7 +35,7 @@ const AuctionList = (props) => {
       <Row xs={props.xs} sm={props.sm} md={props.md}>
 
         { displayLoader && <div id="loader"></div> }
-        { !displayLoader && auctions.length === 0 && 
+        { !displayLoader && auctions.length === 0 && props.fetch !== "/myPostedBids" && props.fetch !== "/myPostedAuctions" &&
           <div id="no-matches-found" className="tradeHub-orange bold"> Din sökning matchade inte någon annons. </div> 
         }
         {auctions.map((auction, i) => {

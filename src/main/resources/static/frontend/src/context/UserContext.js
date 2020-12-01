@@ -22,6 +22,10 @@ const UserContextProvider = (props) => {
       }
     };
 
+    useEffect(() => {
+      fetchUser();
+    }, []);
+
 
   const values = {
     user,

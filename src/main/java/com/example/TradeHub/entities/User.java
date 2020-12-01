@@ -23,19 +23,19 @@ public class User {
     private String fullName;
     @DBRef
     private Address address;
-    @DBRef
-    @JsonBackReference
-    private ArrayList<Auction> auctions;
+    //@DBRef
+    //@JsonBackReference
+    //private ArrayList<Auction> auctions;
     @DBRef
     private Company company;
 
 
-    public User(String email, String password, String fullName, Address address, ArrayList<Auction> auctions, Company company) {
+    public User(String email, String password, String fullName, Address address, /*ArrayList<Auction> auctions,*/ Company company) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
         this.address = address;
-        this.auctions = auctions;
+        //this.auctions = auctions;
         this.company = company;
     }
 
