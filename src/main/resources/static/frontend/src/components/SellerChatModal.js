@@ -15,12 +15,15 @@ const SellerChatModal = ({ activeAuction }) => {
 
   return (
     <div>
-      <Button
-        onClick={toggle}
-        className="grey-background chat-with-seller"
-      >
-        CHATTA MED SÄLJARE
-      </Button>
+      {user ? (
+        <Button onClick={toggle} className="grey-background chat-with-seller">
+          CHATTA MED SÄLJARE
+        </Button>
+      ) : (
+        <Button disabled className="grey-background chat-with-seller">
+          CHATTA MED SÄLJARE
+        </Button>
+      )}
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle} className="tradeHub-orange">
           {activeAuction.seller.fullName}
