@@ -25,8 +25,8 @@ const SellerChatModal = ({ activeAuction }) => {
         </Button>
       )}
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle} className="tradeHub-orange">
-          {activeAuction.seller.fullName}
+        <ModalHeader toggle={toggle}>
+          <span className="tradeHub-orange">{activeAuction.seller ? activeAuction.seller.fullName : null}</span> / {user ? user.fullName : null}
         </ModalHeader>
         <ModalBody>Chat component here</ModalBody>
         <ModalFooter>
