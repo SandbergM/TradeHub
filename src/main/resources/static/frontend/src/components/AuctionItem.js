@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
-import { AuctionContext } from "../context/AuctionContextProvider";
+import { getThumbNail } from '../utils/imageHandler'
+import { AuctionContext } from '../context/AuctionContextProvider'
 import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
@@ -16,7 +17,7 @@ const AuctionItem = (props) => {
   };
 
   const timer = () => {
-    let endDate = props.timestamp * 1000;
+    let endDate = props.auction.timestamp * 1000;
     let currentDate = new Date().getTime();
     let difference = endDate - currentDate;
 
@@ -31,12 +32,15 @@ const AuctionItem = (props) => {
       minutes %= 60;
       seconds %= 60;
 
-      if (days <= 0 && hours <= 0) {
-        setInterval();
+      if (days <= 0 && hours <= 0 && minutes >=1) {
         setTime(minutes + " min ");
-      } else if (days <= 0) {
+      } else if (days <= 0 && hours >=1) {
         setTime(hours + " tim " + minutes + " min ");
-      } else {
+      }
+        else if(minutes <=0){
+          setTime(seconds + ' s')
+        }
+       else {
         endDate = new Date(endDate).toLocaleDateString();
         setTime(endDate);
       }
@@ -51,16 +55,15 @@ const AuctionItem = (props) => {
     <Col>
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
-          <CardTitle tag="h4" className="text-warning">
-            {props.title}
+          <CardTitle tag="h5" className="text-warning">
           </CardTitle>
         </CardBody>
-        <img width="100%" src={props.image} alt="auction-img" />
+        <img width="100%" src={getThumbNail(props.auction.images)} alt="auction-img" />
         <CardBody>
-          {props.highestBid ? (
-            <CardText>{props.highestBid} kr</CardText>
+          {props.auction.highestBid ? (
+            <CardText>{props.auction.highestBid} kr</CardText>
           ) : (
-            <CardText>{props.price} kr</CardText>
+            <CardText>{props.auction.price} kr</CardText>
           )}
           <CardText tag="h5" className="text-warning">
             {time}

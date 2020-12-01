@@ -29,19 +29,12 @@ const AuctionList = () => {
       <div id="loader"></div>
       <Row xs="1" sm="2" md="3">
         {auctions.map((auction, i) => {
-          return (
-            <AuctionItem
+            return (
+              <AuctionItem
+              auction = {auction}
               key={i}
-              id={auction.id}
-              title={auction.title}
-              description={auction.description}
-              image={tuttiPrutti}
-              timestamp={auction.timestamp}
-              highestBid={auction.highestBid}
-              price={auction.price}
-              seller={auction.seller}
-            ></AuctionItem>
-          );
+              />
+            ) 
         })}
       </Row>
     </div>

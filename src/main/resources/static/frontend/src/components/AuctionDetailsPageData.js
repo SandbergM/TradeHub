@@ -35,13 +35,24 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     setActiveIndex(newIndex);
   };
 
+  let timeoutId = null;
+  const debounceTimeout = () => {
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+    timeoutId = setTimeout(() => {
+      timer()
+    }, 500);
+  };
+
     const timer = () => {
       let endDate = activeAuction.timestamp * 1000;
       let currentDate = new Date().getTime();
       let difference = endDate - currentDate;
 
       if (difference <= 0 || endDate == null) {
-        setTime("0:00");
+        setTime("Avslutad");
       } else {
         let seconds = Math.floor(difference / 1000);
         let minutes = Math.floor(seconds / 60);
@@ -50,18 +61,34 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         hours %= 24;
         minutes %= 60;
         seconds %= 60;
+    
 
         if (days <= 0 && hours <= 0) {
-          setInterval();
-          setTime(minutes + " min ");
+          if(minutes <= 0){
+            setTime(seconds + ' sek')
+          }
+          else{
+            setTime((minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds));
+          }
         } else {
-          setTime(hours + ":" + minutes);
+          if(days <=0){
+            setTime(hours + ":" + (minutes < 10 ? '0' + minutes : minutes));
+          }
+          else{
+            if(hours <=0){
+          setTime(days + 'd');
+            }
+            else if(hours >=1){
+              setTime(days +'d ' + hours + "h")
+            }
+          }
         } 
       }
+      debounceTimeout();
     };
 
     useEffect(() => {
-      timer();
+      debounceTimeout();
     }, []);
 
   const slides = items.map((item) => {
