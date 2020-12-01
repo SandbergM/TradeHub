@@ -32,8 +32,12 @@ const AuctionList = (props) => {
 
   return (
     <div>
-      { displayLoader && <div id="loader"></div> }
       <Row xs={props.xs} sm={props.sm} md={props.md}>
+
+        { displayLoader && <div id="loader"></div> }
+        { !displayLoader && auctions.length === 0 && 
+          <div id="no-matches-found" className="tradeHub-orange bold"> Din sökning matchade inte någon annons. </div> 
+        }
         {auctions.map((auction, i) => {
           return <AuctionItem auction={auction} key={i} />;
         })}
