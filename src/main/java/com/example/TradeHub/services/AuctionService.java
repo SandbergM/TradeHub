@@ -55,7 +55,7 @@ public class AuctionService {
 
         if(previousHighestBidder != null){
             try{
-                this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
+                //this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
             }catch (Exception e){
                 e.printStackTrace();
             }

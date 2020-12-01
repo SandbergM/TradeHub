@@ -30,7 +30,7 @@ public class MailService {
     private final String imageUrl = "https://i.ibb.co/1ZWs10d/logo.png";
 
     public void notifyPreviousHighestBidderWithEmail(Auction auction, User user) throws MessagingException, IOException, TemplateException {
-        final String emailRecipient = "marcus.a.sandberg@outlook.com";;
+        final String emailRecipient = user.getEmail();
         MimeMessage message = javaMailSender.createMimeMessage();
         var model = this.newHighestBidderEmailDetails(auction, user);
 
