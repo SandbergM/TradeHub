@@ -13,7 +13,7 @@ const AuctionItem = (props) => {
 
   const goToDetails = () => {
     setActiveAuction(props)
-    history.push("/auction/" + props.title + "/" + props.id);
+    history.push("/auction/" + props.auction.title + "/" + props.auction.id);
   };
 
   const timer = () => {
@@ -52,7 +52,7 @@ const AuctionItem = (props) => {
   }, []);
 
   return (
-    <Col>
+    <Col className="p-0 pr-3 pl-3">
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h5" className="text-warning">

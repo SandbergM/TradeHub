@@ -73,6 +73,9 @@
 .light-grey-background {
   background-color: var(--light-grey) !important;
 }
+.grey-background {
+  background-color: var(--grey) !important;
+}
 
 .orange-background {
   background-color: var(--orange) !important;
@@ -101,6 +104,10 @@
 
 .bold {
   font-weight: bold !important;
+}
+.addIcon {
+  line-height: 0px;
+  font-size: 20px !important;
 }
 
 .pointer {
@@ -160,6 +167,10 @@ hr {
   width: 90%;
 }
 
+.noBorder {
+  border: none !important;
+}
+
 // STYLING FOR IPAD & DESKTOP
 @media screen and (min-width: 770px) {
   #bubble-position {
@@ -187,4 +198,33 @@ hr {
 
 .navbar-toggler-icon {
   color: var(--dark-grey) !important;
+}
+
+#loader {
+  position: absolute;
+  margin: auto;
+  border: 1.6rem solid white;
+  border-radius: 50%;
+  border-top: 1.6rem solid var(--orange);
+  width: 12rem;
+  height: 12rem;
+  animation: spin 1s linear infinite;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none !important;
 }
