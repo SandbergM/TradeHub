@@ -14,7 +14,7 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
   
   const items = [];
   items.push({ src: activeAuction.image, altText: "", caption: "" });
-
+  
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [time, setTime] = useState(0);
@@ -62,7 +62,7 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     };
 
     useEffect(() => {
-      timer();
+     timer();
     }, []);
 
   const slides = items.map((item) => {
