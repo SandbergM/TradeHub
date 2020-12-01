@@ -8,7 +8,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   BrowserRouter,
 } from "react-router-dom";
 import AuctionDetailsPage from "./components/AuctionDetailsPage";
@@ -18,23 +17,24 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <UserContexProvider />
-        <AuctionContextProvider>
-          <TradeHubHeader />
-          <main className="container main-content">
-            <Router>
-              <Switch>
-                <Route exact path="/">
-                  <Home />
-                </Route>
-                <Route path="/auction/:title/:id">
-                  <AuctionDetailsPage />
-                </Route>
-              </Switch>
-            </Router>
-          </main>
-          <TradeHubFooter />
-        </AuctionContextProvider>
+        <UserContexProvider>
+          <AuctionContextProvider>
+            <TradeHubHeader />
+            <main className="container main-content">
+              <Router>
+                <Switch>
+                  <Route exact path="/">
+                    <Home />
+                  </Route>
+                  <Route path="/auction/:title/:id">
+                    <AuctionDetailsPage />
+                  </Route>
+                </Switch>
+              </Router>
+            </main>
+            <TradeHubFooter />
+          </AuctionContextProvider>
+        </UserContexProvider>
       </div>
     </BrowserRouter>
   );

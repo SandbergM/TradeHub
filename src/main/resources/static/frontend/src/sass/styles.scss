@@ -43,7 +43,7 @@
   border-radius: 0 !important;
 }
 
-.borderRadius{
+.borderRadius {
   border-radius: 8px;
 }
 
@@ -80,8 +80,8 @@
   padding: 0 7px;
 }
 
-.orange-border{
-    border: 1px solid var(--orange);
+.orange-border {
+  border: 1px solid var(--orange);
 }
 
 .click-text :hover {
@@ -156,8 +156,6 @@ hr {
   width: 90%;
 }
 
-
-
 // STYLING FOR IPAD & DESKTOP
 @media screen and (min-width: 770px) {
   #bubble-position {
@@ -171,8 +169,18 @@ hr {
   }
 
   .carousel {
-  max-width: 100%;
-  height: 500px;
-  background: var(--grey);
+    max-width: 100%;
+    height: 500px;
+    background: var(--grey);
+  }
 }
+
+@media screen and(max-width: 450px) {
+  .modal-dialog {
+    width: 90% !important;
+  }
+}
+
+.navbar-toggler-icon {
+  color: var(--dark-grey) !important;
 }
