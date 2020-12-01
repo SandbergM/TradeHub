@@ -37,7 +37,7 @@ const AuctionItem = (props) => {
         setTime(hours + " tim " + minutes + " min ");
       }
         else if(minutes <=0){
-          setTime(seconds + ' sek')
+          setTime(seconds + ' s')
         }
        else {
         endDate = new Date(endDate).toLocaleDateString();
