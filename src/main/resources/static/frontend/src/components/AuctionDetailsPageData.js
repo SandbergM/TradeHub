@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from '../context/UserContext'
 import {
   Carousel,
   CarouselItem,
@@ -8,7 +9,8 @@ import {
   Button,
 } from "reactstrap";
 
-const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
+const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showErrorMessage, acceptedBid }) => {
+  const {user} = useContext(UserContext);
   
   const items = [];
   items.push({ src: activeAuction.image, altText: "", caption: "" });
@@ -131,7 +133,11 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
           <p className="m-0 highest-bid">
-            {activeAuction.highestBid ? activeAuction.highestBid : activeAuction.price}
+            {acceptedBid > activeAuction.highestBid
+              ? acceptedBid
+              : activeAuction.highestBid
+              ? activeAuction.highestBid
+              : activeAuction.price}
           </p>
         </div>
         <div className="text-center orange-border font-weight-bold time-left-block">
@@ -182,15 +188,33 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           value={bid}
           onChange={(e) => setBid(e.target.value)}
         ></input>
-        <Button
-          type="submit"
-          className="orange-background font-weight-bold place-bid-button"
-          onClick={() => postBid()}
-        >
-          LÄGG BUD
-        </Button>
+        {user !== null ? (
+          <Button
+            type="submit"
+            className="orange-background font-weight-bold place-bid-button"
+            onClick={() => postBid()}
+          >
+            LÄGG BUD
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            className="grey-background font-weight-bold place-bid-button"
+            disabled
+          >
+            Logga in för att lägga bud
+          </Button>
+        )}
       </div>
-
+      {showErrorMessage === 0 ? (
+        ""
+      ) : showErrorMessage === 1 ? (
+        <div className="error-text">
+          Budet måste vara högre än nuvarande bud
+        </div>
+      ) : (
+        <div className="error-text">Du måste skriva in ett bud</div>
+      )}
       <div className="mt-4"></div>
       <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
