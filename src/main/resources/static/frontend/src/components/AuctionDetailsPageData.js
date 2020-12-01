@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from '../context/UserContext'
+import { UserContext } from "../context/UserContext";
 import {
   Carousel,
   CarouselItem,
@@ -8,17 +8,29 @@ import {
   CarouselCaption,
   Button,
 } from "reactstrap";
-import imageMissing from "../images/bild_saknas.png";
 import SellerChatModal from "./SellerChatModal";
+import imageMissing from "../images/bild_saknas.png";
 
-const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showErrorMessage, acceptedBid }) => {
-  const serverAddress = "http://localhost:8080";
+const AuctionDetailsPageData = ({
+  activeAuction,
+  bid,
+  setBid,
+  postBid,
+  showErrorMessage,
+  acceptedBid,
+}) => {
   const { user } = useContext(UserContext);
-  
-    if (activeAuction.images == null) {
+  const serverAddress = "http://localhost:8080";
+  let userId = "No user"
+
+  if (activeAuction.images == null) {
     activeAuction.images = [{ url: "empty" }];
   }
-  
+
+  if (user !== null) {
+    userId = user.id;
+  }
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [time, setTime] = useState(0);
@@ -51,19 +63,41 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showError
       IntervalId = null;
     }
     IntervalId = setInterval(() => {
-      timer()
+      timer();
     }, 500);
   };
 
-    const timer = () => {
-      let current = time
-      console.log("Timer count in AuctionDetailsPageData.js, codeline: 52", current);
-      let endDate = activeAuction.auction.timestamp * 1000;
-      let currentDate = new Date().getTime();
-      let difference = endDate - currentDate;
+  const timer = () => {
+    let current = time;
+    console.log(
+      "Timer count in AuctionDetailsPageData.js, codeline: 52",
+      current
+    );
+    let endDate = activeAuction.timestamp * 1000;
+    let currentDate = new Date().getTime();
+    let difference = endDate - currentDate;
 
-      if (difference <= 0 || endDate == null) {
-        setTime("Avslutad");
+    if (difference <= 0 || endDate == null) {
+      setTime("Avslutad");
+    } else {
+      let seconds = Math.floor(difference / 1000);
+      let minutes = Math.floor(seconds / 60);
+      let hours = Math.floor(minutes / 60);
+      let days = Math.floor(hours / 24);
+      hours %= 24;
+      minutes %= 60;
+      seconds %= 60;
+
+      if (days <= 0 && hours <= 0) {
+        if (minutes <= 0) {
+          setTime(seconds + " sek");
+        } else {
+          setTime(
+            (minutes < 10 ? "0" + minutes : minutes) +
+              ":" +
+              (seconds < 10 ? "0" + seconds : seconds)
+          );
+        }
       } else {
         if (days <= 0) {
           setTime(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
@@ -73,26 +107,26 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showError
           } else if (hours >= 1) {
             setTime(days + "d " + hours + "h");
           }
-        } 
+        }
       }
+    }
+  };
+
+  useEffect(() => {
+    let endDate = activeAuction.timestamp * 1000;
+    let currentDate = new Date().getTime();
+    let auctionTime = endDate - currentDate;
+    if (!(auctionTime <= 0)) {
+      debounceInterval();
+    } else {
+      setTime("Avslutad");
+    }
+    return () => {
+      clearInterval(IntervalId);
     };
+  }, []);
 
-    useEffect(() => {
-      let endDate = activeAuction.auction.timestamp * 1000;
-      let currentDate = new Date().getTime();
-      let auctionTime = endDate - currentDate;
-      if(!(auctionTime <= 0)){
-        debounceInterval();
-      }
-      else{
-        setTime("Avslutad")
-      }
-      return(()=>{
-        clearInterval(IntervalId);
-      })
-    }, []);
-
-  const slides = items.map((item) => {
+  const slides = activeAuction.images.map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
@@ -101,7 +135,7 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showError
       >
         <img
           src={item.url === "empty" ? imageMissing : serverAddress + item.url}
-          alt="image"
+          alt="visual representation of an auction"
         />
         <CarouselCaption captionText="" captionHeader="" />
       </CarouselItem>
@@ -111,7 +145,6 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showError
   return (
     <div className="mt-4 mx-auto">
       <h2 className="text-center tradeHub-orange m-5">{activeAuction.title}</h2>
-
       <p className="m-0 ml-1 font-weight-bold history tradeHub-grey">
         BID HISTORY
       </p>
@@ -131,14 +164,6 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showError
       </div>
 
       <div>
-        <style>
-          {`.custom-tag {
-              max-width: 100%;
-              height: 500px;
-              background: black;
-            }`}
-        </style>
-
         <Carousel
           activeIndex={activeIndex}
           next={next}
@@ -164,32 +189,34 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showError
         </Carousel>
       </div>
 
-      <div className="flex-container mt-4">
-        <input
-          className="orange-border place-bid-block"
-          type="number"
-          placeholder="Lägg bud..."
-          value={bid}
-          onChange={(e) => setBid(e.target.value)}
-        ></input>
-        {user !== null ? (
-          <Button
-            type="submit"
-            className="orange-background font-weight-bold place-bid-button"
-            onClick={() => postBid()}
-          >
-            LÄGG BUD
-          </Button>
-        ) : (
-          <Button
-            type="submit"
-            className="grey-background font-weight-bold place-bid-button"
-            disabled
-          >
-            Logga in för att lägga bud
-          </Button>
-        )}
-      </div>
+      { (activeAuction.seller.id !== userId) ? (
+        <div className="flex-container mt-4">
+          <input
+            className="orange-border place-bid-block"
+            type="number"
+            placeholder="Lägg bud..."
+            value={bid}
+            onChange={(e) => setBid(e.target.value)}
+          ></input>
+          {(user !== null) ? (
+            <Button
+              type="submit"
+              className="orange-background font-weight-bold place-bid-button"
+              onClick={() => postBid()}
+            >
+              LÄGG BUD
+            </Button>
+          ) : (
+              <Button
+                type="submit"
+                className="grey-background font-weight-bold place-bid-button"
+                disabled
+              >
+                Logga in för att lägga bud
+              </Button>
+            )}
+        </div>)
+        : (<div></div>)}
       {showErrorMessage === 0 ? (
         ""
       ) : showErrorMessage === 1 ? (
