@@ -34,9 +34,9 @@ const TradeHubHeader = () => {
     <div>
       <Navbar className="light-grey-background mb-3" expand="md">
         <NavbarBrand className="text-dark " href="/">
-          <h2 className="my-auto">
-            Trade<span className="orange-background tradeHub-white">Hub</span>
-          </h2>
+          <h3 className="my-auto ml-1 p-2">
+            Trade<span className="orange-background tradeHub-white borderRadius ml-1">Hub</span>
+          </h3>
         </NavbarBrand>
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>
