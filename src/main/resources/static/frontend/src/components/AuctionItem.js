@@ -51,7 +51,7 @@ const AuctionItem = (props) => {
     <Col>
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
-          <CardTitle tag="h5" className="text-warning">
+          <CardTitle tag="h4" className="text-warning">
             {props.title}
           </CardTitle>
         </CardBody>

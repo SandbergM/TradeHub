@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import {
   Carousel,
   CarouselItem,
@@ -10,13 +9,14 @@ import {
 } from "reactstrap";
 
 const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
-
+  console.log(activeAuction);
+  
   const items = [];
   items.push({ src: activeAuction.image, altText: "", caption: "" });
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
-  const [timeLeft, setTimeLeft] = useState("0:00");
+  const [time, setTime] = useState(0);
 
   const next = () => {
     if (animating) return;
@@ -35,13 +35,34 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     setActiveIndex(newIndex);
   };
 
-  const calculateCurrentTime = () => {
-    let currentTime = new Date();
-    let auctionOver = new Date(activeAuction.timestamp);
-    let newTimeLeft = auctionOver - currentTime;
-    setTimeLeft(newTimeLeft);
-  }
+    const timer = () => {
+      let endDate = activeAuction.timestamp * 1000;
+      let currentDate = new Date().getTime();
+      let difference = endDate - currentDate;
 
+      if (difference <= 0 || endDate == null) {
+        setTime("0:00");
+      } else {
+        let seconds = Math.floor(difference / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+        let days = Math.floor(hours / 24);
+        hours %= 24;
+        minutes %= 60;
+        seconds %= 60;
+
+        if (days <= 0 && hours <= 0) {
+          setInterval();
+          setTime(minutes + " min ");
+        } else {
+          setTime(hours + ":" + minutes);
+        } 
+      }
+    };
+
+    useEffect(() => {
+      timer();
+    }, []);
 
   const slides = items.map((item) => {
     return (
@@ -61,7 +82,7 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
 
   return (
     <div className="mt-4 mx-auto">
-      <h2 className="text-center tradeHub-orange m-4">{activeAuction.title}</h2>
+      <h2 className="text-center tradeHub-orange m-5">{activeAuction.title}</h2>
 
       <p className="m-0 ml-1 font-weight-bold history tradeHub-grey">
         BID HISTORY
@@ -70,12 +91,12 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
           <p className="m-0 highest-bid">
-            {activeAuction.highestBid ? activeAuction.highestBid : "Inga bud"}
+            {activeAuction.highestBid ? activeAuction.highestBid : activeAuction.price}
           </p>
         </div>
         <div className="text-center orange-border font-weight-bold time-left-block">
           <p className="m-0">TID KVAR</p>
-          <p className="m-0 time-left">{timeLeft}</p>
+          <p className="m-0 time-left">{time}</p>
         </div>
       </div>
 
