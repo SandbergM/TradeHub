@@ -34,20 +34,22 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     setActiveIndex(newIndex);
   };
 
-  let timeoutId = null;
-  const debounceTimeout = () => {
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
+  let IntervalId = null;
+
+  const debounceInterval = () => {
+    console.log(time);
+    if (IntervalId !== null) {
+      clearInterval(IntervalId);
+      IntervalId = null;
     }
-    timeoutId = setTimeout(() => {
+    IntervalId = setInterval(() => {
       timer()
     }, 500);
   };
 
     const timer = () => {
-      console.log("hej hej");
-      console.log(timeoutId);
+      let current = time
+      console.log("Timer count in AuctionDetailsPageData.js, codeline: 52", current);
       let endDate = activeAuction.auction.timestamp * 1000;
       let currentDate = new Date().getTime();
       let difference = endDate - currentDate;
@@ -85,24 +87,22 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
           }
         } 
       }
-      console.log("time: ",time)
-      if(time!=="Avslutad"||time!==0){
-        debounceTimeout();
-      }else{
-        clearInterval(timeoutId);
-      }
     };
 
     useEffect(() => {
-      debounceTimeout();
+      let endDate = activeAuction.auction.timestamp * 1000;
+      let currentDate = new Date().getTime();
+      let auctionTime = endDate - currentDate;
+      if(!(auctionTime <= 0)){
+        debounceInterval();
+      }
+      else{
+        setTime("Avslutad")
+      }
       return(()=>{
-        clearInterval(timeoutId);
+        clearInterval(IntervalId);
       })
     }, []);
-
-    useEffect(() => {
-    console.log("timeTest :", time)
-    }, [time])
 
   const slides = items.map((item) => {
     return (
