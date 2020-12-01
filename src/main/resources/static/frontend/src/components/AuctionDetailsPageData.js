@@ -10,13 +10,13 @@ import {
 } from "reactstrap";
 
 const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
-  
-  console.log(activeAuction);
 
-  const items = activeAuction.images || [];
+  const items = [];
+  items.push({ src: activeAuction.image, altText: "", caption: "" });
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [timeLeft, setTimeLeft] = useState("0:00");
 
   const next = () => {
     if (animating) return;
@@ -35,6 +35,14 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     setActiveIndex(newIndex);
   };
 
+  const calculateCurrentTime = () => {
+    let currentTime = new Date();
+    let auctionOver = new Date(activeAuction.timestamp);
+    let newTimeLeft = auctionOver - currentTime;
+    setTimeLeft(newTimeLeft);
+  }
+
+
   const slides = items.map((item) => {
     return (
       <CarouselItem
@@ -52,15 +60,23 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
   });
 
   return (
-    <div className="text-center mt-4 mx-auto">
-      <h2 className="tradeHub-orange m-4">{activeAuction.title}</h2>
+    <div className="mt-4 mx-auto">
+      <h2 className="text-center tradeHub-orange m-4">{activeAuction.title}</h2>
 
-      <div className="orange-background">
-        <h6>
-          Högsta bud:
-          {activeAuction.highestBid ? activeAuction.highestBid : "Inga bud"}
-        </h6>
-        <h6>Kvarstående tid: {new Date(activeAuction.timestamp).toString()}</h6>
+      <p className="m-0 ml-1 font-weight-bold history tradeHub-grey">
+        BID HISTORY
+      </p>
+      <div className="flex-container">
+        <div className="text-center orange-background font-weight-bold bid-block">
+          <p className="m-0">HÖGSTA BUD</p>
+          <p className="m-0 highest-bid">
+            {activeAuction.highestBid ? activeAuction.highestBid : "Inga bud"}
+          </p>
+        </div>
+        <div className="text-center orange-border font-weight-bold time-left-block">
+          <p className="m-0">TID KVAR</p>
+          <p className="m-0 time-left">{timeLeft}</p>
+        </div>
       </div>
 
       <div>
@@ -97,8 +113,9 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         </Carousel>
       </div>
 
-      <div className="mt-4">
+      <div className="flex-container mt-4">
         <input
+          className="orange-border place-bid-block"
           type="number"
           placeholder="Lägg bud..."
           value={bid}
@@ -106,21 +123,22 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
         ></input>
         <Button
           type="submit"
-          className="orange-background"
+          className="orange-background font-weight-bold place-bid-button"
           onClick={() => postBid()}
         >
-          Lägg bud
+          LÄGG BUD
         </Button>
       </div>
 
-      <p className="mt-4">{activeAuction.description}</p>
-
+      <div className="mt-4"></div>
+      <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
-        <p>
-          Seller: {activeAuction.seller ? activeAuction.seller.fullName : null}
+        <p className="mb-1">
+          <span className="seller ml-4">Seller:</span>{" "}
+          {activeAuction.seller ? activeAuction.seller.fullName : null}
         </p>
-        <Button type="submit" className="orange-background">
-          Chatta med säljare
+        <Button type="submit" className="grey-background chat-with-seller">
+          CHATTA MED SÄLJARE
         </Button>
       </div>
     </div>
