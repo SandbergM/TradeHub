@@ -4,7 +4,7 @@ import AuctionItem from "../components/AuctionItem";
 import tuttiPrutti from "../images/346095.png"
 import SearchField from "./searchField";
 
-const AuctionList = () => {
+const AuctionList = (props) => {
   const [auctions, setAuctions] = useState([])
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const AuctionList = () => {
   },[])
 
   const fetchAuctions = async ()=>{
-    let res = await fetch("/api/v1/auctions");
+    let res = await fetch("/api/v1/auctions"+props.fetch);
     try {
       res = await res.json();
       setAuctions(res);
@@ -23,8 +23,8 @@ const AuctionList = () => {
 
   return (
     <div>
-      <SearchField/>
-    <Row xs="1" sm="2" md="3">
+    
+    <Row xs={props.xs} sm={props.sm} md={props.md}>
         {auctions.map((auction, i) => {
             return (
                 <AuctionItem

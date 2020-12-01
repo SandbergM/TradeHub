@@ -73,6 +73,9 @@
 .light-grey-background {
   background-color: var(--light-grey) !important;
 }
+.grey-background {
+  background-color: var(--grey) !important;
+}
 
 .orange-background {
   background-color: var(--orange) !important;
@@ -101,6 +104,10 @@
 
 .bold {
   font-weight: bold !important;
+}
+.addIcon {
+  line-height: 0px;
+  font-size: 20px !important;
 }
 
 #bubble-position {
@@ -154,6 +161,10 @@ footer {
 
 hr {
   width: 90%;
+}
+
+.noBorder {
+  border: none !important;
 }
 
 // STYLING FOR IPAD & DESKTOP

@@ -32,7 +32,6 @@ const AuctionItem = (props) => {
       seconds %= 60;
 
       if (days <= 0 && hours <= 0) {
-        setInterval();
         setTime(minutes + " min ");
       } else if (days <= 0) {
         setTime(hours + " tim " + minutes + " min ");
@@ -48,7 +47,7 @@ const AuctionItem = (props) => {
   }, []);
 
   return (
-    <Col>
+    <Col className="p-0 pr-3 pl-3">
       <Card className="text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody>
           <CardTitle tag="h4" className="text-warning">
