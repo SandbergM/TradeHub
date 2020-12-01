@@ -9,8 +9,9 @@ const UserContextProvider = (props) => {
     const fetchUser = async () => {
         let res = await fetch("/api/v1/users/whoami");
         try {
-          res = await res.json();
-          if(res.status === 200){
+          console.log(res);
+          if(res.ok){
+            res = await res.json();
             console.log(res)
             setUser(res);
           }
