@@ -14,8 +14,19 @@ const AuthenticationModal = (props) => {
       <div>
         <Modal isOpen={props.modalIsOpen} toggle={props.toggleModal} size="lg">
           {isRegistered ?
-            <LoginModal setIsRegistered={setIsRegistered} isRegistered={isRegistered} toggle={props.toggleModal}></LoginModal>
-            : <RegisterModal setIsRegistered={setIsRegistered} isRegistered={isRegistered} toggle={props.toggleModal}></RegisterModal>}
+            <LoginModal
+              setIsRegistered={setIsRegistered}
+              isRegistered={isRegistered}
+              toggle={props.toggleModal}
+              modalIsOpen={props.modalIsOpen}
+              setModalIsOpen={props.setModalIsOpen}
+            />
+            : <RegisterModal
+              setIsRegistered={setIsRegistered}
+              isRegistered={isRegistered}
+              toggle={props.toggleModal}
+              modalIsOpen={props.modalIsOpen}
+              setModalIsOpen={props.setModalIsOpen}/>}
         </Modal>
       </div>
     );

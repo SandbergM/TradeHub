@@ -3,16 +3,13 @@ import AuctionList from "../components/AuctionList";
 import RegisterNewAuction from "../components/RegisterNewAuction";
 
 const Home = () => {
-return(
+  return (
     <div className="row">
-        <h1 className="text-warning text-center col-12">Auktioner</h1>
-        <div  className="col-12">
-        </div>
-        <AuctionList className="col-12"></AuctionList>
+      <h1 className="tradeHub-orange text-center col-12 m-4">Auktioner</h1>
+      <div className="col-12"></div>
+      <AuctionList className="col-12"></AuctionList>
     </div>
-
-)
- 
-}
+  );
+};
 
 export default Home;
