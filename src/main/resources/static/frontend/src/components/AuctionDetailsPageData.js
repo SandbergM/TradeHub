@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from '../context/UserContext'
 import {
   Carousel,
   CarouselItem,
@@ -9,6 +10,7 @@ import {
 } from "reactstrap";
 
 const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showErrorMessage, acceptedBid }) => {
+  const {user} = useContext(UserContext);
   
   const items = [];
   items.push({ src: activeAuction.image, altText: "", caption: "" });
@@ -186,22 +188,33 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid, showError
           value={bid}
           onChange={(e) => setBid(e.target.value)}
         ></input>
-        <p>
-          {showErrorMessage === 0
-            ? "ok bid"
-            : showErrorMessage === 1
-            ? "too low "
-            : "no bid"}
-        </p>
-        <Button
-          type="submit"
-          className="orange-background font-weight-bold place-bid-button"
-          onClick={() => postBid()}
-        >
-          LÄGG BUD
-        </Button>
+        {user !== null ? (
+          <Button
+            type="submit"
+            className="orange-background font-weight-bold place-bid-button"
+            onClick={() => postBid()}
+          >
+            LÄGG BUD
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            className="grey-background font-weight-bold place-bid-button"
+            disabled
+          >
+            Logga in för att lägga bud
+          </Button>
+        )}
       </div>
-
+      {showErrorMessage === 0 ? (
+        ""
+      ) : showErrorMessage === 1 ? (
+        <div className="error-text">
+          Budet måste vara högre än nuvarande bud
+        </div>
+      ) : (
+        <div className="error-text">Du måste skriva in ett bud</div>
+      )}
       <div className="mt-4"></div>
       <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
