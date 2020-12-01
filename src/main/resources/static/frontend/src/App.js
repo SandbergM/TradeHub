@@ -1,11 +1,11 @@
-import Home from "./pages/Home";
+import Home from './pages/Home'
+import MyPage from './pages/MyPage'
 import TradeHubHeader from "./components/tradeHubHeader";
 import UserContexProvider from "./context/UserContext";
 import TradeHubFooter from "./components/TradeHubFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   BrowserRouter,
@@ -21,7 +21,6 @@ function App() {
           <AuctionContextProvider>
             <TradeHubHeader />
             <main className="container main-content">
-              <Router>
                 <Switch>
                   <Route exact path="/">
                     <Home />
@@ -29,8 +28,8 @@ function App() {
                   <Route path="/auction/:title/:id">
                     <AuctionDetailsPage />
                   </Route>
+                  <Route exact path="/mypage"  component={MyPage}/>
                 </Switch>
-              </Router>
             </main>
             <TradeHubFooter />
           </AuctionContextProvider>
