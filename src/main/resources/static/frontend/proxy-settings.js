@@ -24,9 +24,10 @@ module.exports = {
   // is to handle the request (add your own logic here as needed)
   handleWithAPI(url) {
     return (
-      url.indexOf('/api/') === 0 ||
-      url.indexOf('/login') === 0 ||
-      url.indexOf('/static/uploads') === 0
+      url.indexOf("/api/") === 0 ||
+      url.indexOf("/login") === 0 ||
+      url.indexOf("/static/uploads") === 0 ||
+      url.indexOf("/tradeHubSocket") === 0
     );
   }
 };

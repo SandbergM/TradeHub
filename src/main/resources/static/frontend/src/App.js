@@ -12,15 +12,17 @@ import {
 } from "react-router-dom";
 import AuctionDetailsPage from "./pages/AuctionDetailsPage";
 import AuctionContextProvider from "./context/AuctionContextProvider";
+import ChatContextProvider from './context/ChatContext';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <UserContexProvider>
-          <AuctionContextProvider>
-            <TradeHubHeader />
-            <main className="container main-content">
+          <ChatContextProvider>
+            <AuctionContextProvider>
+              <TradeHubHeader />
+              <main className="container main-content">
                 <Switch>
                   <Route exact path="/">
                     <Home />
@@ -28,11 +30,12 @@ function App() {
                   <Route path="/auction/:title/:id">
                     <AuctionDetailsPage />
                   </Route>
-                  <Route exact path="/mypage"  component={MyPage}/>
+                  <Route exact path="/mypage" component={MyPage} />
                 </Switch>
-            </main>
-            <TradeHubFooter />
-          </AuctionContextProvider>
+              </main>
+              <TradeHubFooter />
+            </AuctionContextProvider>
+          </ChatContextProvider>
         </UserContexProvider>
       </div>
     </BrowserRouter>
