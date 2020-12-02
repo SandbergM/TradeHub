@@ -26,6 +26,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         SocketController sc = new SocketController();
         sc.setSocketService(socketService);
-        registry.addHandler(sc, "/your-socket-route");
+        registry.addHandler(sc, "/tradeHubSocket");
     }
 }
