@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import AuctionList from "../components/AuctionList";
 import SearchField from '../components/searchField'
 
+
 const Home = () => {
 
   const [ query, setQuery ] = useState("");

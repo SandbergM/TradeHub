@@ -66,11 +66,13 @@ public class SocketController extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
+        System.out.println("test connection");
         socketService.addSession(session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        System.out.println("test connection2");
         socketService.removeSession(session);
     }
 

@@ -4,6 +4,8 @@ import TradeHubHeader from "./components/tradeHubHeader";
 import UserContexProvider from "./context/UserContext";
 import TradeHubFooter from "./components/TradeHubFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Socket from './sockets/Socket.js'
+
 import React from "react";
 import {
   Switch,
@@ -20,9 +22,10 @@ function App() {
       <div className="App">
         <UserContexProvider>
           <ChatContextProvider>
-            <AuctionContextProvider>
-              <TradeHubHeader />
-              <main className="container main-content">
+          <AuctionContextProvider>
+            <Socket></Socket>
+            <TradeHubHeader />
+            <main className="container main-content">
                 <Switch>
                   <Route exact path="/">
                     <Home />
