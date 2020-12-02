@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import ChatComponent from './ChatComponent'
 
 const SellerChatModal = ({ activeAuction }) => {
 
@@ -25,7 +26,9 @@ const SellerChatModal = ({ activeAuction }) => {
       )}
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Chat component here</ModalHeader>
-        <ModalBody>Chat component here</ModalBody>
+        <ModalBody>
+          <ChatComponent/>
+        </ModalBody>
         <ModalFooter>
           <Button className="tradeHub-button" onClick={toggle}>
             Stäng chat

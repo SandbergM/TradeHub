@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import {ChatContext} from '../context/ChatContext' 
 
-export default function Socket() {
+const Socket = () => {
     const [isPaused, setPause] = useState(false);
     const [ws, setWs] = useState(null);
   
@@ -10,6 +10,7 @@ export default function Socket() {
       wsClient.onopen = () => {
         console.log('ws opened');
         setWs(wsClient);
+        sendMessage()
       };
       wsClient.onclose = () => console.log('ws closed');
   
@@ -27,6 +28,13 @@ export default function Socket() {
         console.log('e', message);
       };
     }, [isPaused, ws]);
+
+    const sendMessage = () => {
+      let message = {
+        sender: "Hello"
+      }
+      ws.send(message);
+    }
   
     return (
       <div>
@@ -34,3 +42,4 @@ export default function Socket() {
       </div>
     )
   }
+  export default Socket
