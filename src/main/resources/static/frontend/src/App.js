@@ -4,7 +4,7 @@ import TradeHubHeader from "./components/tradeHubHeader";
 import UserContexProvider from "./context/UserContext";
 import TradeHubFooter from "./components/TradeHubFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Socket from './sockets/Socket.js'
+import Socket from './sockets/socket'
 
 import React from "react";
 import {

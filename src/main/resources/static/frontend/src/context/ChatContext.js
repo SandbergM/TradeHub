@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState  } from "react";
-import { debounceTimeout } from "../sockets/socket";
 
 export const ChatContext = createContext();
 
@@ -19,7 +18,6 @@ const ChatContextProvider = (props) => {
 
       }
     };
-    debounceTimeout("Hello wörld");
 
     useEffect(() => {
       console.log(chatMessages);
