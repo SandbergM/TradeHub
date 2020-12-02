@@ -1,0 +1,85 @@
+.flex-container {
+  width: 100%;
+  min-height: auto;
+  display: -webkit-flex; /* Safari */
+  display: flex; /* Standard syntax */
+}
+
+.bid-block {
+  width: 50%;
+  height: 150px;
+  -webkit-flex: 1; /* Safari */
+  -ms-flex: 1; /* IE 10 */
+  flex: 1; /* Standard syntax */
+  padding: 2em !important;
+  color: white;
+}
+
+.highest-bid {
+  font-size: 60px;
+  line-height: 1em;
+}
+
+.time-left-block {
+  width: 50%;
+  height: 150px;
+  padding: 2em !important;
+  color: orange;
+}
+
+.time-left {
+  font-size: 60px;
+  line-height: 1em;
+}
+
+.place-bid-block {
+  padding: 10px;
+  width: 50%;
+  height: auto;
+  -webkit-flex: 1; /* Safari */
+  -ms-flex: 1; /* IE 10 */
+  flex: 1; /* Standard syntax */
+}
+
+.place-bid-button {
+  width: 50%;
+  height: auto;
+  padding: 10px;
+}
+
+.seller {
+  font-weight: 600;
+}
+
+.chat-with-seller {
+  padding: 15px !important;
+  width: 100%;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+
+.history {
+  font-size: 11px;
+}
+
+.carousel {
+  background-color: #eeeeee !important;
+  align-content: space-between;
+  text-align: center;
+}
+
+.carousel-item > img {
+  height: 35vh;
+}
+
+.carousel-inner .item img {
+  object-fit: contain;
+  align-content: center;
+}
+
+
+@media screen and(max-width: 450px) {
+  .time-left{
+    font-size: 30px;
+  }
+}

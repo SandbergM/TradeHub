@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import {
   Carousel,
   CarouselItem,
@@ -8,29 +8,44 @@ import {
   CarouselCaption,
   Button,
 } from "reactstrap";
+import SellerChatModal from "./SellerChatModal";
+import imageMissing from "../images/bild_saknas.png";
 
-const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
-  const items = [
-    {
-      src:
-        "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-      altText: "Slide 1",
-      caption: "Slide 1",
-    },
-  ];
+const AuctionDetailsPageData = ({
+  activeAuction,
+  bid,
+  setBid,
+  postBid,
+  showErrorMessage,
+  acceptedBid,
+}) => {
+  const { user } = useContext(UserContext);
+  const serverAddress = "http://localhost:8080";
+  let userId = "No user"
+
+  if (activeAuction.images == null) {
+    activeAuction.images = [{ url: "empty" }];
+  }
+
+  if (user !== null) {
+    userId = user.id;
+  }
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [time, setTime] = useState(0);
 
   const next = () => {
     if (animating) return;
-    const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
+    const nextIndex =
+      activeIndex === activeAuction.images.length - 1 ? 0 : activeIndex + 1;
     setActiveIndex(nextIndex);
   };
 
   const previous = () => {
     if (animating) return;
-    const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
+    const nextIndex =
+      activeIndex === 0 ? activeAuction.images.length - 1 : activeIndex - 1;
     setActiveIndex(nextIndex);
   };
 
@@ -39,86 +54,184 @@ const AuctionDetailsPageData = ({ activeAuction, bid, setBid, postBid }) => {
     setActiveIndex(newIndex);
   };
 
-  const slides = items.map((item) => {
+  let IntervalId = null;
+
+  const debounceInterval = () => {
+    if (IntervalId !== null) {
+      clearInterval(IntervalId);
+      IntervalId = null;
+    }
+    IntervalId = setInterval(() => {
+      timer();
+    }, 500);
+  };
+
+  const timer = () => {
+    let current = time;
+    let endDate = activeAuction.timestamp * 1000;
+    let currentDate = new Date().getTime();
+    let difference = endDate - currentDate;
+
+    if (difference <= 0 || endDate == null) {
+      setTime("Avslutad");
+    } else {
+      let seconds = Math.floor(difference / 1000);
+      let minutes = Math.floor(seconds / 60);
+      let hours = Math.floor(minutes / 60);
+      let days = Math.floor(hours / 24);
+      hours %= 24;
+      minutes %= 60;
+      seconds %= 60;
+
+      if (days <= 0 && hours <= 0) {
+        if (minutes <= 0) {
+          setTime(seconds + " sek");
+        } else {
+          setTime(
+            (minutes < 10 ? "0" + minutes : minutes) +
+              ":" +
+              (seconds < 10 ? "0" + seconds : seconds)
+          );
+        }
+      } else {
+        if (days <= 0) {
+          setTime(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
+        } else {
+          if (hours <= 0) {
+            setTime(days + "d");
+          } else if (hours >= 1) {
+            setTime(days + "d " + hours + "h");
+          }
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    let endDate = activeAuction.timestamp * 1000;
+    let currentDate = new Date().getTime();
+    let auctionTime = endDate - currentDate;
+    if (!(auctionTime <= 0)) {
+      debounceInterval();
+    } else {
+      setTime("Avslutad");
+    }
+    return () => {
+      clearInterval(IntervalId);
+    };
+  }, []);
+
+  const slides = activeAuction.images.map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        key={item.src}
+        key={item.id}
       >
-        <img src={item.src} alt={item.altText} />
-        <CarouselCaption
-          captionText={item.caption}
-          captionHeader={item.caption}
+        <img
+          src={item.url === "empty" ? imageMissing : serverAddress + item.url}
+          alt="visual representation of an auction"
         />
+        <CarouselCaption captionText="" captionHeader="" />
       </CarouselItem>
     );
   });
 
   return (
-    <div className="text-center mt-4 mx-auto">
-      <h2 className="tradeHub-orange m-4">{activeAuction.title}</h2>
-
-      <div className="orange-background col-6 mx-auto">
-        <h6>
-          Högsta bud:{" "}
-          {activeAuction.highestBid ? activeAuction.highestBid : "Inga bud"}
-        </h6>
-        <h6>Kvarstående tid: {new Date(activeAuction.timestamp).toString()}</h6>
+    <div className="mt-4 mx-auto">
+      <h2 className="text-center tradeHub-orange m-5">{activeAuction.title}</h2>
+      <p className="m-0 ml-1 font-weight-bold history tradeHub-grey">
+        BID HISTORY
+      </p>
+      <div className="flex-container">
+        <div className="text-center orange-background font-weight-bold bid-block">
+          <p className="m-0">HÖGSTA BUD</p>
+          <p className="m-0 highest-bid">
+            {activeAuction.highestBid
+              ? activeAuction.highestBid
+              : activeAuction.price}
+          </p>
+        </div>
+        <div className="text-center orange-border font-weight-bold time-left-block">
+          <p className="m-0">TID KVAR</p>
+          <p className="m-0 time-left">{time}</p>
+        </div>
       </div>
 
-      <Carousel
-        activeIndex={activeIndex}
-        next={next}
-        previous={previous}
-        className="mt-4"
-      >
-        <CarouselIndicators
-          items={items}
+      <div>
+        <Carousel
           activeIndex={activeIndex}
-          onClickHandler={goToIndex}
-        />
-        {slides}
-        <CarouselControl
-          direction="prev"
-          directionText="Previous"
-          onClickHandler={previous}
-        />
-        <CarouselControl
-          direction="next"
-          directionText="Next"
-          onClickHandler={next}
-        />
-      </Carousel>
-
-      <div className="mx-auto mt-4">
-        <input
-          type="number"
-          placeholder="Lägg bud..."
-          value={bid}
-          onChange={(e) => setBid(e.target.value)}
-        ></input>
-        <Button
-          type="submit"
-          className="ml-2 orange-background"
-          onClick={() => postBid()}
+          next={next}
+          previous={previous}
+          className="mt-4 carousel"
         >
-          Lägg bud
-        </Button>
+          <CarouselIndicators
+            items={activeAuction.images}
+            activeIndex={activeIndex}
+            onClickHandler={goToIndex}
+          />
+          {slides}
+          <CarouselControl
+            direction="prev"
+            directionText="Previous"
+            onClickHandler={previous}
+          />
+          <CarouselControl
+            direction="next"
+            directionText="Next"
+            onClickHandler={next}
+          />
+        </Carousel>
       </div>
 
-      <p className="mt-4">{activeAuction.description}</p>
-
+      { (activeAuction.seller.id !== userId) ? (
+        <div className="flex-container mt-4">
+          <input
+            className="orange-border place-bid-block"
+            type="number"
+            placeholder="Lägg bud..."
+            value={bid}
+            onChange={(e) => setBid(e.target.value)}
+          ></input>
+          {(user !== null) ? (
+            <Button
+              type="submit"
+              className="orange-background font-weight-bold place-bid-button"
+              onClick={() => postBid()}
+            >
+              LÄGG BUD
+            </Button>
+          ) : (
+              <Button
+                type="submit"
+                className="grey-background font-weight-bold place-bid-button"
+                disabled
+              >
+                Logga in för att lägga bud
+              </Button>
+            )}
+        </div>)
+        : (<div></div>)}
+      {showErrorMessage === 0 ? (
+        ""
+      ) : showErrorMessage === 1 ? (
+        <div className="error-text">
+          Budet måste vara högre än nuvarande bud
+        </div>
+      ) : (
+        <div className="error-text">Du måste skriva in ett bud</div>
+      )}
+      <div className="mt-4"></div>
+      <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
-        <p>
-          Seller: {activeAuction.seller ? activeAuction.seller.fullName : null}
+        <p className="mb-1">
+          <span className="seller ml-4">Seller:</span>{" "}
+          {activeAuction.seller ? activeAuction.seller.fullName : null}
         </p>
-        <Button type="submit" className="orange-background">
-          Chatta med säljare
-        </Button>
+        <SellerChatModal activeAuction={activeAuction} />
       </div>
     </div>
   );
 };
 
-export default AuctionDetailsPageData
+export default AuctionDetailsPageData;
