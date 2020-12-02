@@ -60,12 +60,12 @@ public class UserService {
 
     public void addAuctionsToUser(Auction auction, User user){
     ArrayList<Auction> auctionList = new ArrayList<>();
-    if(user.getAuctions() != null){
+    /*if(user.getAuctions() != null){
         auctionList = user.getAuctions();
     }
         auctionList.add(auction);
         user.setAuctions(auctionList);
-        userRepo.save(user);
+        userRepo.save(user);*/
     }
 
 
@@ -83,7 +83,7 @@ public class UserService {
                    newUser.setPassword(user.getPassword());
                    newUser.setFullName(user.getFullName());
                    newUser.setAddress(user.getAddress());
-                   newUser.setAuctions(user.getAuctions());
+                   //newUser.setAuctions(user.getAuctions());
                    userRepo.save(newUser);
                }
            }

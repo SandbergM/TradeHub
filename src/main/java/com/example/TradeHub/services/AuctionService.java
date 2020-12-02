@@ -3,14 +3,11 @@ package com.example.TradeHub.services;
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ public class AuctionService {
         return newlyCreatedAuction;
     }
 
-    public void updateCurrentBidOnLiveAuction(String id, int bid) {
+    public void updateCurrentBidOnLiveAuction( String id, int bid ) {
         Auction auctionToUpdate = this.findById(id);
         User previousHighestBidder = auctionToUpdate.getBidder();
 
@@ -71,8 +68,9 @@ public class AuctionService {
         return auction;
     }
 
-    public List<Auction> auctionCriteriaSearch(int page, String title, String id){
-        List<Auction> auctions = auctionRepo.auctionCriteriaSearch(page, title, id).orElse( new ArrayList<>());
+    public List<Auction> auctionCriteriaSearch(int page, String title, String id, String sortBy, Boolean active){
+        List<Auction> auctions = auctionRepo.auctionCriteriaSearch(page, title, id, sortBy, active)
+                .orElse( new ArrayList<>());
         if(auctions.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
