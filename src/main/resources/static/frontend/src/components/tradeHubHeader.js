@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
+import { withRouter } from "react-router-dom";
 import AuthenticationModal from './AuthenticationModal'
 import {UserContext} from '../context/UserContext'
+import {useHistory, Link} from 'react-router-dom'
 import {
   Collapse,
   Navbar,
@@ -10,21 +12,25 @@ import {
   Nav,
 } from "reactstrap";
 
-const TradeHubHeader = () => {
+const TradeHubHeader = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const {user, setUser} = useContext(UserContext)
+  let history = useHistory()
 
   const toggle = () => setIsOpen(!isOpen);
 
-  const goToHomePage = (e) =>{
-  e.preventDefault()
-  //route to home
+  const goToHomePage = () =>{
+    history.push("/")
   }
+  const goToMyPage = () =>{
+    history.push("/mypage")
+    }
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
   }
   const logout = () =>{
+    history.push("/")
     fetch('/logout');
     setUser(null);
   }
@@ -33,7 +39,7 @@ const TradeHubHeader = () => {
   return (
     <div>
       <Navbar className="light-grey-background mb-3" expand="md">
-        <NavbarBrand className="text-dark " href="/">
+        <NavbarBrand className="text-dark pointer" onClick={goToHomePage}>
           <h3 className="my-auto ml-1 p-2">
             Trade<span className="orange-background tradeHub-white borderRadius ml-1">Hub</span>
           </h3>
@@ -64,7 +70,7 @@ const TradeHubHeader = () => {
             ) : (
               <>
                 <NavItem className="tradeHub-grey">
-                  <NavLink className="tradeHub-grey pointer">Min sida</NavLink>
+                  <NavLink className="tradeHub-grey pointer" onClick={goToMyPage}>Min sida</NavLink>
                 </NavItem>
                 <NavItem className="tradeHub-grey">
                   <NavLink className="tradeHub-grey pointer" onClick={logout}>
@@ -91,4 +97,4 @@ const TradeHubHeader = () => {
   );
 };
 
-export default TradeHubHeader;
+export default withRouter(TradeHubHeader);

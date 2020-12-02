@@ -1,47 +1,47 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect } from "react";
 import { Row } from "reactstrap";
 import AuctionItem from "../components/AuctionItem";
-import tuttiPrutti from "../images/346095.png"
-import SearchField from "./searchField";
 
-const AuctionList = () => {
-  const [auctions, setAuctions] = useState([])
+const AuctionList = (props) => {
+  const [auctions, setAuctions] = useState([]);
+  const [displayLoader, setDisplayLoader] = useState( true );
 
   useEffect(() => {
-   fetchAuctions()
-  },[])
+    fetchAuctions();
+  },[props.fetch]);
 
-  const fetchAuctions = async ()=>{
-    let res = await fetch("/api/v1/auctions");
+  const fetchAuctions = async () => {
+    setAuctions([])
+    setDisplayLoader(true)
+    let res = await fetch("/api/v1/auctions" + props.fetch);
+    
     try {
-      res = await res.json();
-      setAuctions(res);
+      if(res.status === 200){
+        res = await res.json();
+        setAuctions(res);
+      }
+      else{
+        
+      }
+     
     } catch {
       console.error("could not fetch auctions");
     }
-  }
+    setDisplayLoader(false)
+  };
 
   return (
     <div>
-      <SearchField/>
-    <Row xs="1" sm="2" md="3">
+      <Row xs={props.xs} sm={props.sm} md={props.md}>
+
+        { displayLoader && <div id="loader"></div> }
+        { !displayLoader && auctions.length === 0 && props.fetch !== "/myPostedBids" && props.fetch !== "/myPostedAuctions" &&
+          <div id="no-matches-found" className="tradeHub-orange bold"> Din sökning matchade inte någon annons. </div> 
+        }
         {auctions.map((auction, i) => {
-            return (
-                <AuctionItem
-                key = {i}
-                id = {auction.id}
-                title = {auction.title}
-                description = {auction.description}
-                image = {tuttiPrutti}
-                timestamp = {auction.timestamp}
-                highestBid = {auction.highestBid}
-                price = {auction.price}
-                seller= {auction.seller}
-                >
-                </AuctionItem>
-            ) 
+          return <AuctionItem auction={auction} key={i} />;
         })}
-    </Row>
+      </Row>
     </div>
   );
 };

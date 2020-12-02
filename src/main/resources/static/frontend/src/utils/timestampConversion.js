@@ -10,11 +10,15 @@ export const timestampToDay = (timestamp) => {
 }
 
 export const timestampToHourAndMinutes = (timestamp) => {
-    return `${timestamp.getHours()} : ${timestamp.getMinutes()}`
+    let hoursZero = timestamp.getHours() < 10 ? "0" : ""
+    let minutesZero = timestamp.getMinutes() < 10 ? "0" : ""
+    return `${hoursZero}${timestamp.getHours()}:${minutesZero}${timestamp.getMinutes()}`
 }
 
 export const timestampToMinutesAndSeconds = (timestamp) => {
-    return `${timestamp.getMinutes()} min ${timestamp.getSeconds()} sek`
+    let minutesZero = timestamp.getMinutes() < 10 ? "0" : ""
+    let secondsZero = timestamp.getSeconds() < 10 ? "0" : ""
+    return `${minutesZero}${timestamp.getMinutes()} min ${secondsZero}${timestamp.getSeconds()} sek`
 }
 
 export const timestampConverter = (days) => {

@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import PasswordInputField from './PasswordInputField'
 import { Button, ModalBody, Form, FormGroup, Label, Input } from "reactstrap";
 
 const LoginModal = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessageShown, setErrorMessageShown] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { setUser,fetchUser } = useContext(UserContext);
 
   const performLogin = async (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ const LoginModal = (props) => {
     if (response.url.includes("error")) {
       setErrorMessageShown(true);
     } else {
-      setUser(response);
+      fetchUser()
       setErrorMessageShown(false);
       props.setModalIsOpen(!props.modalIsOpen);
     }
@@ -54,20 +55,7 @@ const LoginModal = (props) => {
             />
           </FormGroup>
           <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
-            <Label
-              for="password"
-              className="tradeHub-dark-grey font-weight-bold"
-            >
-              Lösenord
-            </Label>
-            <Input
-              required
-              className="light-grey-background tradeHub-input"
-              type="password"
-              placeholder="Lösenord"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <PasswordInputField setPassword={ setPassword } password={ password }/>
           </FormGroup>
           <FormGroup className="col-xs-8 col-sm-12 col-md-12 col-lg-12 mt-2">
             {errorMessageShown ? (
