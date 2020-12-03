@@ -10,6 +10,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,27 +33,17 @@ public class SocketService {
     @Autowired
     ChatMessageService chatMessageService;
 
-    private Map<String, List<WebSocketSession>> rooms = new ConcurrentHashMap<>();
+    private final Map<String, List<WebSocketSession>> rooms = new ConcurrentHashMap<>();
+    private final Map<String, List<String>> activeSessions = new ConcurrentHashMap<>();
 
     public void sendToOne(WebSocketSession webSocketSession, String message) throws IOException {
         webSocketSession.sendMessage(new TextMessage(message));
     }
 
     public void sendToOne(WebSocketSession webSocketSession, Object obj) throws IOException {
-//        String json = gson.toJson(obj, klass);
         String json = objectMapper.writeValueAsString(obj);
         sendToOne(webSocketSession, json);
     }
-    /*
-    public void sendToAll(Object obj) {
-        try {
-            sendToAll(objectMapper.writeValueAsString(obj));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
-
- */
 
     public void sendToAll(Object obj, String room) throws JsonProcessingException {
         TextMessage msg = new TextMessage(objectMapper.writeValueAsString(obj));
@@ -67,7 +58,19 @@ public class SocketService {
         }
     }
 
+    public void clearSessions(WebSocketSession session){
+        var mySessions = activeSessions.get(session.getId());
+        if(mySessions == null) return;
+        for (String mySession : mySessions) {
+            removeSession(session, new Room(mySession));
+        }
+        activeSessions.remove(session.getId());
+    }
+
     public void addSession(WebSocketSession session, Room room) {
+
+        activeSessions.computeIfAbsent(session.getId(), k -> new ArrayList<>());
+
         System.out.println("Joined room : " + room.getRoomId());
         if(rooms.get(room.getRoomId()) == null){
             rooms.put(room.getRoomId(), new CopyOnWriteArrayList<>());
@@ -75,7 +78,9 @@ public class SocketService {
         var tempList = rooms.get(room.getRoomId());
         tempList.add(session);
         rooms.replace(room.getRoomId(), tempList);
-        System.out.println(rooms.get(room.getRoomId()).toString());
+        var arr = activeSessions.get(session.getId());
+        arr.add(room.getRoomId());
+        activeSessions.replace(session.getId(), arr);
     }
 
     public void removeSession(WebSocketSession session, Room room) {
