@@ -71,7 +71,7 @@ public class SocketController extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         System.out.println("Disconnected");
-        //socketService.removeSession(session);
+        socketService.clearSessions(session);
     }
 
     private <T> T convertPayload(Object object, Class<T> type) {
