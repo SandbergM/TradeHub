@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bid {
+public class SocketPayload {
 
-    private String auctionId;
-    private Integer bid;
+    private String action;
+    private String target;
+    private Object content;
 
 }

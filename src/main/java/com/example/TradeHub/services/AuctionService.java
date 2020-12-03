@@ -1,6 +1,8 @@
 package com.example.TradeHub.services;
 
 import com.example.TradeHub.entities.Auction;
+import com.example.TradeHub.entities.Bid;
+import com.example.TradeHub.entities.SocketPayload;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -53,7 +55,7 @@ public class AuctionService {
         auctionToUpdate.setBidder(bidder);
         auctionRepo.save(auctionToUpdate);
         try {
-            socketService.sendToAll(auctionToUpdate, auctionToUpdate.getId());
+            socketService.sendToAll( this.payloadBuilder( auctionToUpdate, bid, "bid" ) );
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -74,6 +76,11 @@ public class AuctionService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
         return auction;
+    }
+
+    private SocketPayload payloadBuilder(Auction auction, Integer bid, String action){
+        Bid newBid = new Bid(auction.getId(), bid);
+        return new SocketPayload(action, auction.getId(), newBid);
     }
 
     public List<Auction> auctionCriteriaSearch(int page, String title, String id, String sortBy, Boolean active){

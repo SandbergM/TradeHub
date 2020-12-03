@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/whoami")
     public ResponseEntity<User> whoami(HttpServletRequest req, HttpServletResponse res){
-        if(req.getCookies() != null) {
+        /*if(req.getCookies() != null) {
             List<Cookie> cookies = Arrays.stream(req.getCookies()).filter(c -> c.getName().equals("abc123")).collect(Collectors.toList());
             String reqCookieValue = cookies.get(0).getValue();
 
@@ -41,7 +41,7 @@ public class UserController {
             cookie.setHttpOnly(true);
             res.addCookie(cookie);
 
-        }
+        }*/
 
         User user = userService.getCurrentUser();
         if(user==null){

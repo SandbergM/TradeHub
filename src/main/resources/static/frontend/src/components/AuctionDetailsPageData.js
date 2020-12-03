@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { AuctionContext } from "../context/AuctionContextProvider";
+
 import {
   Carousel,
   CarouselItem,
@@ -12,7 +12,6 @@ import {
 import SellerChatModal from "./SellerChatModal";
 import imageMissing from "../images/bild_saknas.png";
 
-
 const AuctionDetailsPageData = ({
   activeAuction,
   bid,
@@ -23,17 +22,6 @@ const AuctionDetailsPageData = ({
   const { user } = useContext(UserContext);
   const serverAddress = "http://localhost:8080";
   let userId = "No user";
-  const { setHighestBid, highestBid } = useContext(AuctionContext);
-  const [auctionBid, setAuctionBid] = useState(activeAuction.highestBid);
-
-  useEffect(() => {
-    console.log('In useEffect, setting auctionbid');
-    setAuctionBid(highestBid);
-
-    return() => {
-      setHighestBid(activeAuction.highestBid);
-    }
-  }, [highestBid])
 
   if (activeAuction.images == null) {
     activeAuction.images = [{ url: "empty" }];
@@ -158,10 +146,7 @@ const AuctionDetailsPageData = ({
       <div className="flex-container">
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
-          <p className="m-0 highest-bid">
-            { auctionBid
-              }
-          </p>
+          <p className="m-0 highest-bid">{bid}</p>
         </div>
         <div className="text-center orange-border font-weight-bold time-left-block">
           <p className="m-0">TID KVAR</p>
@@ -201,7 +186,6 @@ const AuctionDetailsPageData = ({
             className="orange-border place-bid-block"
             type="number"
             placeholder="Lägg bud..."
-            value={bid}
             onChange={(e) => setBid(e.target.value)}
           ></input>
           {user !== null ? (
