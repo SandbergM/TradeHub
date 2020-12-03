@@ -55,7 +55,7 @@ const AuctionItem = (props) => {
     <Col className="p-0 pr-3 pl-3">
       <Card className="tradeHub-card text-center mb-3 pointer" onClick={goToDetails}>
         <CardBody className="tradeHub-cardBody">
-          <CardTitle tag="h5" className="text-warning">
+          <CardTitle tag="h5">
             {props.auction.title}
           </CardTitle>
         </CardBody>
@@ -66,7 +66,7 @@ const AuctionItem = (props) => {
           ) : (
             <CardText>{props.auction.price} kr</CardText>
           )}
-          <CardText tag="h5" className="text-warning">
+          <CardText tag="h5">
             {time}
           </CardText>
         </CardBody>
