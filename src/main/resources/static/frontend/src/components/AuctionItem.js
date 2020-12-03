@@ -53,13 +53,13 @@ const AuctionItem = (props) => {
 
   return (
     <Col className="p-0 pr-3 pl-3">
-      <Card className="text-center mb-3 pointer" onClick={goToDetails}>
-        <CardBody>
+      <Card className="tradeHub-card text-center mb-3 pointer" onClick={goToDetails}>
+        <CardBody className="tradeHub-cardBody">
           <CardTitle tag="h5" className="text-warning">
             {props.auction.title}
           </CardTitle>
         </CardBody>
-        <img width="100%" src={getThumbNail(props.auction.images)} alt="auction-img" />
+        <img className="tradeHub-cardImg" src={getThumbNail(props.auction.images)} alt="auction-img" />
         <CardBody>
           {props.auction.highestBid ? (
             <CardText>{props.auction.highestBid} kr</CardText>
