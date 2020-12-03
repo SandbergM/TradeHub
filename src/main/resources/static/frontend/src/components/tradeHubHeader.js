@@ -29,9 +29,14 @@ const TradeHubHeader = (props) => {
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
   }
-  const logout = () =>{
+  const logout = async() =>{
     history.push("/")
-    fetch('/logout');
+    let res = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: {}
+    })
+    console.log(res)
     setUser(null);
   }
 
@@ -44,6 +49,7 @@ const TradeHubHeader = (props) => {
             Trade<span className="orange-background tradeHub-white borderRadius ml-1">Hub</span>
           </h3>
         </NavbarBrand>
+  
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>
             <NavItem>
