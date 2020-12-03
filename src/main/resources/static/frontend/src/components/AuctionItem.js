@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
 import { getThumbNail } from '../utils/imageHandler'
 import { AuctionContext } from '../context/AuctionContextProvider'

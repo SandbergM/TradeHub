@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import AuthenticationModal from './AuthenticationModal'
 import {UserContext} from '../context/UserContext'
-import {useHistory, Link} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import {
   Collapse,
   Navbar,
@@ -38,7 +38,7 @@ const TradeHubHeader = (props) => {
 
   return (
     <div>
-      <Navbar className="light-grey-background mb-3" expand="md">
+      <Navbar className="light-grey-background mb-3" expand="lg">
         <NavbarBrand className="text-dark pointer" onClick={goToHomePage}>
           <h3 className="my-auto ml-1 p-2">
             Trade<span className="orange-background tradeHub-white borderRadius ml-1">Hub</span>
