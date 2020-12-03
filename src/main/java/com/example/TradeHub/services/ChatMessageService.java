@@ -37,7 +37,7 @@ public class ChatMessageService {
 
         SocketDTO socketMessage = new SocketDTO("message", savedChatMessage);
 
-        socketService.sendToAll(socketMessage);
+        //socketService.sendToAll(socketMessage);
         return savedChatMessage.getId() != null;
     }
 }

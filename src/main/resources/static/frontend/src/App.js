@@ -1,20 +1,16 @@
-import Home from './pages/Home'
-import MyPage from './pages/MyPage'
+import Home from "./pages/Home";
+import MyPage from "./pages/MyPage";
 import TradeHubHeader from "./components/tradeHubHeader";
 import UserContexProvider from "./context/UserContext";
 import TradeHubFooter from "./components/TradeHubFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Socket from './sockets/socket'
 
 import React from "react";
-import {
-  Switch,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import AuctionDetailsPage from "./pages/AuctionDetailsPage";
 import AuctionContextProvider from "./context/AuctionContextProvider";
-import ChatContextProvider from './context/ChatContext';
+import ChatContextProvider from "./context/ChatContext";
+import SocketContextProvider from "./context/SocketContext";
 
 function App() {
   return (
@@ -22,21 +18,22 @@ function App() {
       <div className="App">
         <UserContexProvider>
           <ChatContextProvider>
-          <AuctionContextProvider>
-            <Socket></Socket>
-            <TradeHubHeader />
-            <main className="container main-content">
-                <Switch>
-                  <Route exact path="/">
-                    <Home />
-                  </Route>
-                  <Route path="/auction/:title/:id">
-                    <AuctionDetailsPage />
-                  </Route>
-                  <Route exact path="/mypage" component={MyPage} />
-                </Switch>
-              </main>
-              <TradeHubFooter />
+            <AuctionContextProvider>
+              <SocketContextProvider>
+                <TradeHubHeader />
+                <main className="container main-content">
+                  <Switch>
+                    <Route exact path="/">
+                      <Home />
+                    </Route>
+                    <Route path="/auction/:title/:id">
+                      <AuctionDetailsPage />
+                    </Route>
+                    <Route exact path="/mypage" component={MyPage} />
+                  </Switch>
+                </main>
+                <TradeHubFooter />
+              </SocketContextProvider>
             </AuctionContextProvider>
           </ChatContextProvider>
         </UserContexProvider>

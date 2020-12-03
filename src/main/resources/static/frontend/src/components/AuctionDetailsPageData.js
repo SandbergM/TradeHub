@@ -21,7 +21,7 @@ const AuctionDetailsPageData = ({
 }) => {
   const { user } = useContext(UserContext);
   const serverAddress = "http://localhost:8080";
-  let userId = "No user"
+  let userId = "No user";
 
   if (activeAuction.images == null) {
     activeAuction.images = [{ url: "empty" }];
@@ -184,7 +184,7 @@ const AuctionDetailsPageData = ({
         </Carousel>
       </div>
 
-      { (activeAuction.seller.id !== userId) ? (
+      {activeAuction.seller.id !== userId ? (
         <div className="flex-container mt-4">
           <input
             className="orange-border place-bid-block"
@@ -193,7 +193,7 @@ const AuctionDetailsPageData = ({
             value={bid}
             onChange={(e) => setBid(e.target.value)}
           ></input>
-          {(user !== null) ? (
+          {user !== null ? (
             <Button
               type="submit"
               className="orange-background font-weight-bold place-bid-button"
@@ -202,16 +202,18 @@ const AuctionDetailsPageData = ({
               LÄGG BUD
             </Button>
           ) : (
-              <Button
-                type="submit"
-                className="grey-background font-weight-bold place-bid-button"
-                disabled
-              >
-                Logga in för att lägga bud
-              </Button>
-            )}
-        </div>)
-        : (<div></div>)}
+            <Button
+              type="submit"
+              className="grey-background font-weight-bold place-bid-button"
+              disabled
+            >
+              Logga in för att lägga bud
+            </Button>
+          )}
+        </div>
+      ) : (
+        <div></div>
+      )}
       {showErrorMessage === 0 ? (
         ""
       ) : showErrorMessage === 1 ? (
