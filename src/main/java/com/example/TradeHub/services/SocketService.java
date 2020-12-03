@@ -55,6 +55,7 @@ public class SocketService {
  */
 
     public void sendToAll(Object obj, String room) throws JsonProcessingException {
+        System.out.println("In send to all");
         TextMessage msg = new TextMessage(objectMapper.writeValueAsString(obj));
         var x = rooms.get(room);
         for (WebSocketSession webSocketSession : x) {
@@ -66,6 +67,7 @@ public class SocketService {
             }
         }
     }
+
 
     public void addSession(WebSocketSession session, Room room) {
         System.out.println("Joined room : " + room.getRoomId());

@@ -36,32 +36,22 @@ const AuctionDetailsPage = () => {
   }, []);
 
   const postBid = async () => {
-    sendMessage({
-      action: "bid",
-      payload: {
-        bid: bid,
-        bidderId: activeAuction.bidder === null ? "" : activeAuction.bidder.id,
-        auctionId: activeAuction.id,
-      },
-    });
-
-    //  let response= await fetch(`/api/v1/auctions/${activeAuction.id}/${bid}`,{
-    //     method: "POST"
-    //   })
-    //   console.log(response);
-    //   if(response.status=== 400 ){
-    //     //Too low
-    //     setShowErrorMessage(1);
-    //   }
-    //   else if(response.status === 405){
-    //     //No bid
-    //     setShowErrorMessage(2)
-    //   }
-    //   else if(response.status === 204){
-    //     //No error
-    //     setShowErrorMessage(0);
-    //     setAcceptedBid(bid)
-    //   }
+     let response = await fetch(`/api/v1/auctions/${activeAuction.id}/${bid}`,{
+        method: "POST"
+      })
+      console.log(response);
+      if(response.status=== 400 ){
+        //Too low
+        setShowErrorMessage(1);
+      }
+      else if(response.status === 405){
+        //No bid
+        setShowErrorMessage(2)
+      }
+      else if(response.status === 204){
+        //No error
+        setShowErrorMessage(0);
+      }
   };
 
   return (

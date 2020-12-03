@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { AuctionContext } from "../context/AuctionContextProvider";
 import {
   Carousel,
   CarouselItem,
@@ -11,17 +12,28 @@ import {
 import SellerChatModal from "./SellerChatModal";
 import imageMissing from "../images/bild_saknas.png";
 
+
 const AuctionDetailsPageData = ({
   activeAuction,
   bid,
   setBid,
   postBid,
   showErrorMessage,
-  acceptedBid,
 }) => {
   const { user } = useContext(UserContext);
   const serverAddress = "http://localhost:8080";
   let userId = "No user";
+  const { setHighestBid, highestBid } = useContext(AuctionContext);
+  const [auctionBid, setAuctionBid] = useState(activeAuction.highestBid);
+
+  useEffect(() => {
+    console.log('In useEffect, setting auctionbid');
+    setAuctionBid(highestBid);
+
+    return() => {
+      setHighestBid(activeAuction.highestBid);
+    }
+  }, [highestBid])
 
   if (activeAuction.images == null) {
     activeAuction.images = [{ url: "empty" }];
@@ -147,9 +159,8 @@ const AuctionDetailsPageData = ({
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
           <p className="m-0 highest-bid">
-            {activeAuction.highestBid
-              ? activeAuction.highestBid
-              : activeAuction.price}
+            { auctionBid
+              }
           </p>
         </div>
         <div className="text-center orange-border font-weight-bold time-left-block">

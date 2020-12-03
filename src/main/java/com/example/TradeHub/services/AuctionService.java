@@ -3,6 +3,7 @@ package com.example.TradeHub.services;
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.AuctionRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class AuctionService {
     UserService userService;
     @Autowired
     MailService mailService;
+    @Autowired
+    SocketService socketService;
 
     public Auction postNewAuction(Auction auction){
         User seller = userService.getCurrentUser();
@@ -49,6 +52,11 @@ public class AuctionService {
         auctionToUpdate.setHighestBid(bid);
         auctionToUpdate.setBidder(bidder);
         auctionRepo.save(auctionToUpdate);
+        try {
+            socketService.sendToAll(auctionToUpdate, auctionToUpdate.getId());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         if(previousHighestBidder != null){
             try{

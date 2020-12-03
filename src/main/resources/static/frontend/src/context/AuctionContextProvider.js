@@ -3,10 +3,13 @@ export const AuctionContext = createContext();
 
 const AuctionContextProvider = (props) => {
   const [activeAuction, setActiveAuction] = useState({});
+  const [highestBid, setHighestBid] = useState();
 
   const values = {
     activeAuction,
     setActiveAuction,
+    setHighestBid,
+    highestBid
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ChatContext } from "./ChatContext";
+import { AuctionContext } from "./AuctionContextProvider"
 
 export const SocketContext = React.createContext();
 
@@ -10,6 +11,8 @@ export function useSocket() {
 const SocketContextProvider = (props) => {
   const [ws, setWs] = useState();
   const { appendMessage } = useContext(ChatContext);
+  const { setHighestBid } = useContext(AuctionContext);
+  
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080/tradeHubSocket");
@@ -27,6 +30,7 @@ const SocketContextProvider = (props) => {
     };
 
     ws.onmessage = (data) => {
+      console.log('In onmessage');
       messageHandler(data.data);
     };
 
@@ -40,7 +44,10 @@ const SocketContextProvider = (props) => {
   };
 
   const messageHandler = (msg) => {
-    appendMessage(JSON.parse(msg));
+    let bid = JSON.parse(msg)
+    console.log(bid); 
+    setHighestBid(bid.highestBid);
+    //appendMessage(JSON.parse(msg));
   };
 
   const values = {
