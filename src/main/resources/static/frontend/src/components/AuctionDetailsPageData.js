@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { sortImagesAfterPriority } from "../utils/imageHandler.js";
 
 import {
   Carousel,
@@ -121,7 +122,7 @@ const AuctionDetailsPageData = ({
     };
   }, []);
 
-  const slides = activeAuction.images.map((item) => {
+  const slides = sortImagesAfterPriority(activeAuction.images).map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}

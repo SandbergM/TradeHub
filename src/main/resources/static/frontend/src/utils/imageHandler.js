@@ -17,11 +17,15 @@ export const getThumbNail = (images) => {
 };
 
 export const sortImagesAfterPriority = (images) => {
-  if (images.length === 0) {
-    return [{ url: imageMissing }];
-  }
+  let sortedImages = [];
 
-  return images.map((image) => {
-    image.url = serverAddress + image.url;
+  images.forEach((img) => {
+    if (img.primary) {
+      sortedImages.unshift(img);
+    } else {
+      sortedImages.push(img);
+    }
   });
+
+  return sortedImages;
 };
