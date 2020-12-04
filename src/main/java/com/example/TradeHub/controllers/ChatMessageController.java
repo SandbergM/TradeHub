@@ -17,21 +17,20 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/rest/chatMessages")
+@RequestMapping("/api/v1/chatMessage")
 public class ChatMessageController {
 
     @Autowired
-    ChatMessageService chatMessageService;
+    ChatMessageService conversationService;
 
     @GetMapping
     public List<ChatMessage> getAllChatMessages(){
-        return chatMessageService.getAllChatMessages();
+        return conversationService.getAllChatMessages();
     }
 
     @PostMapping
     public ResponseEntity<Boolean> postNewChatMessage(@RequestBody ChatMessage chatMessage){
-        boolean didSave = chatMessageService.postNewMessage(chatMessage);
-
+        boolean didSave = conversationService.postNewMessage( chatMessage );
         return ResponseEntity.ok(didSave);
     }
 }

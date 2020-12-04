@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -18,16 +19,17 @@ import java.util.List;
  */
 
 @Data
-@Document( collection = "messages" )
 @AllArgsConstructor
 @NoArgsConstructor
+@Document( collection = "chatMessages" )
 public class ChatMessage {
 
-    @Id
-    private String id;
+    @DBRef
     private User sender;
+    @DBRef
+    private User receiver;
     private String message;
-    private List<User> users;
     private long timestamp;
+    private String roomId;
 
 }

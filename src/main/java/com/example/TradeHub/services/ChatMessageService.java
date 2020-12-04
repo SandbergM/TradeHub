@@ -1,12 +1,16 @@
 package com.example.TradeHub.services;
 
-import com.example.TradeHub.dtos.SocketDTO;
 import com.example.TradeHub.entities.ChatMessage;
+import com.example.TradeHub.entities.Room;
+import com.example.TradeHub.entities.SocketPayload;
+import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.ChatMessageRepo;
+import com.example.TradeHub.repositories.RoomRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,24 +24,46 @@ import java.util.List;
 public class ChatMessageService {
 
     @Autowired
-    ChatMessageRepo chatMessageRepo;
+    ChatMessageRepo conversationRepo;
 
     @Autowired
     SocketService socketService;
 
-    public List<ChatMessage> getAllChatMessages() {return chatMessageRepo.findAll();}
+    @Autowired
+    UserService userService;
 
+    @Autowired
+    RoomRepo roomRepo;
 
-    //This function will most likely be adjusted to chatroom functionality and the return will be optimized.
+    public List<ChatMessage> getAllChatMessages() { return conversationRepo.findAll(); }
+
     public boolean postNewMessage(ChatMessage chatMessage){
+        User sender = userService.getCurrentUser();
+
+
+
+        User receiver = userService.findById(chatMessage.getReceiver().getId());
+        if(receiver == null){ System.out.println("Här kommer det kastas grejer!"); }
+        var room = roomRepo.findRoomByParticipants(sender, receiver);
+
+        if(room.isEmpty()){
+            System.out.println("Försöker spara ett rum");
+            ArrayList<String> x = new ArrayList<>();
+            x.add(sender.getId());
+            x.add(receiver.getId());
+            var y = new Room();
+            y.setParticipants(x);
+            room = roomRepo.save(y);
+        }
+
+        System.out.println(room);
 
         chatMessage.setTimestamp(Instant.now().toEpochMilli());
-
-        ChatMessage savedChatMessage = chatMessageRepo.save(chatMessage);
-
-        SocketDTO socketMessage = new SocketDTO("message", savedChatMessage);
-
-        //socketService.sendToAll(socketMessage);
-        return savedChatMessage.getId() != null;
+        chatMessage.setSender(sender);
+        ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
+        System.out.println(chatMessage);
+        //SocketPayload socketPayload = new SocketPayload();
+        //socketService.sendToAll();
+        return true;
     }
 }

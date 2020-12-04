@@ -1,10 +1,7 @@
 package com.example.TradeHub.services;
 
 import com.example.TradeHub.dtos.SocketDTO;
-import com.example.TradeHub.entities.Bid;
-import com.example.TradeHub.entities.ChatMessage;
-import com.example.TradeHub.entities.Room;
-import com.example.TradeHub.entities.SocketPayload;
+import com.example.TradeHub.entities.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +10,11 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 
 @Service
 public class SocketService {
@@ -26,18 +23,23 @@ public class SocketService {
     ChatMessageService chatMessageService;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    private final Map<String, List<WebSocketSession>> rooms = new ConcurrentHashMap<>();
+    private final Map<String, Room> rooms = new ConcurrentHashMap<>();
     private final Map<String, List<String>> activeSessions = new ConcurrentHashMap<>();
+    private final Map<String, String> sessionTranslations = new ConcurrentHashMap<>();
 
     public void sendToAll(SocketPayload socketPayload) throws JsonProcessingException {
         TextMessage msg = new TextMessage(objectMapper.writeValueAsString(socketPayload));
-        for (WebSocketSession webSocketSession : rooms.get(socketPayload.getTarget())) {
+        for (WebSocketSession webSocketSession : rooms.get(socketPayload.getTarget()).getSessions()) {
             try {
                 webSocketSession.sendMessage(msg);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String userIdToSessionIdTranslation(String userId){
+        return sessionTranslations.get(userId);
     }
 
     public void clearSessions(WebSocketSession session){
@@ -49,17 +51,17 @@ public class SocketService {
 
     public void addSession(WebSocketSession session, Room room) {
         activeSessions.computeIfAbsent(session.getId(), k -> new CopyOnWriteArrayList<>());
-        if(room.getRoomId() != null){
-            rooms.computeIfAbsent( room.getRoomId(), k -> new CopyOnWriteArrayList<>());
-            rooms.get(room.getRoomId()).add(session);
-            activeSessions.get(session.getId()).add(room.getRoomId());
+        if(room.getId() != null){
+            rooms.computeIfAbsent( room.getId(), k -> new Room( new ArrayList<WebSocketSession>()));
+            rooms.get(room.getId()).getSessions().add(session);
+            activeSessions.get(session.getId()).add(room.getId());
         }
     }
 
     public void removeSession(WebSocketSession session, Room room) {
-        System.out.println("Left room : " + room.getRoomId());
-        rooms.get(room.getRoomId()).removeIf( s -> s == session);
-        System.out.println(rooms.get(room.getRoomId()).toString());
+        System.out.println("Left room : " + room.getId());
+        rooms.get(room.getId()).getSessions().removeIf( s -> s == session);
+        System.out.println(rooms.get(room.getId()).toString());
     }
 
     public void saveNewMessage(ChatMessage chatMessage) {
@@ -69,17 +71,8 @@ public class SocketService {
     public void messageHandler(WebSocketSession session, TextMessage message) throws JsonProcessingException {
         SocketDTO socketDTO = objectMapper.readValue(message.getPayload(), SocketDTO.class);
         switch (socketDTO.action) {
-            case "message":
-                saveNewMessage(convertPayload(socketDTO.payload, ChatMessage.class));
-                break;
             case "connection":
-                System.out.println("User connected");
-                break;
-            case "bid":
-                Bid bid = convertPayload(socketDTO.payload, Bid.class);
-                String action = "bid";
-                SocketPayload payload = new SocketPayload( action, session.getId(), bid );
-                sendToAll( payload );
+                sessionTranslations.put(convertPayload(socketDTO.payload, User.class).getId(), session.getId());
                 break;
             case "join-room":
                 addSession(session, convertPayload(socketDTO.payload, Room.class) );

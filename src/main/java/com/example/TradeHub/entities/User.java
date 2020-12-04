@@ -39,6 +39,10 @@ public class User {
         this.company = company;
     }
 
+    public User(String id){
+        this.id = id;
+    }
+
     @JsonIgnore
     public String getPassword() {
         return password;

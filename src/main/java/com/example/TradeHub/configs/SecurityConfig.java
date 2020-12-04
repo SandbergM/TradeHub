@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/v1/auctions**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/static/uploads/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/chatMessage").authenticated()
                 .antMatchers(HttpMethod.POST, "/static/upload").permitAll() // Testing purpose
                 .and()
                 .httpBasic().authenticationEntryPoint(entryPoint)

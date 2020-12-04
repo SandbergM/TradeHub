@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ChatContext } from "./ChatContext";
 import { AuctionContext } from "./AuctionContextProvider";
+import { UserContext } from "./UserContext";
 
 export const SocketContext = React.createContext();
 
@@ -12,16 +13,25 @@ const SocketContextProvider = (props) => {
   const [ws, setWs] = useState();
   const { appendMessage } = useContext(ChatContext);
   const { setHighestBid } = useContext(AuctionContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080/tradeHubSocket");
+    console.log(ws);
     setWs(ws);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (ws == null) return;
     ws.onopen = () => {
-      console.log("Socket connection established");
+      if (user !== null) {
+        ws.send(
+          JSON.stringify({
+            action: "connection",
+            payload: { id: user.id },
+          })
+        );
+      }
     };
 
     ws.onclose = () => {
