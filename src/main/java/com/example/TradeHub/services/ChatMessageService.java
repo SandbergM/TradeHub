@@ -41,7 +41,6 @@ public class ChatMessageService {
     public boolean postNewMessage(ChatMessage chatMessage) {
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(chatMessage.getReceiver().getId());
-
         if(receiver == null){ System.out.println("Här kommer det kastas grejer!"); }
         var room = roomRepo.findRoomByParticipants(sender, receiver).orElse(null);
 
@@ -51,16 +50,18 @@ public class ChatMessageService {
             participants.add(receiver.getId());
             var chatRoom = new Room();
             chatRoom.setParticipants(participants);
-            roomRepo.save(chatRoom);
+            room = roomRepo.save(chatRoom).orElse( null );
+            if( room == null ){
+                System.out.println("Här kommer det kastas grejer!");
+            }
         }
-        else{
-            chatMessage.setTimestamp(Instant.now().toEpochMilli());
-            chatMessage.setSender(sender);
-            chatMessage.setReceiver(receiver);
-            ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
-            SocketPayload socketPayload = new SocketPayload("chat-message", savedChatMessage, room );
-            socketService.customSendToAll(socketPayload);
-        }
+
+        chatMessage.setTimestamp(Instant.now().toEpochMilli());
+        chatMessage.setSender(sender);
+        chatMessage.setReceiver(receiver);
+        ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
+        SocketPayload socketPayload = new SocketPayload("chat-message", savedChatMessage, room );
+        socketService.customSendToAll(socketPayload);
 
         return true;
     }
