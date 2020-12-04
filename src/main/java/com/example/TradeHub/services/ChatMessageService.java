@@ -46,11 +46,11 @@ public class ChatMessageService {
         var room = roomRepo.findRoomByParticipants(sender, receiver);
 
         if(room.isEmpty()){
-            ArrayList<String> x = new ArrayList<>();
-            x.add(sender.getId());
-            x.add(receiver.getId());
+            ArrayList<String> participants = new ArrayList<>();
+            participants.add(sender.getId());
+            participants.add(receiver.getId());
             var chatRoom = new Room();
-            chatRoom.setParticipants(x);
+            chatRoom.setParticipants(participants);
             roomRepo.save(chatRoom);
         }
 
