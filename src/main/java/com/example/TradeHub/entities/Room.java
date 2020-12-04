@@ -23,6 +23,16 @@ public class Room {
     @Transient
     private List<WebSocketSession> sessions;
 
+    public Room(String id, ArrayList<String> participants) {
+        this.id = id;
+        this.participants = participants;
+    }
+
+    public Room(String id, List<WebSocketSession> sessions) {
+        this.id = id;
+        this.sessions = sessions;
+    }
+
     public Room(String id) {
         this.id = id;
     }

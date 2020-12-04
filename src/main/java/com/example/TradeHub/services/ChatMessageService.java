@@ -6,6 +6,7 @@ import com.example.TradeHub.entities.SocketPayload;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.ChatMessageRepo;
 import com.example.TradeHub.repositories.RoomRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,15 +38,15 @@ public class ChatMessageService {
 
     public List<ChatMessage> getAllChatMessages() { return conversationRepo.findAll(); }
 
-    public boolean postNewMessage(ChatMessage chatMessage){
+    public boolean postNewMessage(ChatMessage chatMessage) {
 
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(chatMessage.getReceiver().getId());
 
         if(receiver == null){ System.out.println("Här kommer det kastas grejer!"); }
-        var room = roomRepo.findRoomByParticipants(sender, receiver);
+        var room = roomRepo.findRoomByParticipants(sender, receiver).orElse(null);
 
-        if(room.isEmpty()){
+        if(room == null){
             ArrayList<String> participants = new ArrayList<>();
             participants.add(sender.getId());
             participants.add(receiver.getId());
@@ -53,12 +54,17 @@ public class ChatMessageService {
             chatRoom.setParticipants(participants);
             roomRepo.save(chatRoom);
         }
+        else{
+            chatMessage.setTimestamp(Instant.now().toEpochMilli());
+            chatMessage.setSender(sender);
+            ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
 
-        chatMessage.setTimestamp(Instant.now().toEpochMilli());
-        chatMessage.setSender(sender);
-        ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
-        //SocketPayload socketPayload = new SocketPayload();
-        //socketService.sendToAll();
+            SocketPayload socketPayload = new SocketPayload("chat-message", room.getId(), savedChatMessage );
+            System.out.println(socketPayload);
+            socketService.customSendToAll(socketPayload);
+
+        }
+
         return true;
     }
 }

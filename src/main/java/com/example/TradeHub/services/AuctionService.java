@@ -56,7 +56,7 @@ public class AuctionService {
         auctionRepo.save(auctionToUpdate);
         try {
             socketService.sendToAll( this.payloadBuilder( auctionToUpdate, bid, "bid" ) );
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

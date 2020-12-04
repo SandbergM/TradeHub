@@ -2,6 +2,7 @@ package com.example.TradeHub.controllers;
 
 import com.example.TradeHub.entities.ChatMessage;
 import com.example.TradeHub.services.ChatMessageService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class ChatMessageController {
     }
 
     @PostMapping
-    public ResponseEntity<Boolean> postNewChatMessage(@RequestBody ChatMessage chatMessage){
+    public ResponseEntity<Boolean> postNewChatMessage(@RequestBody ChatMessage chatMessage) {
         boolean didSave = conversationService.postNewMessage( chatMessage );
         return ResponseEntity.ok(didSave);
     }

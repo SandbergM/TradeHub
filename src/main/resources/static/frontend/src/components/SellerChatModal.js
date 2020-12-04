@@ -9,8 +9,15 @@ const SellerChatModal = ({ activeAuction }) => {
   
   const [modal, setModal] = useState(false);
 
-  const toggle = () => {
+  const toggle = async () => {
     setModal(!modal)
+    let res = await fetch("/api/v1/chatMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ receiver: "5fc7b40633d6c42e8fb7176a", message: "Dis is da messaje" }),
+    });
+    res = await res.json()
+    console.log(res);
   };
 
   return (

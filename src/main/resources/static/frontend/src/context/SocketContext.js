@@ -25,6 +25,7 @@ const SocketContextProvider = (props) => {
     if (ws == null) return;
     ws.onopen = () => {
       if (user !== null) {
+        console.log(user);
         ws.send(
           JSON.stringify({
             action: "connection",
@@ -32,6 +33,7 @@ const SocketContextProvider = (props) => {
           })
         );
       }
+      console.log("Connected to socket");
     };
 
     ws.onclose = () => {
@@ -42,6 +44,7 @@ const SocketContextProvider = (props) => {
       console.log("In onmessage");
       messageHandler(data.data);
     };
+    
 
     return () => {
       ws.close();
@@ -54,11 +57,15 @@ const SocketContextProvider = (props) => {
 
   const messageHandler = (msg) => {
     msg = JSON.parse(msg);
+    console.log(msg.content);
 
     switch (msg.action) {
       case "bid":
         setHighestBid(msg.content.bid);
         break;
+      case "chat-message":
+        console.log("hello from yes in yes, 66");
+        break
     }
   };
 

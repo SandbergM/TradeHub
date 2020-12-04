@@ -23,20 +23,32 @@ public class SocketService {
     ChatMessageService chatMessageService;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    private final Map<String, Room> rooms = new ConcurrentHashMap<>();
+    private final Map<String, Room> activeRooms = new ConcurrentHashMap<>();
     private final Map<String, List<String>> activeSessions = new ConcurrentHashMap<>();
     private final Map<String, String> sessionTranslations = new ConcurrentHashMap<>();
 
-    public void sendToAll(SocketPayload socketPayload) throws JsonProcessingException {
-        TextMessage msg = new TextMessage(objectMapper.writeValueAsString(socketPayload));
-        for (WebSocketSession webSocketSession : rooms.get(socketPayload.getTarget()).getSessions()) {
-            try {
-                webSocketSession.sendMessage(msg);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void sendToAll(SocketPayload socketPayload) {
+        System.out.println("Hello from line 31");
+        var x = activeRooms.get(socketPayload.getTarget()).getSessions();
+        TextMessage msg = null;
+        try {
+            msg = new TextMessage(objectMapper.writeValueAsString(socketPayload));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(msg);
+        if(x != null){
+            for (WebSocketSession webSocketSession : x) {
+                try {
+                    webSocketSession.sendMessage(msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
+        }
+
+
 
     public String userIdToSessionIdTranslation(String userId){
         return sessionTranslations.get(userId);
@@ -52,32 +64,31 @@ public class SocketService {
     public void addSession(WebSocketSession session, Room room) {
         activeSessions.computeIfAbsent(session.getId(), k -> new CopyOnWriteArrayList<>());
         if(room.getId() != null){
-            rooms.computeIfAbsent( room.getId(), k -> new Room( new ArrayList<WebSocketSession>()));
-            rooms.get(room.getId()).getSessions().add(session);
+            activeRooms.computeIfAbsent( room.getId(), k -> new Room( new ArrayList<WebSocketSession>()));
+            activeRooms.get(room.getId()).getSessions().add(session);
             activeSessions.get(session.getId()).add(room.getId());
         }
     }
 
     public void removeSession(WebSocketSession session, Room room) {
         System.out.println("Left room : " + room.getId());
-        rooms.get(room.getId()).getSessions().removeIf( s -> s == session);
-        System.out.println(rooms.get(room.getId()).toString());
-    }
-
-    public void saveNewMessage(ChatMessage chatMessage) {
-        chatMessageService.postNewMessage(chatMessage);
+        activeRooms.get(room.getId()).getSessions().removeIf(s -> s == session);
+        System.out.println(activeRooms.get(room.getId()).toString());
     }
 
     public void messageHandler(WebSocketSession session, TextMessage message) throws JsonProcessingException {
         SocketDTO socketDTO = objectMapper.readValue(message.getPayload(), SocketDTO.class);
         switch (socketDTO.action) {
             case "connection":
+                System.out.println("Me is connect, yes");
                 sessionTranslations.put(convertPayload(socketDTO.payload, User.class).getId(), session.getId());
                 break;
             case "join-room":
+                System.out.println("Me is join room, yes");
                 addSession(session, convertPayload(socketDTO.payload, Room.class) );
                 break;
             case "leave-room":
+                System.out.println("Me is leave room, yes");
                 removeSession(session, convertPayload(socketDTO.payload, Room.class) );
                 break;
             case "user-status":
@@ -97,6 +108,28 @@ public class SocketService {
             e.printStackTrace();
         }
         return t;
+    }
+
+    public void customSendToAll(SocketPayload payload){
+
+       var x = sessionTranslations.get(payload.getChatMessage().getReceiver().getId());
+       var y =  sessionTranslations.get(payload.getChatMessage().getSender().getId());
+
+       if(activeRooms.get(payload.getTarget()) == null){
+           activeRooms.put(payload.getTarget(), new Room());
+       }
+       var participants = new ArrayList<String>();
+       participants.add(y);
+
+       if(x != null){
+           participants.add(x);
+       }
+
+       var room = new Room();
+       room.setParticipants(participants);
+       activeRooms.replace(payload.getTarget(),room);
+
+       sendToAll(payload);
     }
 
 }
