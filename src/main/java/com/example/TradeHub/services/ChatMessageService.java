@@ -39,7 +39,6 @@ public class ChatMessageService {
     public List<ChatMessage> getAllChatMessages() { return conversationRepo.findAll(); }
 
     public boolean postNewMessage(ChatMessage chatMessage) {
-
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(chatMessage.getReceiver().getId());
 
@@ -57,12 +56,10 @@ public class ChatMessageService {
         else{
             chatMessage.setTimestamp(Instant.now().toEpochMilli());
             chatMessage.setSender(sender);
+            chatMessage.setReceiver(receiver);
             ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
-
-            SocketPayload socketPayload = new SocketPayload("chat-message", room.getId(), savedChatMessage );
-            System.out.println(socketPayload);
+            SocketPayload socketPayload = new SocketPayload("chat-message", savedChatMessage, room );
             socketService.customSendToAll(socketPayload);
-
         }
 
         return true;

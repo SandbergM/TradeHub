@@ -33,14 +33,14 @@ const AuctionDetailsPage = () => {
     );
     sendMessage({
       action: "join-room",
-      payload: { roomId: activeAuction.id },
+      payload: { id: activeAuction.id },
     });
     getAuction();
 
     return () => {
       sendMessage({
         action: "leave-room",
-        payload: { roomId: activeAuction.id },
+        payload: { id: activeAuction.id },
       });
     };
   }, []);

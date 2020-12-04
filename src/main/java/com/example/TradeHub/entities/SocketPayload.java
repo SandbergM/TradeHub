@@ -11,6 +11,7 @@ public class SocketPayload {
     private String action;
     private String target;
     private Bid bid;
+    private Room room;
     private ChatMessage chatMessage;
 
     public SocketPayload(String action, String target, Bid bid) {
@@ -19,9 +20,10 @@ public class SocketPayload {
         this.bid = bid;
     }
 
-    public SocketPayload(String action, String target, ChatMessage chatMessage) {
+    public SocketPayload(String action, ChatMessage chatMessage, Room room) {
         this.action = action;
-        this.target = target;
+        this.target = room.getId();
         this.chatMessage = chatMessage;
+        this.room = room;
     }
 }

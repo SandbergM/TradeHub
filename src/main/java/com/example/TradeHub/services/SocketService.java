@@ -25,33 +25,22 @@ public class SocketService {
 
     private final Map<String, Room> activeRooms = new ConcurrentHashMap<>();
     private final Map<String, List<String>> activeSessions = new ConcurrentHashMap<>();
-    private final Map<String, String> sessionTranslations = new ConcurrentHashMap<>();
+    private final Map<String, WebSocketSession> sessionTranslations = new ConcurrentHashMap<>();
 
     public void sendToAll(SocketPayload socketPayload) {
-        System.out.println("Hello from line 31");
-        var x = activeRooms.get(socketPayload.getTarget()).getSessions();
         TextMessage msg = null;
         try {
             msg = new TextMessage(objectMapper.writeValueAsString(socketPayload));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(msg);
-        if(x != null){
-            for (WebSocketSession webSocketSession : x) {
+            for (WebSocketSession webSocketSession : activeRooms.get(socketPayload.getTarget()).getSessions()) {
                 try {
                     webSocketSession.sendMessage(msg);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }
-        }
-
-
-
-    public String userIdToSessionIdTranslation(String userId){
-        return sessionTranslations.get(userId);
     }
 
     public void clearSessions(WebSocketSession session){
@@ -71,24 +60,19 @@ public class SocketService {
     }
 
     public void removeSession(WebSocketSession session, Room room) {
-        System.out.println("Left room : " + room.getId());
         activeRooms.get(room.getId()).getSessions().removeIf(s -> s == session);
-        System.out.println(activeRooms.get(room.getId()).toString());
     }
 
     public void messageHandler(WebSocketSession session, TextMessage message) throws JsonProcessingException {
         SocketDTO socketDTO = objectMapper.readValue(message.getPayload(), SocketDTO.class);
         switch (socketDTO.action) {
             case "connection":
-                System.out.println("Me is connect, yes");
-                sessionTranslations.put(convertPayload(socketDTO.payload, User.class).getId(), session.getId());
+                sessionTranslations.put(convertPayload(socketDTO.payload, User.class).getId(), session);
                 break;
             case "join-room":
-                System.out.println("Me is join room, yes");
                 addSession(session, convertPayload(socketDTO.payload, Room.class) );
                 break;
             case "leave-room":
-                System.out.println("Me is leave room, yes");
                 removeSession(session, convertPayload(socketDTO.payload, Room.class) );
                 break;
             case "user-status":
@@ -112,24 +96,42 @@ public class SocketService {
 
     public void customSendToAll(SocketPayload payload){
 
-       var x = sessionTranslations.get(payload.getChatMessage().getReceiver().getId());
-       var y =  sessionTranslations.get(payload.getChatMessage().getSender().getId());
+        if(activeRooms.get(payload.getTarget()) == null){
+            var newRoom = new Room(payload.getTarget(), new ArrayList<WebSocketSession>());
+            activeRooms.put(payload.getTarget(), newRoom);
+        }
 
-       if(activeRooms.get(payload.getTarget()) == null){
-           activeRooms.put(payload.getTarget(), new Room());
-       }
-       var participants = new ArrayList<String>();
-       participants.add(y);
-
-       if(x != null){
-           participants.add(x);
-       }
-
-       var room = new Room();
-       room.setParticipants(participants);
-       activeRooms.replace(payload.getTarget(),room);
-
+        // We get the list with the current sessions in it
+        var currentParticipants = activeRooms.get(payload.getTarget()).getSessions();
+        for(var part : payload.getRoom().getParticipants()){
+            var session = userIdToSessionIdTranslation(part);
+            /*
+            Conditions that needs to be met :
+            The session is not allowed to be null
+            The session needs to be active AKA the user is online, sending to a dead session = *BOOM*
+            The room doesn't already have the session in it, duplicates sessions means duplicate messages
+             */
+            if( session != null && sessionIsActive( session ) && !currentParticipants.contains( session ) ){
+                /*
+                Use the addSession to append the room to the users list of rooms, this is needed
+                when the user disconnects since we need to exit all of the activeRooms
+                because if we leave him/her in them and someone tries to send them a message... *BOOM* again :)
+                 */
+                addSession( session, new Room( payload.getTarget() ));
+            }
+        }
+        // Payload is ready to be sent, all of the sessions and rooms already know what to do at this point
        sendToAll(payload);
+    }
+
+    // Gets us the current session associated with a specific user
+    public WebSocketSession userIdToSessionIdTranslation(String userId){
+        return sessionTranslations.get(userId);
+    }
+
+    // Quick easy clean way to check if the session exists or not
+    public Boolean sessionIsActive(WebSocketSession webSocketSession){
+        return activeSessions.get(webSocketSession.getId()) != null;
     }
 
 }

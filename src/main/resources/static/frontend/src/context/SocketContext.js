@@ -37,14 +37,13 @@ const SocketContextProvider = (props) => {
     };
 
     ws.onclose = () => {
-      console.log("Socket connection lost");
+      ws.close();
     };
 
     ws.onmessage = (data) => {
       console.log("In onmessage");
       messageHandler(data.data);
     };
-    
 
     return () => {
       ws.close();
@@ -57,15 +56,13 @@ const SocketContextProvider = (props) => {
 
   const messageHandler = (msg) => {
     msg = JSON.parse(msg);
-    console.log(msg.content);
-
     switch (msg.action) {
       case "bid":
         setHighestBid(msg.content.bid);
         break;
       case "chat-message":
-        console.log("hello from yes in yes, 66");
-        break
+        console.log(msg);
+        break;
     }
   };
 
