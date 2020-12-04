@@ -38,30 +38,25 @@ public class ChatMessageService {
     public List<ChatMessage> getAllChatMessages() { return conversationRepo.findAll(); }
 
     public boolean postNewMessage(ChatMessage chatMessage){
+
         User sender = userService.getCurrentUser();
-
-
-
         User receiver = userService.findById(chatMessage.getReceiver().getId());
+
         if(receiver == null){ System.out.println("Här kommer det kastas grejer!"); }
         var room = roomRepo.findRoomByParticipants(sender, receiver);
 
         if(room.isEmpty()){
-            System.out.println("Försöker spara ett rum");
             ArrayList<String> x = new ArrayList<>();
             x.add(sender.getId());
             x.add(receiver.getId());
-            var y = new Room();
-            y.setParticipants(x);
-            room = roomRepo.save(y);
+            var chatRoom = new Room();
+            chatRoom.setParticipants(x);
+            roomRepo.save(chatRoom);
         }
-
-        System.out.println(room);
 
         chatMessage.setTimestamp(Instant.now().toEpochMilli());
         chatMessage.setSender(sender);
         ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
-        System.out.println(chatMessage);
         //SocketPayload socketPayload = new SocketPayload();
         //socketService.sendToAll();
         return true;
