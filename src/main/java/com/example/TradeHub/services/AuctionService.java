@@ -1,9 +1,6 @@
 package com.example.TradeHub.services;
 
-import com.example.TradeHub.entities.Auction;
-import com.example.TradeHub.entities.Bid;
-import com.example.TradeHub.entities.SocketPayload;
-import com.example.TradeHub.entities.User;
+import com.example.TradeHub.entities.*;
 import com.example.TradeHub.repositories.AuctionRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +77,8 @@ public class AuctionService {
 
     private SocketPayload payloadBuilder(Auction auction, Integer bid, String action){
         Bid newBid = new Bid(auction.getId(), bid);
-        return new SocketPayload(action, auction.getId(), newBid);
+        Room room = new Room(auction.getId());
+        return new SocketPayload(action, auction.getId(), room, newBid);
     }
 
     public List<Auction> auctionCriteriaSearch(int page, String title, String id, String sortBy, Boolean active){

@@ -19,11 +19,7 @@ const ChatContextProvider = (props) => {
   }, [chatMessages]);
 
   const appendMessage = (message) => {
-    console.log(" ORG : ", chatMessages);
-    let tempArr = chatMessages;
-    console.log(" TEMP : ", tempArr);
-    tempArr.push(message);
-    setChatMessages([...chatMessages, message]);
+    console.log(message);
   };
 
   const values = {

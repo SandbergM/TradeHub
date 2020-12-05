@@ -61,7 +61,7 @@ const SocketContextProvider = (props) => {
         setHighestBid(msg.content.bid);
         break;
       case "chat-message":
-        console.log(msg);
+        appendMessage(msg);
         break;
     }
   };
