@@ -60,7 +60,7 @@ public class ChatMessageService {
         chatMessage.setSender(sender);
         chatMessage.setReceiver(receiver);
         ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
-        SocketPayload socketPayload = new SocketPayload("chat-message", room.getId(), room, savedChatMessage );
+        SocketPayload socketPayload = new SocketPayload("chat-message", room, savedChatMessage );
         socketService.customSendToAll(socketPayload);
 
         return true;

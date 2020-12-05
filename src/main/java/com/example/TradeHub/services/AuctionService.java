@@ -78,7 +78,7 @@ public class AuctionService {
     private SocketPayload payloadBuilder(Auction auction, Integer bid, String action){
         Bid newBid = new Bid(auction.getId(), bid);
         Room room = new Room(auction.getId());
-        return new SocketPayload(action, auction.getId(), room, newBid);
+        return new SocketPayload(action, room, newBid);
     }
 
     public List<Auction> auctionCriteriaSearch(int page, String title, String id, String sortBy, Boolean active){
