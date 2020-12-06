@@ -1,6 +1,7 @@
 @import "./registerAuction.scss";
 @import "./auctionDetailsPage";
 @import "./passwordField.scss";
+@import "./pageNotFound.scss";
 
 :root {
   --white: #ffffff;
@@ -41,19 +42,17 @@
 }
 
 .tradeHub-cardImg {
- width: 100%;
- height: 30vh;
+  width: 100%;
+  height: 30vh;
 }
 .tradeHub-card {
   height: 60vh;
   color: var(--orange);
- }
+}
 
- .tradeHub-cardBody {
+.tradeHub-cardBody {
   height: 10vh;
- }
-
-
+}
 
 .btn {
   border-radius: 0 !important;
