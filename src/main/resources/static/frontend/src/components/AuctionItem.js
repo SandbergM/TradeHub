@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
 import { getThumbNail } from '../utils/imageHandler'
 import { AuctionContext } from '../context/AuctionContextProvider'
@@ -53,20 +53,20 @@ const AuctionItem = (props) => {
 
   return (
     <Col className="p-0 pr-3 pl-3">
-      <Card className="text-center mb-3 pointer" onClick={goToDetails}>
-        <CardBody>
-          <CardTitle tag="h5" className="text-warning">
+      <Card className="tradeHub-card text-center mb-3 pointer" onClick={goToDetails}>
+        <CardBody className="tradeHub-cardBody">
+          <CardTitle tag="h5">
             {props.auction.title}
           </CardTitle>
         </CardBody>
-        <img width="100%" src={getThumbNail(props.auction.images)} alt="auction-img" />
+        <img className="tradeHub-cardImg" src={getThumbNail(props.auction.images)} alt="auction-img" />
         <CardBody>
           {props.auction.highestBid ? (
             <CardText>{props.auction.highestBid} kr</CardText>
           ) : (
             <CardText>{props.auction.price} kr</CardText>
           )}
-          <CardText tag="h5" className="text-warning">
+          <CardText tag="h5">
             {time}
           </CardText>
         </CardBody>

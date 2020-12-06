@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import AuthenticationModal from './AuthenticationModal'
 import ChatModal from './ChatModal'
 import {UserContext} from '../context/UserContext'
-import {useHistory, Link} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import {
   Collapse,
   Navbar,
@@ -34,16 +34,17 @@ const TradeHubHeader = (props) => {
   const toggleChatModal = () => {
     setChatModalIsOpen(!modalIsOpen);
   }
-  const logout = () =>{
-    history.push("/")
-    fetch('/logout');
+  const logout = async() =>{
+    let res = await fetch("/api/v1/users/logout")
+    console.log(res)
     setUser(null);
+    history.push("/")
   }
 
 
   return (
     <div>
-      <Navbar className="light-grey-background mb-3" expand="md">
+      <Navbar className="light-grey-background mb-3" expand="lg">
         <NavbarBrand className="text-dark pointer" onClick={goToHomePage}>
           <h3 className="my-auto ml-1 p-2">
             Trade
@@ -52,6 +53,7 @@ const TradeHubHeader = (props) => {
             </span>
           </h3>
         </NavbarBrand>
+  
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>
             <NavItem>

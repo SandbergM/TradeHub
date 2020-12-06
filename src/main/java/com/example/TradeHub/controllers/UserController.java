@@ -6,6 +6,9 @@ import com.example.TradeHub.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -48,6 +51,16 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(user);
+    }
+    @GetMapping("/logout")
+    private ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response){
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                new SecurityContextLogoutHandler().logout(request, response, authentication);
+            }
+        } catch (Exception err) {}
+        return new ResponseEntity<>("Logged out",HttpStatus.RESET_CONTENT);
     }
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user){
