@@ -46,8 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().authenticationEntryPoint(entryPoint)
                 .and()
                 .formLogin().loginPage("/login")
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"));
+        ;
     }
 
     @Bean

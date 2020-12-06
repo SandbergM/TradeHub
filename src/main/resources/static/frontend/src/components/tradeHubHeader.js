@@ -30,14 +30,10 @@ const TradeHubHeader = (props) => {
     setModalIsOpen(!modalIsOpen);
   }
   const logout = async() =>{
-    history.push("/")
-    let res = await fetch("/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: {}
-    })
+    let res = await fetch("/api/v1/users/logout")
     console.log(res)
     setUser(null);
+    history.push("/")
   }
 
 
