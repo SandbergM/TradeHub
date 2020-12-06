@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { Row, Col, CardText, CardTitle } from "reactstrap";
 import { Collapse, Button, CardBody, Card, CardFooter } from "reactstrap";
@@ -18,11 +18,36 @@ const MyPage = (props) => {
   const toggleBids = () => setIsMyBidsOpen((prevState) => !prevState);
   const toggleCreateAuction = () => setIsCreateAuctionOpen((prevState) => !prevState);
 
+
+
+
+  const getUserInfo=(userDetail)=>{
+    if(user!=null||user!=undefined){ 
+      switch(userDetail){
+        case "fullName":
+        userDetail=user.fullName
+        break
+        case "email":
+        userDetail=user.email
+        break
+        case "streetName":
+        userDetail=user.address.streetName
+        break
+        case "postalCode":
+        userDetail=user.address.postalCode
+        break
+        case "city":
+          userDetail=user.address.city
+      }
+      return userDetail;
+    }
+  }
+
   return (
     <Row>
       <Col xs="12" sm="2" md="12" className="mb-3">
         <h3 className="text-center tradeHub-orange m-4">
-          Välkommen {user.fullName}
+          Välkommen {getUserInfo("fullName")}
         </h3>
       </Col>
       <Col xs="12" sm="2" md="4" className="mb-3">
@@ -36,15 +61,15 @@ const MyPage = (props) => {
         <Collapse isOpen={isProfileOpen}>
           <Card className="grey-background tradeHub-white">
             <CardBody>
-              <CardTitle className="mb-4 bold">{user.fullName}</CardTitle>
+              <CardTitle className="mb-4 bold">{getUserInfo("fullName")}</CardTitle>
               <CardText>
-                <span className="bold">Email :</span> {user.email}
+                <span className="bold">Email :</span> {getUserInfo("email")}
               </CardText>
               <CardText>
-                <span className="bold">Adress :</span> {user.address.streetName}
+                <span className="bold">Adress :</span> {getUserInfo("streetName")}
               </CardText>
               <CardText>
-                {user.address.postalCode} | {user.address.city}
+                {getUserInfo("postalCode")} | {getUserInfo("city")}
               </CardText>
             </CardBody>
             <CardFooter>
