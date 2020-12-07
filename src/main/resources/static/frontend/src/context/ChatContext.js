@@ -3,51 +3,47 @@ import React, { createContext, useEffect, useState } from "react";
 export const ChatContext = createContext();
 
 const ChatContextProvider = (props) => {
-  const [chatMessages, setChatMessages] = useState(null);
+  const [chatMessages, setChatMessages] = useState({});
 
   const fetchMessage = async () => {
-    let res = await fetch("");
-    
-    try {
-      if (res.ok) {
-      } else {
-      }
-    } catch {}
+    // let res = await fetch("");
+    // try {
+    //   if (res.ok) {
+    //   } else {
+    //   }
+    // } catch {}
   };
 
   useEffect(() => {
     console.log("USE : ", chatMessages);
-  }, [chatMessages]);
+  }, [Object.entries(chatMessages).length]);
 
-  useEffect(() =>{
-
-      return () => {
-        console.log("in return");
-        setChatMessages(null);
-      };
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     console.log("in return");
+  //     // setChatMessages(null);
+  //   };
+  // }, []);
 
   const appendMessage = (message) => {
-    console.log(message);
-    let x;
-    if(chatMessages === null){
-      console.log('in if');
-      x = [message]
+    let tempArr;
+    if (chatMessages === null || chatMessages[message.target] === undefined) {
+      tempArr = [];
+      tempArr.push(message.content);
+      setChatMessages((chatMessages[message.target] = tempArr));
+    } else {
+      tempArr = chatMessages[message.target];
+      tempArr.push(message.content);
+      setChatMessages((chatMessages[message.target] = tempArr));
     }
-    else{
-       x = chatMessages[message.target];
-       console.log(x);
-      x.push(message)
-    }
-    setChatMessages({ ...chatMessages, [message.target]: x }); 
     console.log(chatMessages);
- };
+  };
 
   const values = {
     chatMessages,
     setChatMessages,
     appendMessage,
-    fetchMessage
+    fetchMessage,
   };
 
   return (

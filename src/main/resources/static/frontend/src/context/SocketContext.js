@@ -17,7 +17,6 @@ const SocketContextProvider = (props) => {
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080/tradeHubSocket");
-    console.log(ws);
     setWs(ws);
   }, [user]);
 
@@ -25,7 +24,6 @@ const SocketContextProvider = (props) => {
     if (ws == null) return;
     ws.onopen = () => {
       if (user !== null) {
-        console.log(user);
         ws.send(
           JSON.stringify({
             action: "connection",
@@ -41,7 +39,6 @@ const SocketContextProvider = (props) => {
     };
 
     ws.onmessage = (data) => {
-      console.log("In onmessage");
       messageHandler(data.data);
     };
 
