@@ -9,6 +9,7 @@ import {
   Input,
   
 } from "reactstrap";
+import PasswordInputField from './PasswordInputField'
 
 const RegisterModal = (props) => {
   const [fullName, setFullName] = useState('');
@@ -123,15 +124,7 @@ const RegisterModal = (props) => {
                 />
             </FormGroup>
              <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                <Label for="password" className="tradeHub-orange font-weight-bold">Lösenord</Label>
-                <Input
-                  className="light-grey-background tradeHub-input"
-                  type="password"
-                placeholder="Lösenord"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                />
+              <PasswordInputField setPassword={ setPassword } password={ password } placeholder={ "Lösenord" } />
             </FormGroup>
             <FormGroup className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
               {errorMessageShown ? <div className="error-text mb-2 text-center font-weight-bold">Det finns redan ett konto med den emailadressen</div>

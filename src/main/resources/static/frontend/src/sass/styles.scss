@@ -1,5 +1,6 @@
 @import "./registerAuction.scss";
 @import "./auctionDetailsPage";
+@import "./passwordField.scss";
 
 :root {
   --white: #ffffff;
@@ -38,6 +39,21 @@
   border: none !important;
   background-color: var(--orange) !important;
 }
+
+.tradeHub-cardImg {
+ width: 100%;
+ height: 30vh;
+}
+.tradeHub-card {
+  height: 60vh;
+  color: var(--orange);
+ }
+
+ .tradeHub-cardBody {
+  height: 10vh;
+ }
+
+
 
 .btn {
   border-radius: 0 !important;
@@ -182,12 +198,6 @@ hr {
   #hamburger-position {
     display: none !important;
   }
-
-  .carousel {
-    max-width: 100%;
-    height: 500px;
-    background: var(--grey);
-  }
 }
 
 @media screen and(max-width: 450px) {
@@ -213,7 +223,19 @@ hr {
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0
+  right: 0;
+}
+
+#no-matches-found {
+  position: absolute;
+  margin: auto;
+  height: 12rem;
+  text-align: center;
+  font-size: 25px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 @keyframes spin {

@@ -15,21 +15,23 @@
   color: white;
 }
 
-.highest-bid{
+.highest-bid {
   font-size: 60px;
   line-height: 1em;
+  font-size: 3em;
 }
 
 .time-left-block {
   width: 50%;
   height: 150px;
+
   padding: 2em !important;
   color: orange;
 }
 
-.time-left{
- font-size: 60px;
- line-height: 1em;
+.time-left {
+  font-size: 60px;
+  line-height: 1em;
 }
 
 .place-bid-block {
@@ -58,6 +60,28 @@
   font-weight: 600 !important;
 }
 
-.history{
+.history {
   font-size: 11px;
+}
+
+.carousel {
+  background-color: #eeeeee !important;
+  align-content: space-between;
+  text-align: center;
+}
+
+.carousel-item > img {
+  height: 35vh;
+}
+
+.carousel-inner .item img {
+  object-fit: contain;
+  align-content: center;
+}
+
+
+@media screen and(max-width: 450px) {
+  .time-left{
+    font-size: 30px;
+  }
 }

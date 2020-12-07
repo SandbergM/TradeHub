@@ -16,12 +16,12 @@ const RegisterNewAuction = () => {
     const auctionDurationInterval = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; // Days
 
     const addImages = (files) => {
-        if( images.length > 5 ) return;
+        if( images.length > 4 ) return;
         let tempArr = [];
 
         for(let el of Object.entries(files)){
             tempArr.push(el[1])
-            if( ( images.length + tempArr.length ) === 5 ) break;
+            if( ( images.length + tempArr.length ) === 4 ) break;
         }
         setImages([...images, ...tempArr])
     }
@@ -145,9 +145,9 @@ const RegisterNewAuction = () => {
 
                     <Button 
                         className="col-12 mt-4 mb-4" 
-                        disabled={ images.length >= 5 }
+                        disabled={ images.length >= 4 }
                         onClick={() => { customImageUploadTrigger() }}
-                    > Lägg till bilder ( {images.length} av 5 ) 
+                    > Lägg till bilder ( {images.length} av 4 ) 
                     </Button>
 
                     <Input
@@ -161,13 +161,13 @@ const RegisterNewAuction = () => {
                     />
 
                     { images.length !== 0 && 
-                    <div className="row justify-content-lg-center">
+                    <div className="row ">
                         <div className="col-12 tradeHub-dark-grey text-center"> 
                             <p> Tryck på den bild du vill ha som framsida för annonsen </p>
                         </div>
 
                         { images.map((val, index) => {
-                                return <div className="col-4 col-md-3 col-lg-2 register-auction-image-item mt-2 justify-content-center" key={index} > 
+                                return <div className="col-6 col-md-6 col-lg-6 register-auction-image-item mt-2 justify-content-center" key={index} > 
                                             <ImagePreview 
                                                 image={ val } 
                                                 removeImage={ removeImage } 

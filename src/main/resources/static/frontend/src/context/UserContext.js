@@ -5,7 +5,6 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
     const [user, setUser] = useState(null);
 
-    //Not in use, remove this comment and the fetchUser function if its still not in use in sprint 2.
     const fetchUser = async () => {
       let res = await fetch("/api/v1/users/whoami");
       try {
@@ -21,6 +20,10 @@ const UserContextProvider = (props) => {
 
       }
     };
+
+    useEffect(() => {
+      fetchUser();
+    }, []);
 
 
   const values = {

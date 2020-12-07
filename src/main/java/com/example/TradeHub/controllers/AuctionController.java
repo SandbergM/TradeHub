@@ -2,11 +2,14 @@ package com.example.TradeHub.controllers;
 
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.services.AuctionService;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -21,9 +24,11 @@ public class AuctionController {
     public ResponseEntity<List<Auction>> getAuctions(
             @RequestParam( value="page", defaultValue = "1" ) Integer page,
             @RequestParam( value="id", defaultValue = "" ) String id,
-            @RequestParam( value="title", defaultValue = "" ) String title
+            @RequestParam( value="title", defaultValue = "" ) String title,
+            @RequestParam( value="sortBy", defaultValue = "") String sortBy,
+            @RequestParam( value="active", defaultValue = "true") Boolean active
     ){
-        List<Auction> auctions = auctionService.auctionCriteriaSearch(page, title, id);
+        List<Auction> auctions = auctionService.auctionCriteriaSearch(page, title, id, sortBy, active);
         return ResponseEntity.ok(auctions);
     }
 

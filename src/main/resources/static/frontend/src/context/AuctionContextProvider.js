@@ -2,7 +2,7 @@ import React, {useContext, createContext, useState} from 'react'
 export const AuctionContext = createContext()
 
 const AuctionContextProvider = (props) => {
-  const [activeAuction, setActiveAuction] = useState({})
+  const [activeAuction, setActiveAuction] = useState(null)
 
   const values = {
     activeAuction,
