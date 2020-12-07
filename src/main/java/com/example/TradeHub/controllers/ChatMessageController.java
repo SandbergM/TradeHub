@@ -1,12 +1,14 @@
 package com.example.TradeHub.controllers;
 
 import com.example.TradeHub.entities.ChatMessage;
+import com.example.TradeHub.repositories.RoomRepo;
 import com.example.TradeHub.services.ChatMessageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ public class ChatMessageController {
     ChatMessageService chatMessageService;
 
     @GetMapping
-    public List<ChatMessage> getAllChatMessages(){
+    public HashMap<String, List<ChatMessage>> getAllChatMessages(){
         return chatMessageService.getAllChatMessages();
     }
 

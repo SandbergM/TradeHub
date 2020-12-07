@@ -6,7 +6,9 @@ const ChatContextProvider = (props) => {
   const [chatMessages, setChatMessages] = useState([]);
 
   const fetchMessage = async () => {
-    let res = await fetch("");
+    let res = await fetch("/api/v1/chatMessage");
+    res = await res.json()
+    console.log(res);
     try {
       if (res.ok) {
       } else {
@@ -26,6 +28,7 @@ const ChatContextProvider = (props) => {
     chatMessages,
     setChatMessages,
     appendMessage,
+    fetchMessage
   };
 
   return (

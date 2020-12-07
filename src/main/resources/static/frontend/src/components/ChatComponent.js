@@ -13,19 +13,15 @@ const {sendMessage} = useContext(SocketContext)
   const newMessage = () => {
     let message = {
       receiver: activeAuction.seller,
-      content: messageText,
+      message: messageText,
     };
-        // timestamp: Date.now()
       fetch("/api/v1/chatMessage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(message)
       });
             setMessageText("");
-
-            // send message with websocket
-      
-            }
+    }
 
   
   return (

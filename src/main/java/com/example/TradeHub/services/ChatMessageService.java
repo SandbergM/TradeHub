@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,7 +37,17 @@ public class ChatMessageService {
     @Autowired
     RoomRepo roomRepo;
 
-    public List<ChatMessage> getAllChatMessages() { return chatMessageRepo.findAll(); }
+    public HashMap<String, List<ChatMessage>> getAllChatMessages() {
+        var rooms = roomRepo.findRooms(userService.getCurrentUser()).orElse(new ArrayList<>());
+        var foundMessages = new HashMap<String, List<ChatMessage>>();
+        for (Room room: rooms) {
+            var messages = chatMessageRepo.findByRoomId(room.getId()).orElse(null);
+            System.out.println(messages);
+            if(messages != null){
+                foundMessages.put(room.getId(), messages);
+            }
+        }
+        return foundMessages; }
 
     public boolean postNewMessage(ChatMessage chatMessage) {
         User sender = userService.getCurrentUser();
@@ -59,6 +70,7 @@ public class ChatMessageService {
         chatMessage.setTimestamp(Instant.now().toEpochMilli());
         chatMessage.setSender(sender);
         chatMessage.setReceiver(receiver);
+        chatMessage.setRoomId(room.getId());
         ChatMessage savedChatMessage = chatMessageRepo.save(chatMessage);
         SocketPayload socketPayload = new SocketPayload("chat-message", room, savedChatMessage );
         socketService.customSendToAll(socketPayload);

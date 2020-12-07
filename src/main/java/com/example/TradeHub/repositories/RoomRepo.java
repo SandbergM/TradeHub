@@ -30,6 +30,11 @@ public class RoomRepo {
         return Optional.ofNullable(mongoTemplate.findOne(query, Room.class));
     }
 
+    public Optional<List<Room>> findRooms(User user){
+        Query query = new Query().addCriteria(Criteria.where("participants").all(user.getId()));
+        return Optional.of(mongoTemplate.find(query, Room.class));
+    }
+
     public Optional<Room> save( Room room ){
         return Optional.of(mongoTemplate.save(room));
     }
