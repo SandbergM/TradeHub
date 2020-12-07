@@ -22,16 +22,16 @@ import java.util.List;
 public class ChatMessageController {
 
     @Autowired
-    ChatMessageService conversationService;
+    ChatMessageService chatMessageService;
 
     @GetMapping
     public List<ChatMessage> getAllChatMessages(){
-        return conversationService.getAllChatMessages();
+        return chatMessageService.getAllChatMessages();
     }
 
     @PostMapping
     public ResponseEntity<Boolean> postNewChatMessage(@RequestBody ChatMessage chatMessage) {
-        boolean didSave = conversationService.postNewMessage( chatMessage );
+        boolean didSave = chatMessageService.postNewMessage( chatMessage );
         return ResponseEntity.ok(didSave);
     }
 }

@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Input, Label, Form, Button } from "reactstrap";
+import {UserContext} from '../context/UserContext'
+import {SocketContext} from '../context/SocketContext'
 
 
-const ChatComponent = () =>{
-const [messageSender, setMessageSender] = useState("Anon")
+const ChatComponent = ({activeAuction}) =>{
+const [messageSender, setMessageSender] = useState('')
 const [messageText, setMessageText] = useState("")
+const { user } = useContext(UserContext)
+const {sendMessage} = useContext(SocketContext)
 
   const newMessage = () => {
     let message = {
-      sender: messageSender,
-        content: messageText,
-    }
+      receiver: activeAuction.seller,
+      content: messageText,
+    };
         // timestamp: Date.now()
-      setMessageText("")
+      fetch("/api/v1/chatMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(message)
+      });
+            setMessageText("");
 
             // send message with websocket
       
@@ -21,15 +30,10 @@ const [messageText, setMessageText] = useState("")
   
   return (
     <div>
-      <Input
-        onChange={(e) => setMessageSender(e.target.value)}
-        placeholder="sender"
-      />
-      <Input
-        onChange={(e) => setMessageText(e.target.value)}
-        placeholder="type new message.."
-      />
-      <Button onClick={newMessage}>:envelope_with_arrow:</Button>
+     <Input type="text" 
+     placeholder="Skriv ditt meddelande"
+     onChange={(e) => setMessageText(e.target.value)}/>
+      <Button onClick={newMessage}>Skicka</Button>
     </div>
   );
 }

@@ -25,7 +25,7 @@ import java.util.List;
 public class ChatMessageService {
 
     @Autowired
-    ChatMessageRepo conversationRepo;
+    ChatMessageRepo chatMessageRepo;
 
     @Autowired
     SocketService socketService;
@@ -36,7 +36,7 @@ public class ChatMessageService {
     @Autowired
     RoomRepo roomRepo;
 
-    public List<ChatMessage> getAllChatMessages() { return conversationRepo.findAll(); }
+    public List<ChatMessage> getAllChatMessages() { return chatMessageRepo.findAll(); }
 
     public boolean postNewMessage(ChatMessage chatMessage) {
         User sender = userService.getCurrentUser();
@@ -59,7 +59,7 @@ public class ChatMessageService {
         chatMessage.setTimestamp(Instant.now().toEpochMilli());
         chatMessage.setSender(sender);
         chatMessage.setReceiver(receiver);
-        ChatMessage savedChatMessage = conversationRepo.save(chatMessage);
+        ChatMessage savedChatMessage = chatMessageRepo.save(chatMessage);
         SocketPayload socketPayload = new SocketPayload("chat-message", room, savedChatMessage );
         socketService.customSendToAll(socketPayload);
 
