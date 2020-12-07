@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import ChatComponent from './ChatComponent'
+import ChatRoom from './ChatRoom'
 
-const SellerChatModal = ({ activeAuction }) => {
+const SellerChatModal = ({ receiverId }) => {
 
   const { user } = useContext(UserContext);
   
@@ -27,7 +27,7 @@ const SellerChatModal = ({ activeAuction }) => {
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Chatta med säljare</ModalHeader>
         <ModalBody>
-          <ChatComponent activeAuction={activeAuction}/>
+          <ChatRoom receiverId={receiverId}/>
         </ModalBody>
         <ModalFooter>
           <Button className="tradeHub-button" onClick={toggle}>

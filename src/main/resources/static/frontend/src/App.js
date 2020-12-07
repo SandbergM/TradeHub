@@ -16,8 +16,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
+      <ChatContextProvider>
         <UserContexProvider>
-          <ChatContextProvider>
             <AuctionContextProvider>
               <SocketContextProvider>
                 <TradeHubHeader />
@@ -35,8 +35,8 @@ function App() {
                 <TradeHubFooter />
               </SocketContextProvider>
             </AuctionContextProvider>
-          </ChatContextProvider>
         </UserContexProvider>
+      </ChatContextProvider>
       </div>
     </BrowserRouter>
   );

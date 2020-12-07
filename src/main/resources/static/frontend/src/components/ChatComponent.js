@@ -4,15 +4,17 @@ import {UserContext} from '../context/UserContext'
 import {SocketContext} from '../context/SocketContext'
 
 
-const ChatComponent = ({activeAuction}) =>{
+const ChatComponent = ({receiverId}) =>{
 const [messageSender, setMessageSender] = useState('')
 const [messageText, setMessageText] = useState("")
 const { user } = useContext(UserContext)
 const {sendMessage} = useContext(SocketContext)
 
   const newMessage = () => {
+
+    console.log(receiverId);
     let message = {
-      receiver: activeAuction.seller,
+      receiver: {id: receiverId},
       message: messageText,
     };
       fetch("/api/v1/chatMessage", {

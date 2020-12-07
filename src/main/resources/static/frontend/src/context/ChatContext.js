@@ -6,12 +6,14 @@ const ChatContextProvider = (props) => {
   const [chatMessages, setChatMessages] = useState({});
 
   const fetchMessage = async () => {
-    // let res = await fetch("");
-    // try {
-    //   if (res.ok) {
-    //   } else {
-    //   }
-    // } catch {}
+    let res = await fetch("/api/v1/chatMessage");
+    try {
+      if (res.ok) {
+        setChatMessages(await res.json())
+        console.log(chatMessages)
+      } else {
+      }
+    } catch {}
   };
 
   useEffect(() => {

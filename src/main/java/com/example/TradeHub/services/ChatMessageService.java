@@ -49,7 +49,7 @@ public class ChatMessageService {
         }
         return foundMessages; }
 
-    public boolean postNewMessage(ChatMessage chatMessage) {
+    public ChatMessage postNewMessage(ChatMessage chatMessage) {
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(chatMessage.getReceiver().getId());
         if(receiver == null){ System.out.println("Här kommer det kastas grejer!"); }
@@ -75,6 +75,6 @@ public class ChatMessageService {
         SocketPayload socketPayload = new SocketPayload("chat-message", room, savedChatMessage );
         socketService.customSendToAll(socketPayload);
 
-        return true;
+        return savedChatMessage;
     }
 }

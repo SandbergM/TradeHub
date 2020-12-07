@@ -32,8 +32,8 @@ public class ChatMessageController {
     }
 
     @PostMapping
-    public ResponseEntity<Boolean> postNewChatMessage(@RequestBody ChatMessage chatMessage) {
-        boolean didSave = chatMessageService.postNewMessage( chatMessage );
-        return ResponseEntity.ok(didSave);
+    public ResponseEntity<ChatMessage> postNewChatMessage(@RequestBody ChatMessage chatMessage) {
+
+        return ResponseEntity.ok(chatMessageService.postNewMessage( chatMessage ));
     }
 }
