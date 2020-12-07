@@ -42,7 +42,7 @@ const TradeHubHeader = (props) => {
       <Navbar className="light-grey-background mb-3" expand="lg">
         <NavbarBrand className="text-dark pointer" onClick={goToHomePage}>
           <h3 className="my-auto ml-1 p-2">
-            Trade<span className="orange-background tradeHub-white borderRadius ml-1">Hub</span>
+            Trade<span className="orange-background tradeHub-white borderRadius ml-1">{ user ? "Hoe" : "Hub"}</span>
           </h3>
         </NavbarBrand>
   
