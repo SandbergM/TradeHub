@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import {ChatContext} from './ChatContext'
+import React, { createContext, useEffect, useState } from "react";
+
 
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
   const [user, setUser] = useState(null);
-  const {fetchMessage} = useContext(ChatContext)
+
 
   const fetchUser = async () => {
     let res = await fetch("/api/v1/users/whoami");
@@ -13,7 +13,6 @@ const UserContextProvider = (props) => {
       if (res.ok) {
         res = await res.json();
         setUser(res);
-        fetchMessage()
       } else {
         console.log("else: ", res);
         setUser(null);

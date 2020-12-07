@@ -3,12 +3,11 @@ import React, { createContext, useEffect, useState } from "react";
 export const ChatContext = createContext();
 
 const ChatContextProvider = (props) => {
-  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState(null);
 
   const fetchMessage = async () => {
-    let res = await fetch("/api/v1/chatMessage");
-    res = await res.json()
-    console.log(res);
+    let res = await fetch("");
+    
     try {
       if (res.ok) {
       } else {
@@ -20,9 +19,29 @@ const ChatContextProvider = (props) => {
     console.log("USE : ", chatMessages);
   }, [chatMessages]);
 
+  useEffect(() =>{
+
+      return () => {
+        console.log("in return");
+        setChatMessages(null);
+      };
+  }, [])
+
   const appendMessage = (message) => {
     console.log(message);
-  };
+    let x;
+    if(chatMessages === null){
+      console.log('in if');
+      x = [message]
+    }
+    else{
+       x = chatMessages[message.target];
+       console.log(x);
+      x.push(message)
+    }
+    setChatMessages({ ...chatMessages, [message.target]: x }); 
+    console.log(chatMessages);
+ };
 
   const values = {
     chatMessages,
