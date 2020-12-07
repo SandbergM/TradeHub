@@ -1,7 +1,20 @@
 import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
-import { Row, Col, CardText, CardTitle } from "reactstrap";
-import { Collapse, Button, CardBody, Card, CardFooter } from "reactstrap";
+import {
+  Row,
+  Col,
+  CardText,
+  CardTitle,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Collapse,
+  CardBody,
+  Card,
+  CardFooter,
+} from "reactstrap";
 import { UserContext } from "../context/UserContext";
 import AuctionsList from "../components/AuctionList";
 import RegisterNewAction from "../components/RegisterNewAuction";
@@ -11,37 +24,58 @@ const MyPage = (props) => {
   const [isMyAuctionsOpen, setIsMyAuctionsOpen] = useState(false);
   const [isMyBidsOpen, setIsMyBidsOpen] = useState(false);
   const [isCreateAuctionOpen, setIsCreateAuctionOpen] = useState(false);
+  const [isShowingCompanyInput, setIsShowingCompanyInput] = useState(false);
+  const [isShowingButton, setIsShowingButton] = useState(true);
+  const [companyName, setCompanyName] = useState("");
+  const [companyNumber, setCompanyNumber] = useState("");
   const { user } = useContext(UserContext);
 
   const toggleProfile = () => setIsProfileOpen((prevState) => !prevState);
   const toggleAuctions = () => setIsMyAuctionsOpen((prevState) => !prevState);
   const toggleBids = () => setIsMyBidsOpen((prevState) => !prevState);
-  const toggleCreateAuction = () => setIsCreateAuctionOpen((prevState) => !prevState);
+  const toggleCreateAuction = () =>
+    setIsCreateAuctionOpen((prevState) => !prevState);
 
+  const toggleIsShowingCompanyInput = () => {
+    setIsShowingButton((prevState) => !prevState);
+    setIsShowingCompanyInput((prevState) => !prevState);
+  };
 
-
-
-  const getUserInfo=(userDetail)=>{
-    if(user!=null||user!=undefined){ 
-      switch(userDetail){
+  const getUserInfo = (userDetail) => {
+    if (user != null || user != undefined) {
+      switch (userDetail) {
         case "fullName":
-        userDetail=user.fullName
-        break
+          userDetail = user.fullName;
+          break;
         case "email":
-        userDetail=user.email
-        break
+          userDetail = user.email;
+          break;
         case "streetName":
-        userDetail=user.address.streetName
-        break
+          userDetail = user.address.streetName;
+          break;
         case "postalCode":
-        userDetail=user.address.postalCode
-        break
+          userDetail = user.address.postalCode;
+          break;
         case "city":
-          userDetail=user.address.city
+          userDetail = user.address.city;
+          break;
+        case "company":
+          userDetail = user.company;
       }
       return userDetail;
     }
-  }
+  };
+
+  const submitCompanyData = async (e) => {
+    e.preventDefault();
+    const company = { name: companyName, organizationNumber: companyNumber };
+    await fetch("/api/v1/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(company),
+    }).catch(console.warn);
+    setIsShowingCompanyInput((prevState) => !prevState);
+  };
 
   return (
     <Row>
@@ -61,24 +95,79 @@ const MyPage = (props) => {
         <Collapse isOpen={isProfileOpen}>
           <Card className="grey-background tradeHub-white">
             <CardBody>
-              <CardTitle className="mb-4 bold">{getUserInfo("fullName")}</CardTitle>
+              <CardTitle className="mb-4 bold">
+                {getUserInfo("fullName")}
+              </CardTitle>
               <CardText>
                 <span className="bold">Email :</span> {getUserInfo("email")}
               </CardText>
               <CardText>
-                <span className="bold">Adress :</span> {getUserInfo("streetName")}
+                <span className="bold">Adress :</span>{" "}
+                {getUserInfo("streetName")}
               </CardText>
               <CardText>
                 {getUserInfo("postalCode")} | {getUserInfo("city")}
               </CardText>
             </CardBody>
             <CardFooter>
-              <Button
-                className="light-grey-background tradeHub-grey bold noBorder"
-                block
-              >
-                Lägg Till företag
-              </Button>
+              {getUserInfo("company") ? (
+                <div className="grey-background">Company Data</div>
+              ) : isShowingButton ? (
+                <Button
+                  onClick={toggleIsShowingCompanyInput}
+                  className="light-grey-background tradeHub-grey bold noBorder"
+                  block
+                >
+                  LÄGG TILL FÖRETAG
+                </Button>
+              ) : (
+                ""
+              )}
+
+              {isShowingCompanyInput ? (
+                <Form>
+                  <FormGroup>
+                    <Label for="companyName" className="tradeHub-white">
+                      Företagsnamn
+                    </Label>
+                    <Input
+                      required
+                      className="white-background tradeHub-input"
+                      type="text"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="companyNumber" className="tradeHub-white ">
+                      Företags/Organisations Nummer
+                    </Label>
+                    <Input
+                      required
+                      className="white-background tradeHub-input"
+                      type="text"
+                      value={companyNumber}
+                      onChange={(e) => setCompanyNumber(e.target.value)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Button
+                      onClick={submitCompanyData}
+                      className="tradeHub-button font-weight-bold mb-1 pl-4 pr-4"
+                    >
+                      LÄGG TILL FÖRETAG
+                    </Button>
+                    <Button
+                      onClick={toggleIsShowingCompanyInput}
+                      className="tradeHub-button float-right font-weight-bold mb-1 pl-3 pr-3"
+                    >
+                      STÄNG
+                    </Button>
+                  </FormGroup>
+                </Form>
+              ) : (
+                ""
+              )}
             </CardFooter>
           </Card>
         </Collapse>

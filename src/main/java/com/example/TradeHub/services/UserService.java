@@ -68,7 +68,6 @@ public class UserService {
         userRepo.save(user);*/
     }
 
-
     public void updateUser(Company companyToAdd) {
         var user = this.getCurrentUser();
            if (companyToAdd.getName() != null && companyToAdd.getOrganizationNumber() != null) {
