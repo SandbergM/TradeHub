@@ -8,6 +8,8 @@ const ChatRoom = ({ receiverId }) => {
   const [messageText, setMessageText] = useState("");
   const { user } = useContext(UserContext);
   const { chatMessages } = useContext(ChatContext);
+  const [bool, setBool] = useState(false);
+  const [room, setRoom] = useState("")
 
   const newMessage = async () => {
     console.log(chatMessages);
@@ -25,18 +27,29 @@ const ChatRoom = ({ receiverId }) => {
     setMessageText("");
     res = await res.json();
     console.log(res.roomId);
-
-    console.log(chatMessages)
   };
+
+  const getRoom = (roomId) => {
+    roomId="5fcb69fc99ef714df71cc9ab"
+    setRoom(roomId)
+    setBool(true)
+
+    
+  };
+
+  useEffect(() => {
+    console.log(chatMessages);
+    if (chatMessages != null || chatMessages != undefined) {
+     getRoom("adas")
+    }
+  }, []);
 
   return (
     <div>
-      {
-        chatMessages.map((messages) => {
-          console.log(messages);
-          return <p>{messages.content.message}</p>;
-        })}
 
+  {bool ? (<div>{chatMessages[room].map(message=>{return(<p>{message.message}</p>)})} </div>):(<p>dsds</p>)}
+    
+  
       <Input
         type="text"
         placeholder="Skriv ditt meddelande"

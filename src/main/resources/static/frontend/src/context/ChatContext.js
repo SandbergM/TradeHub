@@ -28,16 +28,24 @@ const ChatContextProvider = (props) => {
   // }, []);
 
   const appendMessage = (message) => {
-    let tempArr;
-    if (chatMessages === null || chatMessages[message.target] === undefined) {
-      tempArr = [];
-      tempArr.push(message.content);
-      setChatMessages((chatMessages[message.target] = tempArr));
-    } else {
-      tempArr = chatMessages[message.target];
-      tempArr.push(message.content);
-      setChatMessages((chatMessages[message.target] = tempArr));
-    }
+
+   chatMessages[message.target] = chatMessages[message.target] || [];
+
+   chatMessages[message.target].push(message.content)
+
+   setChatMessages({...chatMessages})
+
+
+    //let tempArr;
+    // if (chatMessages === null || chatMessages[message.target] === undefined) {
+    //   tempArr = [];
+    //   tempArr.push(message.content);
+    //   setChatMessages((chatMessages[message.target] = tempArr));
+    // } else {
+    //   tempArr = chatMessages[message.target];
+    //   tempArr.push(message.content);
+    //   setChatMessages((chatMessages[message.target] = tempArr));
+    // }
     console.log(chatMessages);
   };
 
