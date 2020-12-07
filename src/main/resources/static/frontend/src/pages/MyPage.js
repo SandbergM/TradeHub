@@ -60,7 +60,14 @@ const MyPage = (props) => {
           userDetail = user.address.city;
           break;
         case "company":
-          userDetail = user.company;
+          if (user.company) {
+            userDetail = user.company.name;
+          }
+          break;
+        case "companyNumber":
+          if (user.company) {
+            userDetail = user.company.organizationNumber;
+          }
       }
       return userDetail;
     }
@@ -110,8 +117,11 @@ const MyPage = (props) => {
               </CardText>
             </CardBody>
             <CardFooter>
-              {getUserInfo("company") ? (
-                <div className="grey-background">Company Data</div>
+              {user !== null && user.company !== null ? (
+                <div>
+                  <div className="bold mb-2">{getUserInfo("company")}</div>
+                  <div className="">{getUserInfo("companyNumber")}</div>
+                </div>
               ) : isShowingButton ? (
                 <Button
                   onClick={toggleIsShowingCompanyInput}

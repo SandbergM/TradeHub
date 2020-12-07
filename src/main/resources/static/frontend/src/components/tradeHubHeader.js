@@ -32,7 +32,7 @@ const TradeHubHeader = (props) => {
   const logout = async() =>{
     let res = await fetch("/api/v1/users/logout")
     console.log(res)
-    setUser(null);
+    setUser({});
     history.push("/")
   }
 

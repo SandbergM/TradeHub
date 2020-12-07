@@ -3,10 +3,12 @@ import { useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
 import { getThumbNail } from '../utils/imageHandler'
 import { AuctionContext } from '../context/AuctionContextProvider'
+import { UserContext } from "../context/UserContext";
 import "../sass/styles.scss"
 
 const AuctionItem = (props) => {
   const { setActiveAuction } = useContext(AuctionContext);
+  const { user } = useContext(UserContext);
   const [time, setTime] = useState(0);
 
   let history = useHistory()
@@ -14,6 +16,19 @@ const AuctionItem = (props) => {
   const goToDetails = () => {
     setActiveAuction(props.auction)
     history.push("/auction/" + props.auction.title + "/" + props.auction.id);
+  };
+
+  const getUserInfo = (userDetail) => {
+    if (user && user.company) {
+      switch (userDetail) {
+        case "company":
+          userDetail = user.company.name;
+          break;
+        case "companyNumber":
+          userDetail = user.company.organizationNumber;
+      }
+      return userDetail;
+    }
   };
 
   const timer = () => {
@@ -53,22 +68,43 @@ const AuctionItem = (props) => {
 
   return (
     <Col className="p-0 pr-3 pl-3">
-      <Card className="tradeHub-card text-center mb-3 pointer" onClick={goToDetails}>
+      <Card
+        className="tradeHub-card text-center mb-3 pointer"
+        onClick={goToDetails}
+      >
         <CardBody className="tradeHub-cardBody">
-          <CardTitle tag="h5">
-            {props.auction.title}
-          </CardTitle>
+          <CardTitle tag="h5">{props.auction.title}</CardTitle>
         </CardBody>
-        <img className="tradeHub-cardImg" src={getThumbNail(props.auction.images)} alt="auction-img" />
+        <img
+          className="tradeHub-cardImg"
+          src={getThumbNail(props.auction.images)}
+          alt="auction-img"
+        />
         <CardBody>
           {props.auction.highestBid ? (
-            <CardText>{props.auction.highestBid} kr</CardText>
+            <CardText>
+              {props.auction.highestBid} kr{" "}
+              <span>
+                {getUserInfo("company") ? (
+                  <span>({props.auction.highestBid * 0.75} kr utan moms)</span>
+                ) : (
+                  ""
+                )}
+              </span>
+            </CardText>
           ) : (
-            <CardText>{props.auction.price} kr</CardText>
+            <CardText>
+              {props.auction.price} kr{" "}
+              <span>
+                {getUserInfo("company") ? (
+                  <span>({props.auction.price * 0.75} kr utan moms)</span>
+                ) : (
+                  ""
+                )}
+              </span>
+            </CardText>
           )}
-          <CardText tag="h5">
-            {time}
-          </CardText>
+          <CardText tag="h5">{time}</CardText>
         </CardBody>
       </Card>
     </Col>
