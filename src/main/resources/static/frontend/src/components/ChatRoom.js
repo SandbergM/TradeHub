@@ -9,7 +9,7 @@ const ChatRoom = ({ receiverId }) => {
   const { user } = useContext(UserContext);
   const { chatMessages } = useContext(ChatContext);
   const [bool, setBool] = useState(false);
-  const [room, setRoom] = useState("")
+  const [room, setRoom] = useState("");
 
   const newMessage = async () => {
     console.log(chatMessages);
@@ -30,32 +30,39 @@ const ChatRoom = ({ receiverId }) => {
   };
 
   const getRoom = (roomId) => {
-    roomId="5fcb69fc99ef714df71cc9ab"
-    setRoom(roomId)
-    setBool(true)
-
-    
+    roomId = "5fcb69fc99ef714df71cc9ab";
+    setRoom(roomId);
+    setBool(true);
   };
 
   useEffect(() => {
     console.log(chatMessages);
     if (chatMessages != null || chatMessages != undefined) {
-     getRoom("adas")
+      getRoom("adas");
     }
   }, []);
 
   return (
     <div>
+      {/*    {bool ? (
+        <div>
+          {chatMessages[room].map((message) => {
+            return <p>{message.message}</p>;
+          })}{" "}
+        </div>
+      ) : (
+        <p>d</p>
+      )} */}
 
-  {bool ? (<div>{chatMessages[room].map(message=>{return(<p>{message.message}</p>)})} </div>):(<p>dsds</p>)}
-    
-  
       <Input
         type="text"
+        className="mb-2"
         placeholder="Skriv ditt meddelande"
         onChange={(e) => setMessageText(e.target.value)}
       />
-      <Button onClick={newMessage}>Skicka</Button>
+      <Button className="orange-background pl-4 pr-4" onClick={newMessage}>
+        Skicka
+      </Button>
     </div>
   );
 };

@@ -104,7 +104,7 @@ const TradeHubHeader = (props) => {
         >
           <span className="material-icons">menu</span>
         </div>
-      </Navbar>
+      </Navbar>{ user ?
       <div className="text-right mr-4 tradeHub-icon" id="bubble-position">
         <span className="material-icons" onClick={toggleChatModal}>chat</span>
         <ChatModal
@@ -112,7 +112,7 @@ const TradeHubHeader = (props) => {
           toggleModal={toggleChatModal}
           setModalIsOpen={setChatModalIsOpen}
         />
-      </div>
+      </div> : ""}
     </div>
   );
 };

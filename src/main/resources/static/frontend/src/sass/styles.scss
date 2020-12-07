@@ -6,6 +6,7 @@
   --white: #ffffff;
   --orange: orange;
   --light-grey: #eeeeee;
+  --mid-light-grey: #dadada;
   --grey: #8d8d8d;
   --dark-grey: #707070;
   --red: #ff131a;
@@ -41,19 +42,17 @@
 }
 
 .tradeHub-cardImg {
- width: 100%;
- height: 30vh;
+  width: 100%;
+  height: 30vh;
 }
 .tradeHub-card {
   height: 60vh;
   color: var(--orange);
- }
+}
 
- .tradeHub-cardBody {
+.tradeHub-cardBody {
   height: 10vh;
- }
-
-
+}
 
 .btn {
   border-radius: 0 !important;
@@ -185,6 +184,15 @@ hr {
 
 .noBorder {
   border: none !important;
+}
+
+.contact {
+  border-radius: 4px !important;
+}
+
+.contact:hover {
+  background-color: var(--mid-light-grey) !important;
+  cursor: pointer;
 }
 
 // STYLING FOR IPAD & DESKTOP
