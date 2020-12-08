@@ -15,7 +15,7 @@ const UserContextProvider = (props) => {
       if (res.ok) {
         res = await res.json();
         setUser(res);
-        fetchMessage()
+        await fetchMessage()
       } else {
         console.log("else: ", res);
         setUser(null);
