@@ -59,9 +59,6 @@ public class ChatMessageService {
             }
         }
 
-        System.out.println("SENDER : " + sender.toString());
-        System.out.println("RECEIVER : " + receiver.toString());
-
         chatMessage.setTimestamp(Instant.now().toEpochMilli());
         chatMessage.setSender(sender);
         chatMessage.setReceiver(receiver);

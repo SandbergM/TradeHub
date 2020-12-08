@@ -1,6 +1,6 @@
 import Home from "./pages/Home";
 import MyPage from "./pages/MyPage";
-import TradeHubHeader from "./components/tradeHubHeader";
+import TradeHubHeader from "./components/TradeHubHeader";
 import UserContexProvider from "./context/UserContext";
 import TradeHubFooter from "./components/TradeHubFooter";
 import "bootstrap/dist/css/bootstrap.min.css";

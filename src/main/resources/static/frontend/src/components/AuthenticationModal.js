@@ -1,6 +1,6 @@
 import React, {useState } from "react";
-import LoginModal from './LoginAndRegisterModal/loginModal'
-import RegisterModal from './LoginAndRegisterModal/registerModal'
+import LoginModal from './LoginAndRegisterModal/LoginModal'
+import RegisterModal from './LoginAndRegisterModal/RegisterModal'
 
 import {
   Modal,
