@@ -4,7 +4,6 @@ import { UserContext } from "../context/UserContext";
 import { ChatContext } from "../context/ChatContext";
 
 const ChatRoom = ({ receiverId }) => {
-  const [messageSender, setMessageSender] = useState("");
   const [messageText, setMessageText] = useState("");
   const [roomId, setRoomid] = useState(null);
   const { chatMessages } = useContext(ChatContext);
@@ -34,13 +33,14 @@ const ChatRoom = ({ receiverId }) => {
       `/api/v1/chatMessage/conversation/${room.id}`
     );
     let backlogConversation = await backlogConversationRaw.json();
-    setMessages(backlogConversation);
+    setMessages([...backlogConversation.reverse(), ...messages]);
   };
 
   useEffect(() => {
     fetchConversation();
     return () => {
       setMessages([]);
+      setRoomid(null);
     };
   }, []);
 
@@ -53,8 +53,12 @@ const ChatRoom = ({ receiverId }) => {
     }
   }, [chatMessages[roomId] && chatMessages[roomId].length]);
 
+  useEffect(() => {
+    document.getElementById("chat-scroll-trigger").click();
+  }, [messages]);
+
   const formattedTime = (timestamp) => {
-    let date = new Date(timestamp)
+    let date = new Date(timestamp);
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
@@ -73,7 +77,8 @@ const ChatRoom = ({ receiverId }) => {
   return (
     <div>
       {messages && (
-        <div>
+        <div id="chat-message-container">
+          <a href="#chat-bottom" id="chat-scroll-trigger"></a>
           {messages.map((message) => {
             return user.id === message.sender.id ? (
               <div className="mt-2 mb-2 p-1">
@@ -100,7 +105,8 @@ const ChatRoom = ({ receiverId }) => {
                 </span>
               </div>
             );
-          })}{" "}
+          })}
+          <a id="chat-bottom"></a>
         </div>
       )}
 
@@ -108,6 +114,7 @@ const ChatRoom = ({ receiverId }) => {
         className="mt-3"
         type="text"
         placeholder="Skriv ditt meddelande"
+        value={messageText}
         onChange={(e) => setMessageText(e.target.value)}
       />
       <Button className="mt-2 pl-4 pr-4" onClick={newMessage}>

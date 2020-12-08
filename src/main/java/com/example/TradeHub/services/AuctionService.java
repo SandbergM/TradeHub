@@ -2,7 +2,6 @@ package com.example.TradeHub.services;
 
 import com.example.TradeHub.entities.*;
 import com.example.TradeHub.repositories.AuctionRepo;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,6 @@ public class AuctionService {
         if(newlyCreatedAuction == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
         }
-        userService.addAuctionsToUser(newlyCreatedAuction, seller);
         return newlyCreatedAuction;
     }
 
@@ -59,7 +57,12 @@ public class AuctionService {
 
         if(previousHighestBidder != null){
             try{
-                //this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
+                SocketPayload payload = this.payloadBuilder(auctionToUpdate, bid,"notification");
+                payload.setContent(auctionToUpdate);
+                boolean userOnline = socketService.sendToOne( payload, previousHighestBidder.getId() );
+                if(!userOnline){
+                    this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }

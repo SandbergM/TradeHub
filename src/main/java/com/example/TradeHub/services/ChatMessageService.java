@@ -7,19 +7,14 @@ import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.ChatMessageRepo;
 import com.example.TradeHub.repositories.RoomRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <Description>
- *
- * @author Martin Hellström
- * @version 1.0
- * @since 11/30/2020
- */
 @Service
 public class ChatMessageService {
 
@@ -44,10 +39,12 @@ public class ChatMessageService {
     }
 
     public void postNewMessage(ChatMessage chatMessage) {
-        System.out.println("SENDING ");
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(chatMessage.getReceiver().getId());
-        if(receiver == null){ System.out.println("Här kommer det kastas grejer!"); }
+        if( receiver == null ){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
+        }
+
         var room = roomRepo.findRoomByParticipants(sender, receiver).orElse(null);
 
         if(room == null){
@@ -58,9 +55,12 @@ public class ChatMessageService {
             chatRoom.setParticipants(participants);
             room = roomRepo.save(chatRoom).orElse( null );
             if( room == null ){
-                System.out.println("Här kommer det kastas grejer!");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
             }
         }
+
+        System.out.println("SENDER : " + sender.toString());
+        System.out.println("RECEIVER : " + receiver.toString());
 
         chatMessage.setTimestamp(Instant.now().toEpochMilli());
         chatMessage.setSender(sender);
@@ -73,18 +73,15 @@ public class ChatMessageService {
 
     public Room getRoom(String receiverId) {
         User sender = userService.getCurrentUser();
-        System.out.println("Sender  : " + sender);
         User receiver = userService.findById(receiverId);
-        System.out.println("receiver  : " + receiver);
         Room room = roomRepo.findRoomByParticipants(sender, receiver ).orElse(null);
         if( room == null){
-            System.out.println("No room found");
             ArrayList<String> participants = new ArrayList<>();
             participants.add(sender.getId());
             participants.add(receiverId);
             room = roomRepo.save(new Room(participants)).orElse( null );
             if(room == null){
-                System.out.println("Bad");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
             }
         }
         return room;

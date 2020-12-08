@@ -22,7 +22,6 @@ public class AddressRepo {
         if(!postalCode.equals("")){query.addCriteria(Criteria.where("postalCode").is(postalCode));}
         if(!city.equals("")){query.addCriteria(Criteria.where("city").is(city));}
 
-
         return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }
 

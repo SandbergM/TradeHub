@@ -2,9 +2,9 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import ChatComponent from "./ChatComponent";
-import ChatRoom from "./ChatRoom"
+import ChatRoom from "./ChatRoom";
 
-const ChatModal = ({modalIsOpen, toggleModal, setModalIsOpen}) => {
+const ChatModal = ({ modalIsOpen, toggleModal, setModalIsOpen }) => {
   const { user } = useContext(UserContext);
 
   const [modal, setModal] = useState(false);
@@ -18,7 +18,7 @@ const ChatModal = ({modalIsOpen, toggleModal, setModalIsOpen}) => {
       <Modal isOpen={modalIsOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggle}></ModalHeader>
         <ModalBody>
-          <ChatRoom/>
+          <ChatRoom />
         </ModalBody>
         <ModalFooter>
           <Button className="tradeHub-button" onClick={toggle}>

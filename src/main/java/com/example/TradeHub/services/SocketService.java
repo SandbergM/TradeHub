@@ -43,6 +43,16 @@ public class SocketService {
             }
     }
 
+    public boolean sendToOne(SocketPayload socketPayload, String userId) throws IOException {
+        WebSocketSession session = this.userIdToSessionIdTranslation(userId);
+        if(!this.sessionIsActive(session)){
+            return false;
+        }
+        TextMessage msg = new TextMessage(objectMapper.writeValueAsString(socketPayload));
+        session.sendMessage(msg);
+        return true;
+    }
+
     public void clearSessions(WebSocketSession session){
         for (String mySession : activeSessions.get(session.getId())) {
             removeSession(session, new Room(mySession));
@@ -67,6 +77,7 @@ public class SocketService {
         SocketDTO socketDTO = objectMapper.readValue(message.getPayload(), SocketDTO.class);
         switch (socketDTO.action) {
             case "connection":
+                System.out.println("Connected");
                 sessionTranslations.put(convertPayload(socketDTO.payload, User.class).getId(), session);
                 break;
             case "join-room":
@@ -101,35 +112,20 @@ public class SocketService {
             activeRooms.put(payload.getTarget(), newRoom);
         }
 
-        // We get the list with the current sessions in it
         var currentParticipants = activeRooms.get(payload.getTarget()).getSessions();
         for(var part : payload.getRoom().getParticipants()){
             var session = userIdToSessionIdTranslation(part);
-            /*
-            Conditions that needs to be met :
-            The session is not allowed to be null
-            The session needs to be active AKA the user is online, sending to a dead session = *BOOM*
-            The room doesn't already have the session in it, duplicates sessions means duplicate messages
-             */
             if( session != null && sessionIsActive( session ) && !currentParticipants.contains( session ) ){
-                /*
-                Use the addSession to append the room to the users list of rooms, this is needed
-                when the user disconnects since we need to exit all of the activeRooms
-                because if we leave him/her in them and someone tries to send them a message... *BOOM* again :)
-                 */
                 addSession( session, new Room( payload.getTarget() ));
             }
         }
-        // Payload is ready to be sent, all of the sessions and rooms already know what to do at this point
        sendToAll(payload);
     }
 
-    // Gets us the current session associated with a specific user
     public WebSocketSession userIdToSessionIdTranslation(String userId){
         return sessionTranslations.get(userId);
     }
 
-    // Quick easy clean way to check if the session exists or not
     public Boolean sessionIsActive(WebSocketSession webSocketSession){
         return activeSessions.get(webSocketSession.getId()) != null;
     }
