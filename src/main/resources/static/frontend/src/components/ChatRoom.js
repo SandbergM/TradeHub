@@ -3,7 +3,7 @@ import { Input, Label, Form, Button } from "reactstrap";
 import { UserContext } from "../context/UserContext";
 import { ChatContext } from "../context/ChatContext";
 
-const ChatRoom = ({ receiverId }) => {
+const ChatRoom = ({ receiverId, roomId }) => {
   const [messageSender, setMessageSender] = useState("");
   const [messageText, setMessageText] = useState("");
   const { user } = useContext(UserContext);
@@ -29,8 +29,8 @@ const ChatRoom = ({ receiverId }) => {
     console.log(res.roomId);
   };
 
-  const getRoom = (roomId) => {
-    roomId="5fcb69fc99ef714df71cc9ab"
+  const getRoom = () => {
+    roomId = "5fcdfb367e4a000d7b9c80d1";
     setRoom(roomId)
     setBool(true)
 
@@ -40,7 +40,7 @@ const ChatRoom = ({ receiverId }) => {
   useEffect(() => {
     console.log(chatMessages);
     if (chatMessages != null || chatMessages != undefined) {
-     getRoom("adas")
+     getRoom()
     }
   }, []);
 
