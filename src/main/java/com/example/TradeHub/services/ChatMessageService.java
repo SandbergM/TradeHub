@@ -47,9 +47,11 @@ public class ChatMessageService {
                 foundMessages.put(room.getId(), messages);
             }
         }
-        return foundMessages; }
+        return foundMessages;
+    }
 
-    public ChatMessage postNewMessage(ChatMessage chatMessage) {
+    public void postNewMessage(ChatMessage chatMessage) {
+        System.out.println("SENDING ");
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(chatMessage.getReceiver().getId());
         if(receiver == null){ System.out.println("Här kommer det kastas grejer!"); }
@@ -74,7 +76,20 @@ public class ChatMessageService {
         ChatMessage savedChatMessage = chatMessageRepo.save(chatMessage).orElse(null);
         SocketPayload socketPayload = new SocketPayload("chat-message", room, savedChatMessage );
         socketService.customSendToAll(socketPayload);
-
-        return savedChatMessage;
     }
+
+    public Room getRoom(String receiverId) {
+        System.out.println("Good stuff");
+        User sender = userService.getCurrentUser();
+        Room room = roomRepo.findRoomByParticipants( new User(receiverId), sender).orElse(null);
+        if( room == null){
+
+            ArrayList<String> participants = new ArrayList<>();
+            participants.add(sender.getId());
+            participants.add(receiverId);
+            room = roomRepo.save(new Room(participants)).orElse( null );
+        }
+        return room;
+    }
+
 }

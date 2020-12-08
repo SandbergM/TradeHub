@@ -16,11 +16,13 @@ const SocketContextProvider = (props) => {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
+    console.log("1");
     const ws = new WebSocket("ws://localhost:8080/tradeHubSocket");
     setWs(ws);
   }, [user]);
 
   useEffect(() => {
+    console.log("2");
     if (ws == null) return;
     ws.onopen = () => {
       if (user !== null) {
@@ -48,10 +50,12 @@ const SocketContextProvider = (props) => {
   }, [ws]);
 
   const sendMessage = (msg) => {
+    console.log("3");
     ws.send(JSON.stringify(msg));
   };
 
   const messageHandler = (msg) => {
+    console.log("4");
     msg = JSON.parse(msg);
     switch (msg.action) {
       case "bid":

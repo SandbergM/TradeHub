@@ -1,13 +1,12 @@
 package com.example.TradeHub.controllers;
 
 import com.example.TradeHub.entities.ChatMessage;
-import com.example.TradeHub.repositories.RoomRepo;
+import com.example.TradeHub.entities.Room;
 import com.example.TradeHub.services.ChatMessageService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,8 +32,14 @@ public class ChatMessageController {
     }
 
     @PostMapping
-    public ResponseEntity<ChatMessage> postNewChatMessage(@RequestBody ChatMessage chatMessage) {
-
-        return ResponseEntity.ok(chatMessageService.postNewMessage( chatMessage ));
+    public void postNewChatMessage(@RequestBody ChatMessage chatMessage) {
+        chatMessageService.postNewMessage(chatMessage);
     }
+
+    @GetMapping("/room")
+    public Room getRoomId(@PathParam( value = "receiverId") String receiverId) {
+        System.out.println(receiverId);
+        return chatMessageService.getRoom(receiverId);
+    }
+
 }

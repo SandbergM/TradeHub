@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { UserContext } from "./UserContext";
 
 export const ChatContext = createContext();
 
@@ -6,57 +7,49 @@ const ChatContextProvider = (props) => {
   const [chatMessages, setChatMessages] = useState(null);
   let debounceID = null;
 
+  const { user } = useContext(UserContext);
+
   const fetchMessage = () => {
+    console.log("1");
     if (debounceID !== null) {
       clearTimeout(debounceID);
       debounceID = null;
     }
     debounceID = setTimeout(async () => {
-    let res = await fetch("/api/v1/chatMessage");
-    try {
-      if (res.ok) {
-        res = await res.json()
-        console.log(res);
-        // setChatMessages(res)
-        setChatMessagesToX(res)
-      } else {
-      }
-    } catch {}
-    console.log(chatMessages)
-    }, 250);
+      let res = await fetch("/api/v1/chatMessage");
+      try {
+        if (res.ok) {
+          res = await res.json();
+          setChatMessagesToX(res);
+        } else {
+        }
+      } catch {}
+    }, 1000);
   };
 
+  useEffect(() => {
+    console.log("Chatmessages changed");
+  }, [Object.entries(chatMessages).length]);
 
   useEffect(() => {
-    console.log("USE : ", chatMessages);
-  }, [ chatMessages]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     console.log("in return");
-  //     // setChatMessages(null);
-  //   };
-  // }, []);
-
+    fetchMessage();
+  }, [user]);
 
   const appendMessage = (message) => {
-    if(chatMessages !== null){
-      console.log(chatMessages);
-      chatMessages[message.target] =
-        chatMessages[message.target] ||
-        [];
-      
-      chatMessages[message.target].push(message.content)
-      
-      setChatMessages({...chatMessages})
-      console.log(chatMessages[message.target]);
+    console.log("2");
+    if (chatMessages !== null) {
+      chatMessages[message.target] = chatMessages[message.target] || [];
+
+      chatMessages[message.target].push(message.content);
+
+      setChatMessages({ ...chatMessages });
     }
-    console.log(chatMessages);
   };
 
   const setChatMessagesToX = (messages) => {
+    console.log("3");
     setChatMessages(messages);
-  }
+  };
 
   const values = {
     chatMessages,

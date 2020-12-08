@@ -223,10 +223,10 @@ const AuctionDetailsPageData = ({
       <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
         <p className="mb-1">
-          <span className="seller ml-4">Seller:</span>{" "}
+          <span className="seller ml-4">Säljare:</span>{" "}
           {activeAuction.seller ? activeAuction.seller.fullName : null}
         </p>
-        <SellerChatModal receiverId={activeAuction.seller.id} />
+        <SellerChatModal receiverId={activeAuction.seller.id} roomId={null} />
       </div>
     </div>
   );
