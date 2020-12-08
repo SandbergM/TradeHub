@@ -23,6 +23,8 @@ const AuctionDetailsPageData = ({
   const { user } = useContext(UserContext);
   const serverAddress = "http://localhost:8080";
   let userId = "No user";
+  let userCompany = null;
+  let userCompanyNumber = null;
 
   if (activeAuction.images == null) {
     activeAuction.images = [{ url: "empty" }];
@@ -30,6 +32,11 @@ const AuctionDetailsPageData = ({
 
   if (user !== null) {
     userId = user.id;
+  }
+
+  if (user !== null && user.company !== null) {
+    userCompany = user.company.name;
+    userCompanyNumber = user.company.organizationNumber;
   }
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -147,7 +154,25 @@ const AuctionDetailsPageData = ({
       <div className="flex-container">
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
-          <p className="m-0 highest-bid">{bid}</p>
+          <p className="m-0 mx-auto highest-bid">
+            {activeAuction.highestBid
+              ? activeAuction.highestBid
+              : activeAuction.price}{" "}
+            SEK
+          </p>
+          <p>
+            {userCompany ? (
+              <div className="line-height">
+                (
+                {activeAuction.highestBid
+                  ? activeAuction.highestBid * 0.75
+                  : activeAuction.price * 0.75}{" "}
+                SEK utan moms)
+              </div>
+            ) : (
+              ""
+            )}
+          </p>
         </div>
         <div className="text-center orange-border font-weight-bold time-left-block">
           <p className="m-0">TID KVAR</p>
