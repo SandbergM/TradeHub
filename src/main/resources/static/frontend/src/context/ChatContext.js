@@ -28,10 +28,6 @@ const ChatContextProvider = (props) => {
   };
 
   useEffect(() => {
-    console.log("Chatmessages changed");
-  }, [Object.entries(chatMessages).length]);
-
-  useEffect(() => {
     fetchMessage();
   }, [user]);
 

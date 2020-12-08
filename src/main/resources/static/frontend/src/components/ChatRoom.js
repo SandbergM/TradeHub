@@ -8,6 +8,7 @@ const ChatRoom = ({ receiverId }) => {
   const [messageText, setMessageText] = useState("");
   const [roomId, setRoomid] = useState(null);
   const { chatMessages } = useContext(ChatContext);
+  const { user } = useContext(UserContext);
   const [bool, setBool] = useState(false);
   const [room, setRoom] = useState("");
 
@@ -57,8 +58,6 @@ const ChatRoom = ({ receiverId }) => {
       {chatMessages && chatMessages[room] && (
         <div>
           {chatMessages[room].map((message) => {
-            console.log(message);
-            console.log(user);
             return user.id === message.sender.id ? (
               <div className="mt-2 mb-2 p-1">
                 <p className="m-0 mb-2 ml-1 p-0 message-time">
@@ -75,7 +74,9 @@ const ChatRoom = ({ receiverId }) => {
               <div className="mt-2 mb-2 p-1 text-right">
                 <p className="m-0 mb-2 ml-1 p-0 message-time">
                   {formattedTime(message.timestamp)},{" "}
-                  <span className="bold message-sender">{message.sender.fullName}</span>
+                  <span className="bold message-sender">
+                    {message.sender.fullName}
+                  </span>
                 </p>
                 <span className="grey-background tradeHub-white p-2 pl-3 pr-3 borderRadius5">
                   {message.message}
