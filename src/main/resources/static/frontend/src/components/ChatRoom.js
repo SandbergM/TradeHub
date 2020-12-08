@@ -9,8 +9,7 @@ const ChatRoom = ({ receiverId }) => {
   const [roomId, setRoomid] = useState(null);
   const { chatMessages } = useContext(ChatContext);
   const { user } = useContext(UserContext);
-  const [bool, setBool] = useState(false);
-
+  const [messages, setMessages] = useState([]);
 
   const newMessage = async () => {
     console.log("sending");
@@ -27,18 +26,32 @@ const ChatRoom = ({ receiverId }) => {
     setMessageText("");
   };
 
-  const fetchRoomId = async () => {
-    console.log("FETCHING STUFF WITH ID : ", receiverId);
-    let res = await fetch(`/api/v1/chatMessage/room?receiverId=${receiverId}`);
-    res = await res.json();
-    setRoomid(res.id);
-    console.log(res.id);
+  const fetchConversation = async () => {
+    let roomRaw = await fetch(`/api/v1/chatMessage/room/${receiverId}`);
+    let room = await roomRaw.json();
+    setRoomid(room.id);
+    let backlogConversationRaw = await fetch(
+      `/api/v1/chatMessage/conversation/${room.id}`
+    );
+    let backlogConversation = await backlogConversationRaw.json();
+    setMessages(backlogConversation);
   };
 
   useEffect(() => {
-    fetchRoomId();
-    console.log(chatMessages[roomId])
+    fetchConversation();
+    return () => {
+      setMessages([]);
+    };
   }, []);
+
+  useEffect(() => {
+    if (chatMessages[roomId] !== undefined) {
+      setMessages([
+        ...messages,
+        chatMessages[roomId][chatMessages[roomId].length - 1],
+      ]);
+    }
+  }, [chatMessages[roomId] && chatMessages[roomId].length]);
 
   const formattedTime = (timestamp) => {
     var date = new Date(timestamp * 1000);
@@ -55,9 +68,9 @@ const ChatRoom = ({ receiverId }) => {
 
   return (
     <div>
-      {chatMessages && chatMessages[roomId] && (
+      {messages && (
         <div>
-          {chatMessages[roomId].map((message) => {
+          {messages.map((message) => {
             return user.id === message.sender.id ? (
               <div className="mt-2 mb-2 p-1">
                 <p className="m-0 mb-2 ml-1 p-0 message-time">

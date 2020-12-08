@@ -6,13 +6,11 @@ import com.example.TradeHub.entities.SocketPayload;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.ChatMessageRepo;
 import com.example.TradeHub.repositories.RoomRepo;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,17 +35,12 @@ public class ChatMessageService {
     @Autowired
     RoomRepo roomRepo;
 
-    public HashMap<String, List<ChatMessage>> getAllChatMessages(int page) {
-        var rooms = roomRepo.findRooms(userService.getCurrentUser()).orElse(new ArrayList<>());
-        var foundMessages = new HashMap<String, List<ChatMessage>>();
-        for (Room room: rooms) {
-            var messages = chatMessageRepo.findByRoomId(page, room.getId()).orElse(null);
-            System.out.println(messages);
-            if(messages != null){
-                foundMessages.put(room.getId(), messages);
-            }
+    public List<ChatMessage> getConversation(String roomId) {
+        List<ChatMessage> messages =  chatMessageRepo.findByRoomId(1 ,roomId).orElse( new ArrayList<>() );
+        if(messages.isEmpty()){
+            System.out.println("Err");
         }
-        return foundMessages;
+        return messages;
     }
 
     public void postNewMessage(ChatMessage chatMessage) {
@@ -79,15 +72,20 @@ public class ChatMessageService {
     }
 
     public Room getRoom(String receiverId) {
-        System.out.println("Good stuff");
         User sender = userService.getCurrentUser();
-        Room room = roomRepo.findRoomByParticipants( new User(receiverId), sender).orElse(null);
+        System.out.println("Sender  : " + sender);
+        User receiver = userService.findById(receiverId);
+        System.out.println("receiver  : " + receiver);
+        Room room = roomRepo.findRoomByParticipants(sender, receiver ).orElse(null);
         if( room == null){
-
+            System.out.println("No room found");
             ArrayList<String> participants = new ArrayList<>();
             participants.add(sender.getId());
             participants.add(receiverId);
             room = roomRepo.save(new Room(participants)).orElse( null );
+            if(room == null){
+                System.out.println("Bad");
+            }
         }
         return room;
     }
