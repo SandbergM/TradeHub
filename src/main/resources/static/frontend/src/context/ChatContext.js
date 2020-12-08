@@ -20,6 +20,7 @@ const ChatContextProvider = (props) => {
       try {
         if (res.ok) {
           res = await res.json();
+          console.log(res);
           setChatMessagesToX(res);
         } else {
         }

@@ -10,7 +10,7 @@ const ChatRoom = ({ receiverId }) => {
   const { chatMessages } = useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [bool, setBool] = useState(false);
-  const [room, setRoom] = useState("");
+
 
   const newMessage = async () => {
     console.log("sending");
@@ -27,11 +27,18 @@ const ChatRoom = ({ receiverId }) => {
     setMessageText("");
   };
 
-  const getRoom = () => {
-    roomId = "5fcdfb367e4a000d7b9c80d1";
-    setRoom(roomId);
-    setBool(true);
+  const fetchRoomId = async () => {
+    console.log("FETCHING STUFF WITH ID : ", receiverId);
+    let res = await fetch(`/api/v1/chatMessage/room?receiverId=${receiverId}`);
+    res = await res.json();
+    setRoomid(res.id);
+    console.log(res.id);
   };
+
+  useEffect(() => {
+    fetchRoomId();
+    console.log(chatMessages[roomId])
+  }, []);
 
   const formattedTime = (timestamp) => {
     var date = new Date(timestamp * 1000);
@@ -46,18 +53,11 @@ const ChatRoom = ({ receiverId }) => {
     return formattedTime;
   };
 
-  useEffect(() => {
-    console.log(chatMessages);
-    if (chatMessages != null || chatMessages != undefined) {
-      getRoom();
-    }
-  }, []);
-
   return (
     <div>
-      {chatMessages && chatMessages[room] && (
+      {chatMessages && chatMessages[roomId] && (
         <div>
-          {chatMessages[room].map((message) => {
+          {chatMessages[roomId].map((message) => {
             return user.id === message.sender.id ? (
               <div className="mt-2 mb-2 p-1">
                 <p className="m-0 mb-2 ml-1 p-0 message-time">
