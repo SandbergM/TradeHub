@@ -54,14 +54,18 @@ const ChatRoom = ({ receiverId }) => {
   }, [chatMessages[roomId] && chatMessages[roomId].length]);
 
   const formattedTime = (timestamp) => {
-    var date = new Date(timestamp * 1000);
+    let date = new Date(timestamp)
     var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-    var seconds = "0" + date.getSeconds();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
 
     // Will display time in 10:30:23 format
     var formattedTime =
-      hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
+      (hours < 10 ? "0" + hours : hours) +
+      ":" +
+      (minutes < 10 ? "0" + minutes : minutes) +
+      ":" +
+      (seconds < 10 ? "0" + seconds : seconds);
 
     return formattedTime;
   };

@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public class ChatMessageRepo  {
 
-    private final int PAGE_LIMIT = 10;
+    private final int PAGE_LIMIT = 100;
 
     private final MongoTemplate mongoTemplate;
 
@@ -27,7 +27,7 @@ public class ChatMessageRepo  {
 
     public Optional<List<ChatMessage>> findByRoomId(int page, String roomId){
         Query query = new Query();
-        query.limit(PAGE_LIMIT).skip(PAGE_LIMIT * ( page - 1));
+       query.limit(PAGE_LIMIT).skip(PAGE_LIMIT * ( page - 1));
         query.with(Sort.by("timestamp").descending());
         query.addCriteria(Criteria.where("roomId").is(roomId));
         return Optional.of(mongoTemplate.find(query, ChatMessage.class));
