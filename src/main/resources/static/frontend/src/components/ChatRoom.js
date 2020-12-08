@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Input, Label, Form, Button } from "reactstrap";
+import { Input, Button } from "reactstrap";
 import { UserContext } from "../context/UserContext";
 import { ChatContext } from "../context/ChatContext";
 
