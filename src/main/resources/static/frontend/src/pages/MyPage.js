@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 import { UserContext } from "../context/UserContext";
 import AuctionsList from "../components/AuctionList";
-import RegisterNewAction from "../components/RegisterNewAuction";
+import RegisterNewAuction from "../components/RegisterNewAuction";
 
 const MyPage = (props) => {
   const [isProfileOpen, setIsProfileOpen] = useState(true);
@@ -26,9 +26,11 @@ const MyPage = (props) => {
   const [isCreateAuctionOpen, setIsCreateAuctionOpen] = useState(false);
   const [isShowingCompanyInput, setIsShowingCompanyInput] = useState(false);
   const [isShowingButton, setIsShowingButton] = useState(true);
-  const [companyName, setCompanyName] = useState("");
-  const [companyNumber, setCompanyNumber] = useState("");
-  const { user } = useContext(UserContext);
+  const [companyName, setCompanyName] = useState(null);
+  const [companyNumber, setCompanyNumber] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [succesMessage, setSuccessMessage] = useState("")
+  const { user, fetchUser } = useContext(UserContext);
 
   const toggleProfile = () => setIsProfileOpen((prevState) => !prevState);
   const toggleAuctions = () => setIsMyAuctionsOpen((prevState) => !prevState);
@@ -76,12 +78,19 @@ const MyPage = (props) => {
   const submitCompanyData = async (e) => {
     e.preventDefault();
     const company = { name: companyName, organizationNumber: companyNumber };
-    await fetch("/api/v1/users", {
+    let res = await fetch("/api/v1/users", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(company),
     }).catch(console.warn);
-    setIsShowingCompanyInput((prevState) => !prevState);
+    if (res.status == 200) {
+      setIsShowingCompanyInput((prevState) => !prevState);
+      setErrorMessage(null)
+      fetchUser()
+      setSuccessMessage("Ditt företag är nu registrerat hos oss!")
+    } else if (res.status == 400) {
+      setErrorMessage("Felaktiga uppgifter, vänligen försök igen");
+    }
   };
 
   return (
@@ -119,6 +128,7 @@ const MyPage = (props) => {
             <CardFooter>
               {user !== null && user.company !== null ? (
                 <div>
+                  <p>{succesMessage}</p>
                   <div className="bold mb-2">{getUserInfo("company")}</div>
                   <div className="">{getUserInfo("companyNumber")}</div>
                 </div>
@@ -161,6 +171,7 @@ const MyPage = (props) => {
                     />
                   </FormGroup>
                   <FormGroup>
+                    {errorMessage==null ? (<p></p>):(<p className="error-text">{errorMessage}</p>)}
                     <Button
                       onClick={submitCompanyData}
                       className="tradeHub-button font-weight-bold mb-1 pl-4 pr-4"
@@ -237,7 +248,7 @@ const MyPage = (props) => {
         <Collapse isOpen={isCreateAuctionOpen}>
           <Card>
             <CardBody>
-              <RegisterNewAction />
+              <RegisterNewAuction />
             </CardBody>
           </Card>
         </Collapse>
