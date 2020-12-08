@@ -1,35 +1,35 @@
-import React, {useState } from "react";
-import LoginModal from './LoginAndRegisterModal/loginModal'
-import RegisterModal from './LoginAndRegisterModal/registerModal'
+import React, { useState } from "react";
+import LoginModal from "./LoginAndRegisterModal/LoginModal";
+import RegisterModal from "./LoginAndRegisterModal/RegisterModal";
 
-import {
-  Modal,
-} from "reactstrap";
+import { Modal } from "reactstrap";
 
 const AuthenticationModal = (props) => {
   const [isRegistered, setIsRegistered] = useState(true);
 
+  return (
+    <div>
+      <Modal isOpen={props.modalIsOpen} toggle={props.toggleModal} size="lg">
+        {isRegistered ? (
+          <LoginModal
+            setIsRegistered={setIsRegistered}
+            isRegistered={isRegistered}
+            toggle={props.toggleModal}
+            modalIsOpen={props.modalIsOpen}
+            setModalIsOpen={props.setModalIsOpen}
+          />
+        ) : (
+          <RegisterModal
+            setIsRegistered={setIsRegistered}
+            isRegistered={isRegistered}
+            toggle={props.toggleModal}
+            modalIsOpen={props.modalIsOpen}
+            setModalIsOpen={props.setModalIsOpen}
+          />
+        )}
+      </Modal>
+    </div>
+  );
+};
 
-    return (
-      <div>
-        <Modal isOpen={props.modalIsOpen} toggle={props.toggleModal} size="lg">
-          {isRegistered ?
-            <LoginModal
-              setIsRegistered={setIsRegistered}
-              isRegistered={isRegistered}
-              toggle={props.toggleModal}
-              modalIsOpen={props.modalIsOpen}
-              setModalIsOpen={props.setModalIsOpen}
-            />
-            : <RegisterModal
-              setIsRegistered={setIsRegistered}
-              isRegistered={isRegistered}
-              toggle={props.toggleModal}
-              modalIsOpen={props.modalIsOpen}
-              setModalIsOpen={props.setModalIsOpen}/>}
-        </Modal>
-      </div>
-    );
-}
-
-export default AuthenticationModal
+export default AuthenticationModal;
