@@ -80,8 +80,18 @@
 }
 
 
-@media screen and(max-width: 450px) {
+@media screen and(max-width: 768px) {
   .time-left{
     font-size: 30px;
   }
+  .highest-bid {
+  font-size: 25px;
+}
+.bid-block {
+  padding: 1.5em !important;
+}
+.line-height{
+  margin-top: 20px !important;
+  line-height: 15px !important;
+}
 }
