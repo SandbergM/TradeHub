@@ -9,11 +9,12 @@ const ChatContextProvider = (props) => {
     let res = await fetch("/api/v1/chatMessage");
     try {
       if (res.ok) {
-        setChatMessages(await res.json())
-        console.log(chatMessages)
+        res = await res.json()
+        setChatMessages(res)
       } else {
       }
     } catch {}
+    console.log(chatMessages)
   };
 
   useEffect(() => {
@@ -27,13 +28,20 @@ const ChatContextProvider = (props) => {
   //   };
   // }, []);
 
+
   const appendMessage = (message) => {
 
-   chatMessages[message.target] = chatMessages[message.target] || [];
+    chatMessages[message.target] = chatMessages[message.target] || [];
+    console.log(Object.entries(chatMessages[message.target]).length);
+    chatMessages[message.target].push(message.content)
+    
+    setChatMessages({...chatMessages})
+    console.log(chatMessages[message.target]);
 
-   chatMessages[message.target].push(message.content)
-
-   setChatMessages({...chatMessages})
+    // let arr = chatMessages[message.room.id] || [];
+    // arr.push(message.content);  
+    // setChatMessages((prevState) => {
+    //   return { ...prevState, [message.room.id]: arr }});
 
 
     //let tempArr;

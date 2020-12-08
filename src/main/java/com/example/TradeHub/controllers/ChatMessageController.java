@@ -28,7 +28,8 @@ public class ChatMessageController {
 
     @GetMapping
     public HashMap<String, List<ChatMessage>> getAllChatMessages(){
-        return chatMessageService.getAllChatMessages();
+        int page = 1;
+        return chatMessageService.getAllChatMessages(page);
     }
 
     @PostMapping

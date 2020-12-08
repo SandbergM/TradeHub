@@ -37,11 +37,11 @@ public class ChatMessageService {
     @Autowired
     RoomRepo roomRepo;
 
-    public HashMap<String, List<ChatMessage>> getAllChatMessages() {
+    public HashMap<String, List<ChatMessage>> getAllChatMessages(int page) {
         var rooms = roomRepo.findRooms(userService.getCurrentUser()).orElse(new ArrayList<>());
         var foundMessages = new HashMap<String, List<ChatMessage>>();
         for (Room room: rooms) {
-            var messages = chatMessageRepo.findByRoomId(room.getId()).orElse(null);
+            var messages = chatMessageRepo.findByRoomId(page, room.getId()).orElse(null);
             System.out.println(messages);
             if(messages != null){
                 foundMessages.put(room.getId(), messages);
@@ -71,7 +71,7 @@ public class ChatMessageService {
         chatMessage.setSender(sender);
         chatMessage.setReceiver(receiver);
         chatMessage.setRoomId(room.getId());
-        ChatMessage savedChatMessage = chatMessageRepo.save(chatMessage);
+        ChatMessage savedChatMessage = chatMessageRepo.save(chatMessage).orElse(null);
         SocketPayload socketPayload = new SocketPayload("chat-message", room, savedChatMessage );
         socketService.customSendToAll(socketPayload);
 

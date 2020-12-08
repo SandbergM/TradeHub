@@ -47,7 +47,7 @@ const ChatRoom = ({ receiverId }) => {
   return (
     <div>
 
-  {bool ? (<div>{chatMessages[room].map(message=>{return(<p>{message.message}</p>)})} </div>):(<p>dsds</p>)}
+  {chatMessages && chatMessages[room] && (<div>{chatMessages[room].map(message=>{return(<p>{message.message}</p>)})} </div>)}
     
   
       <Input
