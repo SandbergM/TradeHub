@@ -1,6 +1,5 @@
 package com.example.TradeHub.services;
 
-import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.entities.Company;
 import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.UserRepo;
@@ -9,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
 
 @Service
 public class UserService {
@@ -43,7 +40,7 @@ public class UserService {
             userRepo.save(user);
             return user;
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An user with that email already exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "An user with that email already exists");
         }
     }
 
@@ -56,16 +53,6 @@ public class UserService {
 
     public User getCurrentUser() {
         return myUserDetailsService.getCurrentUser();
-    }
-
-    public void addAuctionsToUser(Auction auction, User user){
-    ArrayList<Auction> auctionList = new ArrayList<>();
-    /*if(user.getAuctions() != null){
-        auctionList = user.getAuctions();
-    }
-        auctionList.add(auction);
-        user.setAuctions(auctionList);
-        userRepo.save(user);*/
     }
 
     public void updateUser(Company companyToAdd) {
@@ -82,12 +69,11 @@ public class UserService {
                    newUser.setPassword(user.getPassword());
                    newUser.setFullName(user.getFullName());
                    newUser.setAddress(user.getAddress());
-                   //newUser.setAuctions(user.getAuctions());
                    userRepo.save(newUser);
                }
            }
            else{
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Couldnt process the information");
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Couldn't process the information");
            }
     }
 }

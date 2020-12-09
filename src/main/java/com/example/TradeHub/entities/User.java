@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.ArrayList;
 
 
 @AllArgsConstructor
@@ -23,20 +22,20 @@ public class User {
     private String fullName;
     @DBRef
     private Address address;
-    //@DBRef
-    //@JsonBackReference
-    //private ArrayList<Auction> auctions;
     @DBRef
     private Company company;
 
 
-    public User(String email, String password, String fullName, Address address, /*ArrayList<Auction> auctions,*/ Company company) {
+    public User(String email, String password, String fullName, Address address, Company company) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
         this.address = address;
-        //this.auctions = auctions;
         this.company = company;
+    }
+
+    public User(String id){
+        this.id = id;
     }
 
     @JsonIgnore

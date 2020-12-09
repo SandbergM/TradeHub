@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import {
   Row,
@@ -16,6 +16,7 @@ import {
   CardFooter,
 } from "reactstrap";
 import { UserContext } from "../context/UserContext";
+import { AuctionContext } from "../context/AuctionContextProvider";
 import AuctionsList from "../components/AuctionList";
 import RegisterNewAuction from "../components/RegisterNewAuction";
 
@@ -29,8 +30,15 @@ const MyPage = (props) => {
   const [companyName, setCompanyName] = useState(null);
   const [companyNumber, setCompanyNumber] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [succesMessage, setSuccessMessage] = useState("")
+  const [succesMessage, setSuccessMessage] = useState("");
+
   const { user, fetchUser } = useContext(UserContext);
+  const {
+    fetchMyAuctionsHistory,
+    fetchMyCurrentBids,
+    myBids,
+    myAuctions,
+  } = useContext(AuctionContext);
 
   const toggleProfile = () => setIsProfileOpen((prevState) => !prevState);
   const toggleAuctions = () => setIsMyAuctionsOpen((prevState) => !prevState);
@@ -75,6 +83,11 @@ const MyPage = (props) => {
     }
   };
 
+  useEffect(() => {
+    fetchMyAuctionsHistory();
+    fetchMyCurrentBids();
+  }, []);
+
   const submitCompanyData = async (e) => {
     e.preventDefault();
     const company = { name: companyName, organizationNumber: companyNumber };
@@ -85,9 +98,9 @@ const MyPage = (props) => {
     }).catch(console.warn);
     if (res.status == 200) {
       setIsShowingCompanyInput((prevState) => !prevState);
-      setErrorMessage(null)
-      fetchUser()
-      setSuccessMessage("Ditt företag är nu registrerat hos oss!")
+      setErrorMessage(null);
+      fetchUser();
+      setSuccessMessage("Ditt företag är nu registrerat hos oss!");
     } else if (res.status == 400) {
       setErrorMessage("Felaktiga uppgifter, vänligen försök igen");
     }
@@ -100,7 +113,7 @@ const MyPage = (props) => {
           Välkommen {getUserInfo("fullName")}
         </h3>
       </Col>
-      <Col xs="12" sm="2" md="4" className="mb-3">
+      <Col xs="12" sm="12" md="4" className="mb-3">
         <Button
           className="light-grey-background tradeHub-grey bold noBorder"
           onClick={toggleProfile}
@@ -171,7 +184,11 @@ const MyPage = (props) => {
                     />
                   </FormGroup>
                   <FormGroup>
-                    {errorMessage==null ? (<p></p>):(<p className="error-text">{errorMessage}</p>)}
+                    {errorMessage == null ? (
+                      <p></p>
+                    ) : (
+                      <p className="error-text">{errorMessage}</p>
+                    )}
                     <Button
                       onClick={submitCompanyData}
                       className="tradeHub-button font-weight-bold mb-1 pl-4 pr-4"
@@ -194,7 +211,7 @@ const MyPage = (props) => {
         </Collapse>
       </Col>
 
-      <Col xs="12" sm="2" md="4" className="mb-3">
+      <Col xs="12" sm="12" md="4" className="mb-3">
         <Row>
           <Col xs="12" sm="12" md="12" className="mb-3">
             <Button
@@ -207,12 +224,7 @@ const MyPage = (props) => {
             <Collapse isOpen={isMyAuctionsOpen}>
               <Card>
                 <CardBody>
-                  <AuctionsList
-                    fetch={"/myPostedAuctions"}
-                    xs={1}
-                    sm={1}
-                    md={1}
-                  />
+                  <AuctionsList auctions={myAuctions} xs={1} sm={1} md={1} />
                 </CardBody>
               </Card>
             </Collapse>
@@ -228,7 +240,7 @@ const MyPage = (props) => {
             <Collapse isOpen={isMyBidsOpen}>
               <Card>
                 <CardBody>
-                  <AuctionsList fetch={"/myPostedBids"} xs={1} sm={1} md={1} />
+                  <AuctionsList auctions={myBids} xs={1} sm={1} md={1} />
                 </CardBody>
               </Card>
             </Collapse>
@@ -236,7 +248,7 @@ const MyPage = (props) => {
         </Row>
       </Col>
 
-      <Col xs="12" sm="2" md={{ size: 4, offset: 0 }} className="mb-3">
+      <Col xs="12" sm="12" md={{ size: 4, offset: 0 }} className="mb-3">
         <Button
           className="tradeHub-button bold"
           onClick={toggleCreateAuction}

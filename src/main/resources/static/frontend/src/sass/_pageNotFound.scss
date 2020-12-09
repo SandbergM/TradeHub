@@ -1,0 +1,31 @@
+#page-not-found-upper-container {
+  font-size: 175px !important;
+  line-height: 100%;
+  margin: 0;
+}
+
+#page-not-found-lower-container {
+  font-size: 30px !important;
+  margin: 0;
+}
+
+#page-not-found-redirect-trigger {
+  color: rgba(0, 0, 255, 0.75);
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 770px) {
+  #page-not-found-upper-container {
+    font-size: 400px !important;
+    line-height: 100%;
+    margin: 0;
+  }
+
+  .page-not-found-number {
+    margin-left: -25px;
+    margin-right: -25px;
+  }
+}
+
+@media screen and(max-width: 450px) {
+}

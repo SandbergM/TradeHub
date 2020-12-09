@@ -2,14 +2,11 @@ package com.example.TradeHub.controllers;
 
 import com.example.TradeHub.entities.Auction;
 import com.example.TradeHub.services.AuctionService;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 

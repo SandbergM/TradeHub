@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -25,13 +24,14 @@ public class UserController {
 
 
     @GetMapping("/whoami")
-    public ResponseEntity<User> whoami(){
+    public ResponseEntity<User> whoami(HttpServletRequest req, HttpServletResponse res){
         User user = userService.getCurrentUser();
         if(user==null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(user);
     }
+
     @GetMapping("/logout")
     private ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response){
         try{
@@ -42,6 +42,7 @@ public class UserController {
         } catch (Exception err) {}
         return new ResponseEntity<>("Logged out",HttpStatus.RESET_CONTENT);
     }
+
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user){
         return ResponseEntity.ok(userService.postNewUser(user));

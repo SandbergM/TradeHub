@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { sortImagesAfterPriority } from "../utils/imageHandler.js";
+
 import {
   Carousel,
   CarouselItem,
@@ -17,7 +19,6 @@ const AuctionDetailsPageData = ({
   setBid,
   postBid,
   showErrorMessage,
-  acceptedBid,
 }) => {
   const { user } = useContext(UserContext);
   const serverAddress = "http://localhost:8080";
@@ -128,7 +129,7 @@ const AuctionDetailsPageData = ({
     };
   }, []);
 
-  const slides = activeAuction.images.map((item) => {
+  const slides = sortImagesAfterPriority(activeAuction.images).map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
@@ -153,12 +154,7 @@ const AuctionDetailsPageData = ({
       <div className="flex-container">
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
-          <p className="m-0 mx-auto highest-bid">
-            {activeAuction.highestBid
-              ? activeAuction.highestBid
-              : activeAuction.price}{" "}
-            SEK
-          </p>
+          <p className="m-0 mx-auto highest-bid">{bid} SEK</p>
           <p>
             {userCompany ? (
               <div className="line-height">
@@ -211,7 +207,6 @@ const AuctionDetailsPageData = ({
             className="orange-border place-bid-block"
             type="number"
             placeholder="Lägg bud..."
-            value={bid}
             onChange={(e) => setBid(e.target.value)}
           ></input>
           {user !== null ? (
@@ -248,10 +243,12 @@ const AuctionDetailsPageData = ({
       <p className="mt-4 ml-4 font-italic">{activeAuction.description}</p>
       <div className="mt-4">
         <p className="mb-1">
-          <span className="seller ml-4">Seller:</span>{" "}
+          <span className="seller ml-4">Säljare:</span>{" "}
           {activeAuction.seller ? activeAuction.seller.fullName : null}
         </p>
-        <SellerChatModal activeAuction={activeAuction} />
+        {activeAuction.seller.id !== userId && (
+          <SellerChatModal receiverId={activeAuction.seller.id} roomId={null} />
+        )}
       </div>
     </div>
   );

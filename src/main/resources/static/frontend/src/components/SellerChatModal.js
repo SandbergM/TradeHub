@@ -1,15 +1,15 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import ChatRoom from "./ChatRoom";
 
-const SellerChatModal = ({ activeAuction }) => {
-
+const SellerChatModal = ({ receiverId }) => {
   const { user } = useContext(UserContext);
-  
+
   const [modal, setModal] = useState(false);
 
-  const toggle = () => {
-    setModal(!modal)
+  const toggle = async () => {
+    setModal(!modal);
   };
 
   return (
@@ -24,8 +24,10 @@ const SellerChatModal = ({ activeAuction }) => {
         </Button>
       )}
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Chat component here</ModalHeader>
-        <ModalBody>Chat component here</ModalBody>
+        <ModalHeader toggle={toggle}>Chatta med säljare</ModalHeader>
+        <ModalBody>
+          <ChatRoom receiverId={receiverId} />
+        </ModalBody>
         <ModalFooter>
           <Button className="tradeHub-button" onClick={toggle}>
             Stäng chat
@@ -36,4 +38,4 @@ const SellerChatModal = ({ activeAuction }) => {
   );
 };
 
-export default SellerChatModal
+export default SellerChatModal;

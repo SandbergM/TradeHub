@@ -1,7 +1,6 @@
 package com.example.TradeHub.services;
 
-import com.example.TradeHub.entities.Auction;
-import com.example.TradeHub.entities.User;
+import com.example.TradeHub.entities.*;
 import com.example.TradeHub.repositories.AuctionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +20,8 @@ public class AuctionService {
     UserService userService;
     @Autowired
     MailService mailService;
+    @Autowired
+    SocketService socketService;
 
     public Auction postNewAuction(Auction auction){
         User seller = userService.getCurrentUser();
@@ -29,7 +30,6 @@ public class AuctionService {
         if(newlyCreatedAuction == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
         }
-        userService.addAuctionsToUser(newlyCreatedAuction, seller);
         return newlyCreatedAuction;
     }
 
@@ -49,10 +49,18 @@ public class AuctionService {
         auctionToUpdate.setHighestBid(bid);
         auctionToUpdate.setBidder(bidder);
         auctionRepo.save(auctionToUpdate);
+        try {
+            socketService.sendToAll( this.payloadBuilder( auctionToUpdate, bid, "bid" ) );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if(previousHighestBidder != null){
             try{
-                //this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
+                SocketPayload payload = this.payloadBuilder(auctionToUpdate, bid,"notification");
+                payload.setContent(auctionToUpdate);
+                boolean userOnline = socketService.sendToOne( payload, previousHighestBidder.getId() );
+                this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -66,6 +74,12 @@ public class AuctionService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
         return auction;
+    }
+
+    private SocketPayload payloadBuilder(Auction auction, Integer bid, String action){
+        Bid newBid = new Bid(auction.getId(), bid);
+        Room room = new Room(auction.getId());
+        return new SocketPayload(action, room, newBid);
     }
 
     public List<Auction> auctionCriteriaSearch(int page, String title, String id, String sortBy, Boolean active){

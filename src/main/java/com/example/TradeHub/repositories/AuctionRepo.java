@@ -1,7 +1,6 @@
 package com.example.TradeHub.repositories;
 
 import com.example.TradeHub.entities.Auction;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Repository
 public class AuctionRepo {
 
-    private final int PAGE_LIMIT = 50;
+    private final int PAGE_LIMIT = 15;
 
     private final MongoTemplate mongoTemplate;
 
@@ -25,12 +24,12 @@ public class AuctionRepo {
     public Optional<List<Auction>> auctionCriteriaSearch(int page, String title, String id, String sortBy, Boolean active){
         Query query = new Query();
         long currentTime = Instant.now().getEpochSecond();
+        query.limit(PAGE_LIMIT).skip(PAGE_LIMIT * ( page - 1));
         if(!id.equals("")){ query.addCriteria(Criteria.where("_id").is(id)); }
         if(active){ query.addCriteria(Criteria.where("timestamp").gt(currentTime)); }
         if(!active){ query.addCriteria(Criteria.where("timestamp").lt(currentTime)); }
-        query.addCriteria(Criteria.where("title").regex(title, "i"))
-                .limit(PAGE_LIMIT)
-                .skip(PAGE_LIMIT * ( page - 1));
+        if(!title.equals("")){query.addCriteria(Criteria.where("title").regex(title, "i"));}
+
         return Optional.of(mongoTemplate.find(query, Auction.class));
     }
 

@@ -1,1 +1,7 @@
-[1208/145451.177:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det går inte att hitta sökvägen. (0x3)
+[1208/145451.177:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det gï¿½r inte att hitta sï¿½kvï¿½gen. (0x3)
+[1203/131322.937:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det gï¿½r inte att hitta sï¿½kvï¿½gen. (0x3)
+[1207/001848.116:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det gï¿½r inte att hitta sï¿½kvï¿½gen. (0x3)
+[1207/132907.042:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det gï¿½r inte att hitta sï¿½kvï¿½gen. (0x3)
+[1208/152525.278:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det gï¿½r inte att hitta sï¿½kvï¿½gen. (0x3)
+[1209/083454.443:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det går inte att hitta sökvägen. (0x3)
+[1209/085341.275:ERROR:directory_reader_win.cc(43)] FindFirstFile: Det går inte att hitta sökvägen. (0x3)

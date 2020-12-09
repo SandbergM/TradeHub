@@ -13,8 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -41,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/v1/auctions**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/static/uploads/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/chatMessage").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/v1/chatMessage/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/static/upload").permitAll() // Testing purpose
                 .and()
                 .httpBasic().authenticationEntryPoint(entryPoint)

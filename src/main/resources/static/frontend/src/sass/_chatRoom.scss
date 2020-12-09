@@ -1,0 +1,10 @@
+#chat-message-container {
+  height: 50vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#chat-message-container::-webkit-scrollbar {
+  display: none;
+}

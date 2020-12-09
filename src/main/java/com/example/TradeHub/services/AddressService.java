@@ -22,10 +22,9 @@ public class AddressService {
     }
 
     public Address findById(String id){
-        Address addresses = addressRepo.findById(id).orElseThrow(() ->
+        return addressRepo.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                         String.format("Could not find the user by id %s.", id)));
-        return addresses;
     }
 
     public Address postNewAddress(Address address){
