@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public class AuctionRepo {
 
-    private final int PAGE_LIMIT = 50;
+    private final int PAGE_LIMIT = 15;
 
     private final MongoTemplate mongoTemplate;
 

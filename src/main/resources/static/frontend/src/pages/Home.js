@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuctionContext } from "../context/AuctionContextProvider";
 import { withRouter } from "react-router-dom";
 import AuctionList from "../components/AuctionList";
 import SearchField from "../components/SearchField";
 
 const Home = () => {
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(0);
+
+  const {
+    auctions,
+    hasMore,
+    displayLoader,
+    auctionSearch,
+    wipeData,
+    processing,
+  } = useContext(AuctionContext);
+
+  useEffect(() => {
+    console.log("1");
+    wipeData();
+  }, [query]);
+
+  useEffect(() => {
+    auctionSearch(`?page=${page}${query}`);
+  }, [page || processing]);
 
   return (
     <div>
@@ -13,10 +33,13 @@ const Home = () => {
       <div className="col-12"></div>
       <AuctionList
         className="col-12"
-        fetch={query}
+        setPage={setPage}
         xs={1}
         md={1}
         lg={3}
+        auctions={auctions}
+        hasMore={hasMore}
+        displayLoader={displayLoader}
       ></AuctionList>
     </div>
   );

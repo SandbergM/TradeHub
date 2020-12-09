@@ -6,12 +6,11 @@ const SearchField = (props) => {
 
   const queryBuilder = () => {
     let query = "";
-
     Object.entries(searchQuery).forEach(([key, val]) => {
       query += `&${key}=${val}`;
     });
 
-    props.setQuery(query.replace("&", "?"));
+    props.setQuery(query);
   };
 
   return (
