@@ -52,7 +52,7 @@ public class MailService {
         model.put("name", user.getFullName());
         model.put("auctionTitle", auction.getTitle());
         model.put("newBid", auction.getHighestBid());
-        model.put("auctionLink", "http://localhost:3000/" /* auction.getId() */);
+        model.put("auctionLink", "http://localhost:3000/" + auction.getTitle() +"/"+ auction.getId());
         model.put("imageUrl", imageUrl);
         return model;
     }

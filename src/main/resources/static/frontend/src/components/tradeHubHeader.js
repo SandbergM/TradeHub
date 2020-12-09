@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
-import AuthenticationModal from './AuthenticationModal'
-import ChatModal from './ChatModal'
-import {UserContext} from '../context/UserContext'
-import {useHistory} from 'react-router-dom'
+import AuthenticationModal from "./AuthenticationModal";
+import ChatModal from "./ChatModal";
+import { UserContext } from "../context/UserContext";
+import { useHistory } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -17,30 +17,29 @@ const TradeHubHeader = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [chatModalisOpen, setChatModalIsOpen] = useState(false);
-  const {user, setUser} = useContext(UserContext)
-  let history = useHistory()
+  const { user, setUser } = useContext(UserContext);
+  let history = useHistory();
 
   const toggle = () => setIsOpen(!isOpen);
 
-  const goToHomePage = () =>{
-    history.push("/")
-  }
-  const goToMyPage = () =>{
-    history.push("/mypage")
-    }
+  const goToHomePage = () => {
+    history.push("/");
+  };
+  const goToMyPage = () => {
+    history.push("/mypage");
+  };
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
-  }
+  };
   const toggleChatModal = () => {
     setChatModalIsOpen(!modalIsOpen);
-  }
-  const logout = async() =>{
-    let res = await fetch("/api/v1/users/logout")
-    console.log(res)
+  };
+  const logout = async () => {
+    let res = await fetch("/api/v1/users/logout");
+    console.log(res);
     setUser(null);
-    history.push("/")
-  }
-
+    history.push("/");
+  };
 
   return (
     <div>
@@ -53,7 +52,7 @@ const TradeHubHeader = (props) => {
             </span>
           </h3>
         </NavbarBrand>
-  
+
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>
             <NavItem>
@@ -102,11 +101,13 @@ const TradeHubHeader = (props) => {
           onClick={toggle}
           id="hamburger-position"
         >
-          <span className="material-icons">menu</span>
+          <span className="material-icons pointer">menu</span>
         </div>
       </Navbar>
       <div className="text-right mr-4 tradeHub-icon" id="bubble-position">
-        <span className="material-icons" onClick={toggleChatModal}>chat</span>
+        <span className="material-icons pointer" onClick={toggleChatModal}>
+          chat
+        </span>
         <ChatModal
           modalIsOpen={chatModalisOpen}
           toggleModal={toggleChatModal}
