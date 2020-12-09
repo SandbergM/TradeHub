@@ -55,6 +55,10 @@ const AuctionDetailsPage = () => {
     }
   }, [activeAuction]);
 
+  useEffect(() => {
+    console.log(highestBid);
+  }, []);
+
   const postBid = async () => {
     let response = await fetch(`/api/v1/auctions/${activeAuction.id}/${bid}`, {
       method: "POST",

@@ -18,7 +18,6 @@ const Home = () => {
   } = useContext(AuctionContext);
 
   useEffect(() => {
-    console.log("1");
     wipeData();
   }, [query]);
 

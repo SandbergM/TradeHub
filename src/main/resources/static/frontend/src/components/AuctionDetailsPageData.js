@@ -154,12 +154,7 @@ const AuctionDetailsPageData = ({
       <div className="flex-container">
         <div className="text-center orange-background font-weight-bold bid-block">
           <p className="m-0">HÖGSTA BUD</p>
-          <p className="m-0 mx-auto highest-bid">
-            {activeAuction.highestBid
-              ? activeAuction.highestBid
-              : activeAuction.price}{" "}
-            SEK
-          </p>
+          <p className="m-0 mx-auto highest-bid">{bid} SEK</p>
           <p>
             {userCompany ? (
               <div className="line-height">

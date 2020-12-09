@@ -60,9 +60,7 @@ public class AuctionService {
                 SocketPayload payload = this.payloadBuilder(auctionToUpdate, bid,"notification");
                 payload.setContent(auctionToUpdate);
                 boolean userOnline = socketService.sendToOne( payload, previousHighestBidder.getId() );
-                if(!userOnline){
-                    this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
-                }
+                this.notifyPreviousHighestBidderWithMail(auctionToUpdate, previousHighestBidder);
             }catch (Exception e){
                 e.printStackTrace();
             }

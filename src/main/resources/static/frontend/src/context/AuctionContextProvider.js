@@ -28,6 +28,10 @@ const AuctionContextProvider = (props) => {
     } catch {}
   };
 
+  useEffect(() => {
+    console.log(highestBid);
+  }, [highestBid]);
+
   const fetchMyAuctionsHistory = async () => {
     let res = await fetch(`/api/v1/auctions/myPostedAuctions`);
     try {
