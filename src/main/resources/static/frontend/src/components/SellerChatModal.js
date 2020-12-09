@@ -23,6 +23,7 @@ const SellerChatModal = ({ receiverId }) => {
           CHATTA MED SÄLJARE
         </Button>
       )}
+      
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Chatta med säljare</ModalHeader>
         <ModalBody>
