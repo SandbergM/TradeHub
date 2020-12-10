@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import AuctionList from "../components/AuctionList";
-import SearchField from '../components/searchField'
+import SearchField from '../components/SearchField'
 
 const Home = () => {
 
