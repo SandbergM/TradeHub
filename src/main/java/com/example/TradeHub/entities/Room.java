@@ -19,11 +19,11 @@ public class Room {
 
     @Id
     private String id;
-    private ArrayList<String> participants;
+    private ArrayList<User> participants;
     @Transient
     private List<WebSocketSession> sessions;
 
-    public Room(String id, ArrayList<String> participants) {
+    public Room(String id, ArrayList<User> participants) {
         this.id = id;
         this.participants = participants;
     }
@@ -37,7 +37,7 @@ public class Room {
         this.id = id;
     }
 
-    public Room(ArrayList<String> participants) {
+    public Room(ArrayList<User> participants) {
         this.participants = participants;
     }
 

@@ -22,16 +22,16 @@ public class RoomRepo {
     }
 
     public Optional<Room> findRoomByParticipants(User sender, User receiver){
-        List<String> users = new ArrayList<>();
-        users.add(sender.getId());
-        users.add(receiver.getId());
+        List<User> users = new ArrayList<>();
+        users.add(sender);
+        users.add(receiver);
         Query query = new Query()
                 .addCriteria(Criteria.where("participants").all(users));
         return Optional.ofNullable(mongoTemplate.findOne(query, Room.class));
     }
 
     public Optional<List<Room>> findRooms(User user){
-        Query query = new Query().addCriteria(Criteria.where("participants").all(user.getId()));
+        Query query = new Query().addCriteria(Criteria.where("participants").all(user));
         return Optional.of(mongoTemplate.find(query, Room.class));
     }
 

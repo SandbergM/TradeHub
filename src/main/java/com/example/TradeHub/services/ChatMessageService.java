@@ -49,9 +49,9 @@ public class ChatMessageService {
         var room = roomRepo.findRoomByParticipants(sender, receiver).orElse(null);
 
         if(room == null){
-            ArrayList<String> participants = new ArrayList<>();
-            participants.add(sender.getId());
-            participants.add(receiver.getId());
+            ArrayList<User> participants = new ArrayList<>();
+            participants.add(sender);
+            participants.add(receiver);
             var chatRoom = new Room();
             chatRoom.setParticipants(participants);
             room = roomRepo.save(chatRoom).orElse( null );
@@ -74,15 +74,24 @@ public class ChatMessageService {
         User receiver = userService.findById(receiverId);
         Room room = roomRepo.findRoomByParticipants(sender, receiver ).orElse(null);
         if( room == null){
-            ArrayList<String> participants = new ArrayList<>();
-            participants.add(sender.getId());
-            participants.add(receiverId);
+            ArrayList<User> participants = new ArrayList<>();
+            participants.add(sender);
+            participants.add(receiver);
             room = roomRepo.save(new Room(participants)).orElse( null );
             if(room == null){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
             }
         }
         return room;
+    }
+
+    public List<Room> getCurrentUsersRooms() {
+        User user = userService.getCurrentUser();
+        List<Room> rooms = roomRepo.findRooms(user).orElse( new ArrayList<>());
+        if(rooms.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
+        }
+        return rooms;
     }
 
 }

@@ -2,36 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const TradeHubFooter = () => {
+  const [modal, setModal] = useState(false);
 
-    const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
-    const toggle = () => setModal(!modal);
- 
-      let debounceID = null;
-      const debounceHelper = () => {
-        if (debounceID !== null) {
-          clearTimeout(debounceID);
-          debounceID = null;
-        }
-        debounceID = setTimeout(() => {
-          setModal(false)
-        }, 600);
-      };
+  let debounceID = null;
+  const debounceHelper = () => {
+    if (debounceID !== null) {
+      clearTimeout(debounceID);
+      debounceID = null;
+    }
+    debounceID = setTimeout(() => {
+      setModal(false);
+    }, 600);
+  };
 
-      useEffect(() => {
-        if(modal){
-          debounceHelper()
-        }
-      },[modal])
+  useEffect(() => {
+    if (modal) {
+      debounceHelper();
+    }
+  }, [modal]);
 
-      
   return (
     <div className="pt-2">
-      <footer onClick={toggle}>
-        <hr></hr>
-        <p className="font-weight-bold m-0">&#169; Trade Hub AB 2020</p>
-        <p className="m-0">Happy Road 21, 234 67 Los Angeles, USA</p>
-        <p>067 - 345 456 56 | tradehub@hublife.com</p>
+      <footer className="row" onClick={toggle}>
+        <hr className="col-10 offset-1"></hr>
+        <div className="col-12">
+          <p className="font-weight-bold m-0">&#169; Trade Hub AB 2020</p>
+          <p className="m-0">Happy Road 21, 234 67 Los Angeles, USA</p>
+          <p>067 - 345 456 56 | tradehub@hublife.com</p>
+        </div>
       </footer>
       <Modal isOpen={modal} toggle={toggle} backdrop={false}>
         <ModalHeader toggle={toggle} className="text-center mx-auto">

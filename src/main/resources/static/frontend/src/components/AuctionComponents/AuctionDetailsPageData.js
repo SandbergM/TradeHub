@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { sortImagesAfterPriority } from "../../utils/imageHandler.js";
-
 import {
   Carousel,
   CarouselItem,
