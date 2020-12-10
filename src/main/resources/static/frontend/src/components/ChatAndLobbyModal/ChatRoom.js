@@ -5,37 +5,24 @@ import { ChatContext } from "../../context/ChatContext";
 import ChatComponent from "./ChatComponent";
 import { Spinner } from "reactstrap";
 
-const ChatRoom = ({ receiverId, setShowLobby, targetId }) => {
-  const [messageText, setMessageText] = useState("");
+const ChatRoom = ({ setShowLobby, targetId }) => {
   const { chatMessages } = useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [roomId, setRoomId] = useState("");
   const [chatIsLoading, setChatIsLoading] = useState(true);
 
-  const newMessage = async () => {
-    let message = {
-      receiver: { id: receiverId },
-      message: messageText,
-    };
-
-    await fetch("/api/v1/chatMessage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(message),
-    });
-    setMessageText("");
-  };
-
   const fetchConversation = async () => {
-    let roomRaw = await fetch(`/api/v1/chatMessage/room/${receiverId}`);
+    let roomRaw = await fetch(`/api/v1/chatMessage/room/${targetId}`);
     let room = await roomRaw.json();
     setRoomId(room.id);
     let backlogConversationRaw = await fetch(
       `/api/v1/chatMessage/conversation/${room.id}`
     );
-    let backlogConversation = await backlogConversationRaw.json();
-    setMessages([...backlogConversation.reverse(), ...messages]);
+    if (backlogConversationRaw.status === 200) {
+      let backlogConversation = await backlogConversationRaw.json();
+      setMessages([...backlogConversation.reverse(), ...messages]);
+    }
     setChatIsLoading(false);
   };
 
@@ -116,7 +103,7 @@ const ChatRoom = ({ receiverId, setShowLobby, targetId }) => {
           <a id="chat-bottom"></a>
         </div>
       )}
-      <ChatComponent id="chat-input-container" />
+      <ChatComponent id="chat-input-container" receiverId={targetId} />
     </div>
   );
 };
