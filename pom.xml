@@ -44,11 +44,14 @@
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.5.1</version>
 		</dependency>
 		<dependency>
+=======
+>>>>>>> dev
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
