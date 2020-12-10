@@ -16,7 +16,6 @@ import {
 const TradeHubHeader = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [chatModalisOpen, setChatModalIsOpen] = useState(false);
   const [modalState, setModalState] = useState(false);
   const { user, setUser } = useContext(UserContext);
   let history = useHistory();
@@ -32,12 +31,9 @@ const TradeHubHeader = (props) => {
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
-  const toggleChatModal = () => {
-    setChatModalIsOpen(!modalIsOpen);
-  };
+
   const logout = async () => {
     let res = await fetch("/api/v1/users/logout");
-    console.log(res);
     setUser(null);
     history.push("/");
   };

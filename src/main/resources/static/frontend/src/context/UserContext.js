@@ -16,7 +16,6 @@ const UserContextProvider = (props) => {
         setUser(res);
         fetchChatrooms();
       } else {
-        console.log("else: ", res);
         setUser(null);
       }
     } catch {}
