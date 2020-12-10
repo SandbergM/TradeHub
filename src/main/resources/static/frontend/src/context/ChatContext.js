@@ -5,6 +5,7 @@ export const ChatContext = createContext();
 const ChatContextProvider = (props) => {
   const [chatMessages, setChatMessages] = useState({});
   const [chatRooms, setChatRooms] = useState([]);
+  const [displayChatLoader, setDisplayChatLoader] = useState(false);
 
   const appendMessage = (message) => {
     let newRoom = chatMessages[message.target];
@@ -18,8 +19,10 @@ const ChatContextProvider = (props) => {
 
   const fetchChatrooms = async () => {
     let res = await fetch(`/api/v1/chatMessage/myRooms`);
-    res = await res.json();
-    setChatRooms(res);
+    if (res.status === 200) {
+      res = await res.json();
+      setChatRooms(res);
+    }
   };
 
   const values = {
@@ -27,6 +30,7 @@ const ChatContextProvider = (props) => {
     appendMessage,
     chatRooms,
     fetchChatrooms,
+    displayChatLoader,
   };
 
   return (

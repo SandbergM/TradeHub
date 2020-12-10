@@ -2,13 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import { Input, Button } from "reactstrap";
 import { UserContext } from "../../context/UserContext";
 import { ChatContext } from "../../context/ChatContext";
+import ChatComponent from "./ChatComponent";
+import { Spinner } from "reactstrap";
 
 const ChatRoom = ({ receiverId, setShowLobby, targetId }) => {
   const [messageText, setMessageText] = useState("");
-  const { chatMessages, setChatMessages } = useContext(ChatContext);
+  const { chatMessages } = useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [roomId, setRoomId] = useState("");
+  const [chatIsLoading, setChatIsLoading] = useState(true);
 
   const newMessage = async () => {
     let message = {
@@ -33,6 +36,7 @@ const ChatRoom = ({ receiverId, setShowLobby, targetId }) => {
     );
     let backlogConversation = await backlogConversationRaw.json();
     setMessages([...backlogConversation.reverse(), ...messages]);
+    setChatIsLoading(false);
   };
 
   useEffect(() => {
@@ -74,10 +78,14 @@ const ChatRoom = ({ receiverId, setShowLobby, targetId }) => {
 
   return (
     <div>
+      {chatIsLoading && (
+        <div className="d-flex justify-content-center">
+          <Spinner className="small-loader" color="orange" />
+        </div>
+      )}
       {messages && (
         <div id="chat-message-container">
           <a href="#chat-bottom" id="chat-scroll-trigger"></a>
-          <p> {receiverId} </p>
           {messages.map((message) => {
             return user.id === message.sender.id ? (
               <div className="mt-2 mb-2 p-1">
@@ -108,17 +116,7 @@ const ChatRoom = ({ receiverId, setShowLobby, targetId }) => {
           <a id="chat-bottom"></a>
         </div>
       )}
-
-      <Input
-        className="mt-3"
-        type="text"
-        placeholder="Skriv ditt meddelande"
-        value={messageText}
-        onChange={(e) => setMessageText(e.target.value)}
-      />
-      <Button className="mt-2 pl-4 pr-4" onClick={newMessage}>
-        SKICKA MEDDELANDE
-      </Button>
+      <ChatComponent id="chat-input-container" />
     </div>
   );
 };

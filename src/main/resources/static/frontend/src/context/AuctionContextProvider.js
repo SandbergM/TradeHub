@@ -59,7 +59,7 @@ const AuctionContextProvider = (props) => {
   useEffect(() => {
     auctionSearch();
     return () => {
-      wipeData();
+      //wipeData();
     };
   }, []);
 

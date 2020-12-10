@@ -9,7 +9,7 @@ import {
   CarouselCaption,
   Button,
 } from "reactstrap";
-import SellerChatModal from "../ChatComponents/SellerChatModal";
+import SellerChatModal from "../ChatAndLobbyModal/SellerChatModal";
 import imageMissing from "../../images/bild_saknas.png";
 
 const AuctionDetailsPageData = ({
