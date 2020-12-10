@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Card, CardText, CardBody, CardTitle, Col } from "reactstrap";
-import { getThumbNail } from '../utils/imageHandler'
-import { AuctionContext } from '../context/AuctionContextProvider'
-import { UserContext } from "../context/UserContext";
-import "../sass/styles.scss"
+import { getThumbNail } from '../../utils/imageHandler'
+import { AuctionContext } from '../../context/AuctionContextProvider'
+import { UserContext } from "../../context/UserContext";
 
 const AuctionItem = (props) => {
   const { setActiveAuction } = useContext(AuctionContext);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Input, Button } from "reactstrap";
-import { UserContext } from "../context/UserContext";
-import { ChatContext } from "../context/ChatContext";
+import { UserContext } from "../../context/UserContext";
+import { ChatContext } from "../../context/ChatContext";
 
 const ChatRoom = ({ receiverId }) => {
   const [messageText, setMessageText] = useState("");
@@ -26,6 +26,7 @@ const ChatRoom = ({ receiverId }) => {
   };
 
   const fetchConversation = async () => {
+    console.log('fetching');
     let roomRaw = await fetch(`/api/v1/chatMessage/room/${receiverId}`);
     let room = await roomRaw.json();
     setRoomid(room.id);
@@ -33,6 +34,8 @@ const ChatRoom = ({ receiverId }) => {
       `/api/v1/chatMessage/conversation/${room.id}`
     );
     let backlogConversation = await backlogConversationRaw.json();
+    console.log(room.id);
+    console.log(backlogConversation);
     setMessages([...backlogConversation.reverse(), ...messages]);
   };
 

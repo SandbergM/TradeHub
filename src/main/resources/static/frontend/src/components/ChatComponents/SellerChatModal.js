@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import ChatRoom from "./ChatRoom";
 

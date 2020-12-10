@@ -1,11 +1,8 @@
-import React, { useState, useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import ChatComponent from "./ChatComponent";
 import ChatRoom from "./ChatRoom";
 
-const ChatModal = ({ modalIsOpen, toggleModal, setModalIsOpen }) => {
-  const { user } = useContext(UserContext);
+const ChatModal = ({ modalIsOpen, toggleModal }) => {
 
   const [modal, setModal] = useState(false);
 
