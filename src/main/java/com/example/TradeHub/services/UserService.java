@@ -5,9 +5,15 @@ import com.example.TradeHub.entities.User;
 import com.example.TradeHub.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class UserService {
@@ -31,14 +37,12 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User postNewUser(User user) {
-        System.out.println(user);
         var userWithEmailExists = userRepo.findByEmail(user.getEmail()).orElse(null);
         if (userWithEmailExists == null) {
             var address = addressService.postNewAddress(user.getAddress());
             user.setAddress(address);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepo.save(user);
-            return user;
+            return userRepo.save(user).orElse( null );
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "An user with that email already exists");
         }

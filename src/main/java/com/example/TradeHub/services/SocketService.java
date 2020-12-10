@@ -114,7 +114,7 @@ public class SocketService {
 
         var currentParticipants = activeRooms.get(payload.getTarget()).getSessions();
         for(var part : payload.getRoom().getParticipants()){
-            var session = userIdToSessionIdTranslation(part);
+            var session = userIdToSessionIdTranslation(part.getId());
             if( session != null && sessionIsActive( session ) && !currentParticipants.contains( session ) ){
                 addSession( session, new Room( payload.getTarget() ));
             }

@@ -6,7 +6,7 @@ import {
   timestampToDay,
   timestampConverter,
   timestampToHourAndMinutes,
-} from "../utils/timestampConversion";
+} from "../../utils/timestampConversion";
 
 const RegisterNewAuction = () => {
   const [auction, setAuction] = useState({});

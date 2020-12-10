@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../context/UserContext";
-import { sortImagesAfterPriority } from "../utils/imageHandler.js";
-
+import { UserContext } from "../../context/UserContext";
+import { sortImagesAfterPriority } from "../../utils/imageHandler.js";
 import {
   Carousel,
   CarouselItem,
@@ -10,8 +9,8 @@ import {
   CarouselCaption,
   Button,
 } from "reactstrap";
-import SellerChatModal from "./SellerChatModal";
-import imageMissing from "../images/bild_saknas.png";
+import SellerChatModal from "../ChatAndLobbyModal/SellerChatModal";
+import imageMissing from "../../images/bild_saknas.png";
 
 const AuctionDetailsPageData = ({
   activeAuction,

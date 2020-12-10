@@ -33,7 +33,7 @@ public class ChatMessageService {
     public List<ChatMessage> getConversation(String roomId) {
         List<ChatMessage> messages =  chatMessageRepo.findByRoomId(1 ,roomId).orElse( new ArrayList<>() );
         if(messages.isEmpty()){
-            System.out.println("Err");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found");
         }
         return messages;
     }
@@ -42,15 +42,15 @@ public class ChatMessageService {
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(chatMessage.getReceiver().getId());
         if( receiver == null ){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "A could not find receiver");
         }
 
         var room = roomRepo.findRoomByParticipants(sender, receiver).orElse(null);
 
         if(room == null){
-            ArrayList<String> participants = new ArrayList<>();
-            participants.add(sender.getId());
-            participants.add(receiver.getId());
+            ArrayList<User> participants = new ArrayList<>();
+            participants.add(sender);
+            participants.add(receiver);
             var chatRoom = new Room();
             chatRoom.setParticipants(participants);
             room = roomRepo.save(chatRoom).orElse( null );
@@ -64,6 +64,9 @@ public class ChatMessageService {
         chatMessage.setReceiver(receiver);
         chatMessage.setRoomId(room.getId());
         ChatMessage savedChatMessage = chatMessageRepo.save(chatMessage).orElse(null);
+        if(savedChatMessage == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
+        }
         SocketPayload socketPayload = new SocketPayload("chat-message", room, savedChatMessage );
         socketService.customSendToAll(socketPayload);
     }
@@ -71,17 +74,26 @@ public class ChatMessageService {
     public Room getRoom(String receiverId) {
         User sender = userService.getCurrentUser();
         User receiver = userService.findById(receiverId);
-        Room room = roomRepo.findRoomByParticipants(sender, receiver ).orElse(null);
+        Room room = roomRepo.findRoomByParticipants( sender, receiver ).orElse(null);
         if( room == null){
-            ArrayList<String> participants = new ArrayList<>();
-            participants.add(sender.getId());
-            participants.add(receiverId);
+            ArrayList<User> participants = new ArrayList<>();
+            participants.add(sender);
+            participants.add(receiver);
             room = roomRepo.save(new Room(participants)).orElse( null );
             if(room == null){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not process the request");
             }
         }
         return room;
+    }
+
+    public List<Room> getCurrentUsersRooms() {
+        User user = userService.getCurrentUser();
+        List<Room> rooms = roomRepo.findRooms(user).orElse( new ArrayList<>());
+        if(rooms.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found");
+        }
+        return rooms;
     }
 
 }

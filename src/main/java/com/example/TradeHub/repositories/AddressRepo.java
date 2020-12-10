@@ -37,6 +37,7 @@ public class AddressRepo {
         Query query = new Query().addCriteria(Criteria.where("id").is(id));
         mongoTemplate.findAndRemove(query, Address.class);
     }
+
 }
 
 

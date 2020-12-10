@@ -4,7 +4,7 @@ import sound from "../sounds/tradehub-page-not-found-sound.mp3";
 import { useHistory } from "react-router-dom";
 
 const PageNotFound = () => {
-  const [play] = useSound(sound, { volume: 0.25 });
+  const [play] = useSound(sound, { volume: 0.1 });
 
   let history = useHistory();
 

@@ -1,48 +1,41 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Input, Button } from "reactstrap";
-import { UserContext } from "../context/UserContext";
-import { ChatContext } from "../context/ChatContext";
+import { UserContext } from "../../context/UserContext";
+import { ChatContext } from "../../context/ChatContext";
+import ChatComponent from "./ChatComponent";
+import { Spinner } from "reactstrap";
 
-const ChatRoom = ({ receiverId }) => {
-  const [messageText, setMessageText] = useState("");
-  const [roomId, setRoomid] = useState(null);
+const ChatRoom = ({ setShowLobby, targetId }) => {
   const { chatMessages } = useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
-
-  const newMessage = async () => {
-    console.log("sending");
-    let message = {
-      receiver: { id: receiverId },
-      message: messageText,
-    };
-
-    await fetch("/api/v1/chatMessage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(message),
-    });
-    setMessageText("");
-  };
+  const [roomId, setRoomId] = useState("");
+  const [chatIsLoading, setChatIsLoading] = useState(true);
 
   const fetchConversation = async () => {
-    let roomRaw = await fetch(`/api/v1/chatMessage/room/${receiverId}`);
+    let roomRaw = await fetch(`/api/v1/chatMessage/room/${targetId}`);
     let room = await roomRaw.json();
-    setRoomid(room.id);
+    setRoomId(room.id);
     let backlogConversationRaw = await fetch(
       `/api/v1/chatMessage/conversation/${room.id}`
     );
-    let backlogConversation = await backlogConversationRaw.json();
-    setMessages([...backlogConversation.reverse(), ...messages]);
+    if (backlogConversationRaw.status === 200) {
+      let backlogConversation = await backlogConversationRaw.json();
+      setMessages([...backlogConversation.reverse(), ...messages]);
+    }
+    setChatIsLoading(false);
   };
 
   useEffect(() => {
     fetchConversation();
     return () => {
-      setMessages([]);
-      setRoomid(null);
+      setShowLobby(true);
     };
   }, []);
+
+  useEffect(() => {
+    document.getElementById("chat-scroll-trigger").click();
+  }, [messages]);
 
   useEffect(() => {
     if (chatMessages[roomId] !== undefined) {
@@ -51,11 +44,7 @@ const ChatRoom = ({ receiverId }) => {
         chatMessages[roomId][chatMessages[roomId].length - 1],
       ]);
     }
-  }, [chatMessages[roomId] && chatMessages[roomId].length]);
-
-  useEffect(() => {
-    document.getElementById("chat-scroll-trigger").click();
-  }, [messages]);
+  }, [chatMessages]);
 
   const formattedTime = (timestamp) => {
     let date = new Date(timestamp);
@@ -76,6 +65,11 @@ const ChatRoom = ({ receiverId }) => {
 
   return (
     <div>
+      {chatIsLoading && (
+        <div className="d-flex justify-content-center">
+          <Spinner className="small-loader" color="orange" />
+        </div>
+      )}
       {messages && (
         <div id="chat-message-container">
           <a href="#chat-bottom" id="chat-scroll-trigger"></a>
@@ -109,17 +103,7 @@ const ChatRoom = ({ receiverId }) => {
           <a id="chat-bottom"></a>
         </div>
       )}
-
-      <Input
-        className="mt-3"
-        type="text"
-        placeholder="Skriv ditt meddelande"
-        value={messageText}
-        onChange={(e) => setMessageText(e.target.value)}
-      />
-      <Button className="mt-2 pl-4 pr-4" onClick={newMessage}>
-        SKICKA MEDDELANDE
-      </Button>
+      <ChatComponent id="chat-input-container" receiverId={targetId} />
     </div>
   );
 };

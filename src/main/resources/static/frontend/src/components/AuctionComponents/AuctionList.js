@@ -1,6 +1,7 @@
 import React from "react";
 import { Row } from "reactstrap";
-import AuctionItem from "../components/AuctionItem";
+import AuctionItem from "./AuctionItem";
+import { Spinner } from "reactstrap";
 
 const AuctionList = ({
   auctions,
@@ -30,17 +31,22 @@ const AuctionList = ({
             </div>
           )}
       </Row>
-      <div className="col-12">
-        {fetch !== "/myPostedBids" && fetch !== "/myPostedAuctions" && hasMore && (
-          <button
-            className="col-4 offset-4 tradeHub-button bold btn btn-secondary btn-block"
-            onClick={() => {
-              setPage(auctions.length / 15 + 1);
-            }}
-          >
-            Hämta fler auktioner
-          </button>
-        )}
+      <div className="d-flex justify-content-center">
+        {fetch !== "/myPostedBids" &&
+          fetch !== "/myPostedAuctions" &&
+          hasMore &&
+          (displayLoader ? (
+            <Spinner className="small-loader" color="orange" />
+          ) : (
+            <button
+              className="col-4 tradeHub-button bold btn btn-secondary btn-block"
+              onClick={() => {
+                setPage(auctions.length / 15 + 1);
+              }}
+            >
+              Hämta fler auktioner
+            </button>
+          ))}
       </div>
     </div>
   );

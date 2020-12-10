@@ -16,15 +16,15 @@ import ChatContextProvider from "./context/ChatContext";
 import SocketContextProvider from "./context/SocketContext";
 
 //COMPONENTS
-import TradeHubHeader from "./components/TradeHubHeader";
-import TradeHubFooter from "./components/TradeHubFooter";
+import TradeHubHeader from "./components/HomeComponents/TradeHubHeader";
+import TradeHubFooter from "./components/HomeComponents/TradeHubFooter";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <UserContexProvider>
-          <ChatContextProvider>
+        <ChatContextProvider>
+          <UserContexProvider>
             <AuctionContextProvider>
               <SocketContextProvider>
                 <TradeHubHeader />
@@ -43,8 +43,8 @@ function App() {
                 <TradeHubFooter />
               </SocketContextProvider>
             </AuctionContextProvider>
-          </ChatContextProvider>
-        </UserContexProvider>
+          </UserContexProvider>
+        </ChatContextProvider>
       </div>
     </BrowserRouter>
   );
