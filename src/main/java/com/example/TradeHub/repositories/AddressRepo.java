@@ -15,12 +15,13 @@ public class AddressRepo {
 
     public AddressRepo(MongoTemplate mongoTemplate){ this.mongoTemplate = mongoTemplate;}
 
-    public Optional<Address> addressCriteriaSearch(String streetName, String postalCode, String city){
+    public Optional<Address> addressCriteriaSearch(String streetName, String postalCode, String city, String country){
         Query query = new Query();
 
         if(!streetName.equals("")){query.addCriteria(Criteria.where("streetName").regex(streetName));}
         if(!postalCode.equals("")){query.addCriteria(Criteria.where("postalCode").is(postalCode));}
         if(!city.equals("")){query.addCriteria(Criteria.where("city").is(city));}
+        if(!country.equals("")){query.addCriteria(Criteria.where("country").is(country));}
 
         return Optional.ofNullable(mongoTemplate.findOne(query, Address.class));
     }

@@ -20,7 +20,7 @@ public class AddressController {
             @RequestParam( value = "city" , defaultValue = "") String city,
             @RequestParam( value = "country" , defaultValue = "") String country
     ){
-        Address addresses = addressService.thisAddressCriteriaSearch(streetName,postalCode,city);
+        Address addresses = addressService.thisAddressCriteriaSearch(streetName,postalCode,city,country);
         if(addresses != null){
             System.out.println(addresses.getStreetName());
         }
