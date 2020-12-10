@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuctionContext } from "../context/AuctionContextProvider";
 import { withRouter } from "react-router-dom";
-import AuctionList from "../components/AuctionList";
-import SearchField from "../components/SearchField";
+import AuctionList from "../components/AuctionComponents/AuctionList";
+import SearchField from "../components/HomeComponents/SearchField";
 
 const Home = () => {
   const [query, setQuery] = useState("");

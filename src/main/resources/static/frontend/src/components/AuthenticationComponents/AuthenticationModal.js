@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import LoginModal from "./LoginAndRegisterModal/LoginModal";
 import RegisterModal from "./LoginAndRegisterModal/RegisterModal";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 
 import { Modal } from "reactstrap";
 

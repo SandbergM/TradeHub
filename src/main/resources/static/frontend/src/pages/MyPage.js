@@ -17,8 +17,8 @@ import {
 } from "reactstrap";
 import { UserContext } from "../context/UserContext";
 import { AuctionContext } from "../context/AuctionContextProvider";
-import AuctionsList from "../components/AuctionList";
-import RegisterNewAuction from "../components/RegisterNewAuction";
+import AuctionsList from "../components/AuctionComponents/AuctionList";
+import RegisterNewAuction from "../components/AuctionComponents/RegisterNewAuction";
 
 const MyPage = (props) => {
   const [isProfileOpen, setIsProfileOpen] = useState(true);

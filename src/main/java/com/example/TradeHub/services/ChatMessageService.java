@@ -31,6 +31,7 @@ public class ChatMessageService {
     RoomRepo roomRepo;
 
     public List<ChatMessage> getConversation(String roomId) {
+        System.out.println(roomId);
         List<ChatMessage> messages =  chatMessageRepo.findByRoomId(1 ,roomId).orElse( new ArrayList<>() );
         if(messages.isEmpty()){
             System.out.println("Err");

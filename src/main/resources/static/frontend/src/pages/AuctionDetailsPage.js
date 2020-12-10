@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AuctionContext } from "../context/AuctionContextProvider";
 import { SocketContext } from "../context/SocketContext";
-import AuctionDetailsPageData from "../components/AuctionDetailsPageData";
+import AuctionDetailsPageData from "../components/AuctionComponents/AuctionDetailsPageData";
 
 const AuctionDetailsPage = () => {
   const {

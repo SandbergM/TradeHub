@@ -1,6 +1,6 @@
 import React from "react";
 import { Row } from "reactstrap";
-import AuctionItem from "../components/AuctionItem";
+import AuctionItem from "./AuctionItem";
 
 const AuctionList = ({
   auctions,
