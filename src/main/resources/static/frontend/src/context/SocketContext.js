@@ -46,8 +46,38 @@ const SocketContextProvider = (props) => {
     };
   }, [ws]);
 
-  const sendMessage = (msg) => {
-    ws.send(JSON.stringify(msg));
+  const sendMessage = async (msg) => {
+    if (ws.readyState !== 1) {
+      try {
+        await socketReconnect(ws);
+        ws.send(JSON.stringify(msg));
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      ws.send(JSON.stringify(msg));
+    }
+  };
+
+  const socketReconnect = (socket) => {
+    return new Promise((resolve, reject) => {
+      const maximumNumberOfRetries = 10;
+      const timeInterval = 200;
+
+      let currentAttempt = 0;
+
+      const interval = setInterval(() => {
+        if (currentAttempt >= maximumNumberOfRetries) {
+          clearInterval(interval);
+          reject(new Error("Maximum number of attempts exceeded"));
+        } else if (socket.readyState === 1) {
+          clearInterval();
+          resolve();
+        }
+        console.log("Reconnect");
+        currentAttempt++;
+      }, timeInterval);
+    });
   };
 
   const messageHandler = (msg) => {
@@ -66,7 +96,6 @@ const SocketContextProvider = (props) => {
   };
 
   const notifyMe = (msg) => {
-    console.log(msg);
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");
     } else if (Notification.permission === "granted") {
