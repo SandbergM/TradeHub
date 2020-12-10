@@ -41,7 +41,11 @@ public class AddressController {
             @Parameter(description="Country, String" , required = false)
             @RequestParam( value = "country" , defaultValue = "") String country
     ){
-        Address addresses = addressService.addressCriteriaSearch(streetName, postalCode, city, country);
+        Address addresses = addressService.thisAddressCriteriaSearch(streetName,postalCode,city,country);
+        if(addresses != null){
+            System.out.println(addresses.getStreetName());
+        }
+        assert addresses != null;
         return ResponseEntity.ok(addresses);
     }
 

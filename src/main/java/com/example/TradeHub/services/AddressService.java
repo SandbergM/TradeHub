@@ -13,8 +13,8 @@ public class AddressService {
     @Autowired
     AddressRepo addressRepo;
 
-    public Address addressCriteriaSearch( String streetName, String postalCode, String city, String country){
-        Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city, country).orElse(null);
+    public Address thisAddressCriteriaSearch( String streetName, String postalCode, String city, String country){
+        Address addresses = addressRepo.addressCriteriaSearch(streetName,postalCode,city,country).orElse(null);
         if(addresses != null){
             return addresses;
         }
@@ -32,8 +32,7 @@ public class AddressService {
                 address.getStreetName(),
                 address.getPostalCode(),
                 address.getCity(),
-                address.getCountry()
-        ).orElse(null);
+                address.getCountry()).orElse(null);
 
         if(dbAddresses != null){
             return dbAddresses;
