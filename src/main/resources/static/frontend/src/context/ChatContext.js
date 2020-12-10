@@ -1,21 +1,33 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const ChatContext = createContext();
 
 const ChatContextProvider = (props) => {
   const [chatMessages, setChatMessages] = useState({});
+  const [chatRooms, setChatRooms] = useState([]);
 
   const appendMessage = (message) => {
+    console.log(chatMessages);
+    let newRoom = chatMessages[message.target];
     chatMessages[message.target] = chatMessages[message.target] || [];
     chatMessages[message.target].push(message.content);
     setChatMessages({ ...chatMessages });
-    console.log(chatMessages);
+    if (newRoom === undefined) {
+      fetchChatrooms();
+    }
+  };
+
+  const fetchChatrooms = async () => {
+    let res = await fetch(`/api/v1/chatMessage/myRooms`);
+    res = await res.json();
+    setChatRooms(res);
   };
 
   const values = {
     chatMessages,
-    setChatMessages,
     appendMessage,
+    chatRooms,
+    fetchChatrooms,
   };
 
   return (

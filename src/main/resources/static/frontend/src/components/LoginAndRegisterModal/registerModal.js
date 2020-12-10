@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  ModalHeader,
-  ModalBody,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-} from "reactstrap";
+import { Button, ModalBody, Form, FormGroup, Label, Input } from "reactstrap";
 import PasswordInputField from "./PasswordInputField";
 
 const RegisterModal = (props) => {
@@ -41,10 +33,11 @@ const RegisterModal = (props) => {
       body: JSON.stringify(userInformation),
     });
 
-    if (response.status == 400) {
+    if (response.status === 400) {
       setErrorMessageShown(true);
     } else {
       setErrorMessageShown(false);
+      props.fetchUser();
       props.setModalIsOpen(!props.modalIsOpen);
     }
   };

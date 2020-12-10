@@ -16,7 +16,6 @@ const AuctionContextProvider = (props) => {
     let res = await fetch(`/api/v1/auctions${query}`);
     try {
       if (res.status === 200) {
-        console.log("ok");
         res = await res.json();
         setAuctions([...auctions, ...res]);
         setHasMore(res.length === 15);
@@ -27,10 +26,6 @@ const AuctionContextProvider = (props) => {
       }
     } catch {}
   };
-
-  useEffect(() => {
-    console.log(highestBid);
-  }, [highestBid]);
 
   const fetchMyAuctionsHistory = async () => {
     let res = await fetch(`/api/v1/auctions/myPostedAuctions`);

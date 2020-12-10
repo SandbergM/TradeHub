@@ -5,7 +5,6 @@ const ChatComponent = ({ receiverId }) => {
   const [messageText, setMessageText] = useState("");
 
   const newMessage = () => {
-    console.log(receiverId);
     let message = {
       receiver: { id: receiverId },
       message: messageText,

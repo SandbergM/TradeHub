@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Input, Button } from "reactstrap";
-import { UserContext } from "../context/UserContext";
-import { ChatContext } from "../context/ChatContext";
+import { UserContext } from "../../context/UserContext";
+import { ChatContext } from "../../context/ChatContext";
 
-const ChatRoom = ({ receiverId }) => {
+const ChatRoom = ({ receiverId, setShowLobby }) => {
   const [messageText, setMessageText] = useState("");
-  const [roomId, setRoomid] = useState(null);
   const { chatMessages } = useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
+  const [roomId, setRoomId] = useState([]);
 
   const newMessage = async () => {
-    console.log("sending");
     let message = {
       receiver: { id: receiverId },
       message: messageText,
@@ -28,7 +27,7 @@ const ChatRoom = ({ receiverId }) => {
   const fetchConversation = async () => {
     let roomRaw = await fetch(`/api/v1/chatMessage/room/${receiverId}`);
     let room = await roomRaw.json();
-    setRoomid(room.id);
+    setRoomId(room.id);
     let backlogConversationRaw = await fetch(
       `/api/v1/chatMessage/conversation/${room.id}`
     );
@@ -39,23 +38,20 @@ const ChatRoom = ({ receiverId }) => {
   useEffect(() => {
     fetchConversation();
     return () => {
-      setMessages([]);
-      setRoomid(null);
+      setShowLobby(true);
     };
   }, []);
 
   useEffect(() => {
-    if (chatMessages[roomId] !== undefined) {
-      setMessages([
-        ...messages,
-        chatMessages[roomId][chatMessages[roomId].length - 1],
-      ]);
-    }
-  }, [chatMessages[roomId] && chatMessages[roomId].length]);
-
-  useEffect(() => {
     document.getElementById("chat-scroll-trigger").click();
   }, [messages]);
+
+  // useEffect(() => {
+  //   setMessages([
+  //     ...messages,
+  //     chatMessages[roomId][chatMessages[roomId].length - 1],
+  //   ]);
+  // }, [chatMessages[roomId]]);
 
   const formattedTime = (timestamp) => {
     let date = new Date(timestamp);
@@ -79,6 +75,7 @@ const ChatRoom = ({ receiverId }) => {
       {messages && (
         <div id="chat-message-container">
           <a href="#chat-bottom" id="chat-scroll-trigger"></a>
+          <p> {receiverId} </p>
           {messages.map((message) => {
             return user.id === message.sender.id ? (
               <div className="mt-2 mb-2 p-1">

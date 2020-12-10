@@ -34,4 +34,10 @@ public class ChatMessageController {
         return ResponseEntity.ok().body(chatMessageService.getRoom(id));
     }
 
+    @GetMapping("/myRooms")
+    public ResponseEntity<List<Room>> getCurrentUsersRooms(){
+        List<Room> rooms = chatMessageService.getCurrentUsersRooms();
+        return ResponseEntity.ok().body(rooms);
+    }
+
 }

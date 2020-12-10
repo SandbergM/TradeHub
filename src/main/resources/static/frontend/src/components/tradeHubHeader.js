@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import AuthenticationModal from "./AuthenticationModal";
-import ChatModal from "./ChatModal";
+import ChatModal from "./ChatAndLobbyModal/ChatModal";
 import { UserContext } from "../context/UserContext";
 import { useHistory } from "react-router-dom";
 import {
@@ -17,6 +17,7 @@ const TradeHubHeader = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [chatModalisOpen, setChatModalIsOpen] = useState(false);
+  const [modalState, setModalState] = useState(false);
   const { user, setUser } = useContext(UserContext);
   let history = useHistory();
 
@@ -105,13 +106,18 @@ const TradeHubHeader = (props) => {
         </div>
       </Navbar>
       <div className="text-right mr-4 tradeHub-icon" id="bubble-position">
-        <span className="material-icons pointer" onClick={toggleChatModal}>
+        <span
+          className="material-icons pointer"
+          onClick={() => {
+            setModalState(true);
+          }}
+        >
           chat
         </span>
         <ChatModal
-          modalIsOpen={chatModalisOpen}
-          toggleModal={toggleChatModal}
-          setModalIsOpen={setChatModalIsOpen}
+          modalState={modalState}
+          setModalState={setModalState}
+          startInLobby={true}
         />
       </div>
     </div>
