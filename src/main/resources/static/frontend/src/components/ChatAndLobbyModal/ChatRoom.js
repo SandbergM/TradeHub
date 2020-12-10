@@ -3,12 +3,12 @@ import { Input, Button } from "reactstrap";
 import { UserContext } from "../../context/UserContext";
 import { ChatContext } from "../../context/ChatContext";
 
-const ChatRoom = ({ receiverId, setShowLobby }) => {
+const ChatRoom = ({ receiverId, setShowLobby, targetId }) => {
   const [messageText, setMessageText] = useState("");
-  const { chatMessages } = useContext(ChatContext);
+  const { chatMessages, setChatMessages } = useContext(ChatContext);
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
-  const [roomId, setRoomId] = useState([]);
+  const [roomId, setRoomId] = useState("");
 
   const newMessage = async () => {
     let message = {
@@ -46,12 +46,14 @@ const ChatRoom = ({ receiverId, setShowLobby }) => {
     document.getElementById("chat-scroll-trigger").click();
   }, [messages]);
 
-  // useEffect(() => {
-  //   setMessages([
-  //     ...messages,
-  //     chatMessages[roomId][chatMessages[roomId].length - 1],
-  //   ]);
-  // }, [chatMessages[roomId]]);
+  useEffect(() => {
+    if (chatMessages[roomId] !== undefined) {
+      setMessages([
+        ...messages,
+        chatMessages[roomId][chatMessages[roomId].length - 1],
+      ]);
+    }
+  }, [chatMessages]);
 
   const formattedTime = (timestamp) => {
     let date = new Date(timestamp);

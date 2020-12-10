@@ -39,6 +39,7 @@ const ChatModal = ({ modalState, setModalState, receiverId, startInLobby }) => {
             <ChatRoom
               receiverId={targetId}
               roomId={currentRoom}
+              targetId={targetId}
               setShowLobby={setShowLobby}
             />
           )}

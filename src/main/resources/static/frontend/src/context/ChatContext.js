@@ -7,7 +7,6 @@ const ChatContextProvider = (props) => {
   const [chatRooms, setChatRooms] = useState([]);
 
   const appendMessage = (message) => {
-    console.log(chatMessages);
     let newRoom = chatMessages[message.target];
     chatMessages[message.target] = chatMessages[message.target] || [];
     chatMessages[message.target].push(message.content);
