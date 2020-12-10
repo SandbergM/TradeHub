@@ -37,7 +37,6 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User postNewUser(User user) {
-        System.out.println(user);
         var userWithEmailExists = userRepo.findByEmail(user.getEmail()).orElse(null);
         if (userWithEmailExists == null) {
             var address = addressService.postNewAddress(user.getAddress());
@@ -46,14 +45,6 @@ public class UserService {
             return userRepo.save(user).orElse( null );
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "An user with that email already exists");
-        }
-    }
-
-    public void authWithHttpServletRequest(HttpServletRequest request, String username, String password) {
-        try {
-            request.login(username, password);
-        } catch (ServletException e) {
-            System.out.println("Err");
         }
     }
 

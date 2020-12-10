@@ -11,13 +11,13 @@ const ChatLobby = ({ goToChatRoom, currentUser }) => {
   };
 
   return (
-    <div className="col-12">
+    <div id="chat-contacts-container" className="col-12">
       {chatRooms &&
         chatRooms.map((room) => {
           let receiver = getReceiver(room.participants);
           return (
             <div
-              className="mb-2 mt-2"
+              className="mb-2 mt-2 grey-background tradeHub-white p-2 pl-3 pr-3 borderRadius5 pointer"
               onClick={() => {
                 goToChatRoom({ roomId: room.id, targetId: receiver.id });
               }}

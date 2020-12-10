@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import AuthenticationModal from "../AuthenticationComponents/AuthenticationModal";
-import ChatModal from "../ChatComponents/ChatModal";
+import ChatModal from "../ChatAndLobbyModal/ChatModal";
 import { UserContext } from "../../context/UserContext";
 import { useHistory } from "react-router-dom";
 import {

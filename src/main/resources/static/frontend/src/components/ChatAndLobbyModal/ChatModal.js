@@ -22,16 +22,31 @@ const ChatModal = ({ modalState, setModalState, receiverId, startInLobby }) => {
 
   useEffect(() => {
     setShowLobby(startInLobby);
-  }, [startInLobby]);
+    return () => {
+      setShowLobby(true);
+    };
+  }, []);
 
   return (
     <div>
       <Modal isOpen={modalState}>
-        <ModalHeader
-          onClick={() => {
-            setModalState(false);
-          }}
-        ></ModalHeader>
+        <ModalHeader className="">
+          {!showLobby && (
+            <span
+              onClick={() => {
+                setShowLobby(true);
+              }}
+              className="material-icons pointer tradeHub-orange"
+            >
+              arrow_back
+            </span>
+          )}
+          {showLobby && (
+            <span className="material-icons pointer tradeHub-orange">
+              import_contacts
+            </span>
+          )}
+        </ModalHeader>
         <ModalBody>
           {showLobby ? (
             <ChatLobby currentUser={user} goToChatRoom={goToChatRoom} />
